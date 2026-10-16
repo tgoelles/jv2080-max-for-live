@@ -1,9 +1,9 @@
 // Short Wave group menu for one tone: INT-A, INT-B and only the expansion boards
 // set up on the Setup page, labelled with the JV's slot letter ("XP-A Techno").
 //
-// The visible menu is a live.menu with parameter_enable 0 (looks like the other
-// menus, but isn't a Live parameter), so its list can be replaced at runtime with
-// _parameter_range. The stored Live parameter stays the full, fixed list (0 INT-A, 1 INT-B,
+// The visible menu is a live.menu set to a Hidden parameter (parameter_invisible 2:
+// not stored, not automatable), so its list can be replaced at runtime with
+// _parameter_range. (A live.menu with parameter_enable 0 has no item list at all.) The stored Live parameter stays the full, fixed list (0 INT-A, 1 INT-B,
 // 2..20 = SR-JV80 board 1..19), so saved sets and automation keep their meaning
 // when the board setup changes. This script only translates between that value
 // and the short visible menu.

@@ -720,7 +720,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "float" ],
-					"parameter_enable" : 0,
+					"parameter_enable" : 1,
 					"patching_rect" : [ 4.5, 40.0, 100.0, 22.0 ],
 					"presentation" : 1,
 					"varname" : "WaveGroupMenu",
@@ -728,9 +728,10 @@
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_enum" : [ "INT-A", "INT-B" ],
-							"parameter_longname" : "WaveGroupMenu",
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Wave Group Display",
 							"parameter_mmax" : 1,
-							"parameter_shortname" : "WaveGroupMenu",
+							"parameter_shortname" : "wave_group",
 							"parameter_type" : 2
 						}
 
@@ -1185,7 +1186,8 @@
 			"parameterbanks" : 			{
 
 			}
-
+,
+			"obj-58" : [ "Wave Group Display", "wave_group", 0 ]
 		}
 ,
 		"dependency_cache" : [  ],

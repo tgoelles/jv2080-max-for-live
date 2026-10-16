@@ -45,7 +45,7 @@ XP-50/80. These share model ID `0x6A`.
 - System common: `00 00 00 xx`. Performance-mode temporary patches use `02 xx 00 00` and are not supported yet.
 - Values with a "#" in the address map, such as the wave number, are split into 4-bit nibbles, high nibble first.
 - Wave group (tone `0x01` type, `0x02` id): INT-A/B = type 0, id 1/2; expansion = type 2 (EXP), id = SR-JV80 board number (confirmed on hardware with SR-JV80-11 in slot A). The encoding is the two `expr`s after the hidden `live.menu` in `JV_Wave.maxpat`.
-- The visible Wave group control is a `live.menu` with `parameter_enable 0` (Live look, not a Live parameter) whose list `jv_wavegroup.js` sets with `_parameter_range`, filled `jv_wavegroup.js` from the Setup page's slot menus (`s/r ---boards`). The stored, automatable parameter stays the hidden 21-entry `live.menu`. Never make a Live parameter's list depend on settings: stored values would change meaning.
+- The visible Wave group control is a `live.menu` set to a **Hidden** parameter (`parameter_invisible 2`: not stored, not automatable) whose list `jv_wavegroup.js` sets with `_parameter_range`, filled `jv_wavegroup.js` from the Setup page's slot menus (`s/r ---boards`). The stored, automatable parameter stays the hidden 21-entry `live.menu`. Never make a *stored* parameter's list depend on settings, because stored values would change meaning. A `live.menu` with `parameter_enable 0` has no item list ("there's no enum"), so use a Hidden parameter for runtime-built menus.
 - Bank select MSB/LSB for the JV-2080 is on p.184. The JV-1080 bank list is different.
 
 ## Releases
