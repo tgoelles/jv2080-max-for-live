@@ -29,4 +29,4 @@ implementation starts on p.184.
 
 ## License
 
-[CC BY 4.0](LICENSE) (Creative Commons Attribution), the same license as on maxforlive.com.
+[CC BY-NC-ND 4.0](LICENSE) (Creative Commons Attribution-NonCommercial-NoDerivatives), the same license as on maxforlive.com.
