@@ -24,6 +24,24 @@ Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click the **push to device** button (left column, above Effects On/Off) to send every setting shown in the device.
 
+## Expansion boards
+
+Open **Setup** and pick the board installed in each slot (A–H). SYSTEM → Info on the JV shows them. The Wave group menu then
+lists INT-A, INT-B and your boards with their slot, e.g. **XP-A Techno**. The setup is saved with the Live set.
+
+Internally a wave group is stored by SR-JV80 board number, the same way the JV stores it in a patch. So automation and saved
+sets keep working if you move a board to another slot. A patch that uses a board you haven't set up shows as
+"SR-nn (not set up)".
+
+| | | | |
+|---|---|---|---|
+| SR-01 Pop | SR-06 Dance | SR-11 Techno | SR-16 Orchestral II |
+| SR-02 Orchestral | SR-07 Super Sound Set | SR-12 Hip Hop | SR-17 Country |
+| SR-03 Piano | SR-08 Keyboards of the 60s & 70s | SR-13 Vocal | SR-18 Latin |
+| SR-04 Vintage Synth | SR-09 Session | SR-14 Asia | SR-19 House |
+| SR-05 World | SR-10 Bass & Drum | SR-15 Special FX | |
+
+
 ## Development
 
 The source files are in `device/`: an unfrozen `.amxd` plus its `.maxpat` abstractions. Open the `.amxd` in Live,

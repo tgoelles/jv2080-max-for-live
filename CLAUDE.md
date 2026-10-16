@@ -11,6 +11,7 @@ XP-50/80. These share model ID `0x6A`.
 - `device/JV_*.maxpat`: abstractions loaded as bpatchers: `JV_Wave`, `JV_Pitch`, `JV_Filter`, `JV_VCA`.
   Each runs once per tone. The tone's address byte (`16/18/20/22` = `0x10/0x12/0x14/0x16`) comes in on inlet 2.
 - `device/jv_sysex_queue.js`: a Max `js` object (ES5) in front of the main `midiout`. **All SysEx must go through it**: wire it to inlet 1, or use `s ---sysex` inside subpatchers. It sends one message every 10 ms and merges queued messages for the same address. Without it, the JV reports "MIDI buffer full".
+- `device/jv_wavegroup.js`: builds each tone's short Wave group menu from the expansion board setup.
 - `tests/`: Node tests that mock the Max `js` globals. Run them with `node tests/<file>.test.js`.
 - `tools/maxjson.py`: loads and saves patchers in Max's exact formatting, so a file that is loaded and saved unchanged stays byte-identical. Use it for structural edits rather than splicing text.
 - `tools/validate.py`: checks that patch lines point at existing boxes and valid inlets/outlets, and that parameter long names are unique. Run it after every patch edit. When adding boxes, derive new ids from the patcher's current maximum; never hard-code them.
@@ -28,6 +29,7 @@ XP-50/80. These share model ID `0x6A`.
   `lines` entry refer to existing ids and valid inlet/outlet indexes.
 - After any edit, check that the file still parses as JSON. For the `.amxd`, the JSON starts after the `ptch` chunk header.
   If the payload length changes, update the 4-byte little-endian length that follows `ptch`.
+- Drawing order: in a patcher's `boxes` list, **earlier boxes are drawn on top**. The section panels are ordinary boxes, not background ones, so a new UI box appended at the end ends up hidden behind the panel. Insert new visible boxes at the front of `boxes`.
 - Each tone section is one abstraction used 4 times (`Pitch_n`, `TVF_n`, `WG_n`, `VCA_n`). The Tone tab shows and hides them through `script show/hide` messages in the embedded tab bpatcher. Per-instance Live names live in the main patcher's `parameters.parameter_overrides`. The naming scheme for new parameters is `T<n> <Section> <Param>`.
 - Keep the main view uncluttered. Settings you set once (device ID, pacing, and later model and mode) go on the **Setup** page: the embedded bpatcher `Settings`, opened by the outlined **Setup** button below the tone tabs. It's styled differently from the tabs on purpose. Don't use overlays: showing a hidden section doesn't reliably bring it to the front in Live, so pages swap content by hiding everything else instead. Tab logic: `t i b`. The bang hides every section and switches Setup off with `set 0`, then `sel 0 1 2 3` shows the tone. Setup on: hide all, then show Settings. Setup off: bang the `live.tab` to show the current tone again. Settings' outlet sends messages to `jv_sysex_queue.js`.
 - Live parameter Long Names must be unique and stable. Renaming one breaks automation and users' saved sets, so do it only on purpose and note it in the changelog.
@@ -43,7 +45,13 @@ XP-50/80. These share model ID `0x6A`.
 - Temporary Patch (Patch mode): `03 00 00 xx` = patch common; `03 00 10/12/14/16 xx` = tones 1–4.
 - System common: `00 00 00 xx`. Performance-mode temporary patches use `02 xx 00 00` and are not supported yet.
 - Values with a "#" in the address map, such as the wave number, are split into 4-bit nibbles, high nibble first.
+- Wave group (tone `0x01` type, `0x02` id): INT-A/B = type 0, id 1/2; expansion = type 2 (EXP), id = SR-JV80 board number (confirmed on hardware with SR-JV80-11 in slot A). The encoding is the two `expr`s after the hidden `live.menu` in `JV_Wave.maxpat`.
+- The visible Wave group control is a `live.menu` set to a **Hidden** parameter (`parameter_invisible 2`: not stored, not automatable) whose list `jv_wavegroup.js` sets with `_parameter_range`, filled `jv_wavegroup.js` from the Setup page's slot menus (`s/r ---boards`). The stored, automatable parameter stays the hidden 21-entry `live.menu`. Never make a *stored* parameter's list depend on settings, because stored values would change meaning. A `live.menu` with `parameter_enable 0` has no item list ("there's no enum"), so use a Hidden parameter for runtime-built menus.
 - Bank select MSB/LSB for the JV-2080 is on p.184. The JV-1080 bank list is different.
+
+## Testing copies
+
+Only the device in `device/` finds its abstractions and scripts. A copy of the unfrozen `.amxd` elsewhere, such as the Live User Library, fails with "error loading patcher JV_*.maxpat". To use or share it elsewhere, freeze it first.
 
 ## Releases
 
