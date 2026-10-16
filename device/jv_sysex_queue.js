@@ -8,7 +8,11 @@
 // A queued DT1 message is replaced in place by a newer one for the same
 // address, so moving a knob quickly doesn't build up a backlog.
 //
-// Messages: "interval <ms>" sets the gap (default 10), "clear" empties the queue.
+// The senders all write device byte 0x10; the queue rewrites it in every
+// Roland 0x6A message to the device ID set with "deviceid".
+//
+// Messages: "interval <ms>" sets the gap (default 10), "clear" empties the queue,
+// "deviceid <17-32>" sets the JV's Device ID as shown on its display (default 17).
 
 autowatch = 1;
 inlets = 2;
@@ -18,6 +22,7 @@ setinletassist(1, "SysEx bytes to queue");
 setoutletassist(0, "MIDI bytes to midiout");
 
 var gap = 10;
+var dev = 0x10;
 var queue = [];
 var current = null;
 var busy = false;
@@ -50,6 +55,9 @@ function list() {
 }
 
 function enqueue(m) {
+	if (m.length > 4 && m[1] === 0x41 && m[3] === 0x6A) {
+		m[2] = dev;
+	}
 	// Roland DT1: F0 41 dev 6A 12 a1 a2 a3 a4 ... -> key on dev/model/address
 	var key = (m.length > 9 && m[1] === 0x41 && m[4] === 0x12) ? m.slice(2, 9).join(" ") : null;
 	if (key !== null) {
@@ -81,6 +89,16 @@ function next() {
 
 function interval(ms) {
 	gap = Math.max(1, ms);
+}
+
+function deviceid(id) {
+	// The JV shows Device ID 17-32; on the wire that is 0x10-0x1F.
+	var d = Math.round(id) - 1;
+	if (d >= 0x10 && d <= 0x1F) {
+		dev = d;
+	} else {
+		post("jv_sysex_queue: device ID must be 17-32, got " + id + "\n");
+	}
 }
 
 function clear() {
