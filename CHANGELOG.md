@@ -5,6 +5,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Dev ID** setting (17–32, below the Tone tabs) for JVs whose Device ID isn't the default 17. (#5)
+
 ### Fixed
 - The Amplifier section now works for all four tones; before, it only controlled Tone 1 and followed no tab. (#1)
 - Amp envelope times and levels, Pan, Pan Keyfollow, Random Pan Depth and Alternate Pan Depth now send to the

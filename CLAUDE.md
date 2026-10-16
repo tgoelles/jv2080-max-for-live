@@ -35,7 +35,7 @@ XP-50/80. These share model ID `0x6A`.
 
 `F0 41 <dev> 6A 12 <a1 a2 a3 a4> <data…> <sum> F7`
 
-- `dev` is the device ID minus 1. The default is `0x10` (device ID 17). It is currently hard-coded.
+- `dev` is the device ID minus 1. Senders always write `0x10`, and `jv_sysex_queue.js` replaces it with the **Dev ID** setting (17–32 → `0x10–0x1F`). The checksum doesn't include this byte.
 - Checksum: `sum = (128 - (a1+a2+a3+a4+data…) % 128) % 128`. The outer `% 128` is required.
 - Temporary Patch (Patch mode): `03 00 00 xx` = patch common; `03 00 10/12/14/16 xx` = tones 1–4.
 - System common: `00 00 00 xx`. Performance-mode temporary patches use `02 xx 00 00` and are not supported yet.
