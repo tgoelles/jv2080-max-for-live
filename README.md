@@ -14,8 +14,8 @@ Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-
 ## Setup
 
 1. Put the device on a MIDI track and route that track's MIDI output to the port the JV-2080 is connected to.
-2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), set **Dev ID** in the
-   device to the same number.
+2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup** (below the
+   Tone tabs) and set **Device ID** to the same number.
 3. Click the **push to device** button (left column, above Effects On/Off) to send every setting shown in the device.
 
 ## Development

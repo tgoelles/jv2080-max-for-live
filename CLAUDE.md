@@ -27,6 +27,7 @@ XP-50/80. These share model ID `0x6A`.
 - After any edit, check that the file still parses as JSON. For the `.amxd`, the JSON starts after the `ptch` chunk header.
   If the payload length changes, update the 4-byte little-endian length that follows `ptch`.
 - Each tone section is one abstraction used 4 times (`Pitch_n`, `TVF_n`, `WG_n`, `VCA_n`). The Tone tab shows and hides them through `script show/hide` messages in the embedded tab bpatcher. Per-instance Live names live in the main patcher's `parameters.parameter_overrides`. The naming scheme for new parameters is `T<n> <Section> <Param>`.
+- Keep the main view uncluttered. Settings you set once (device ID, pacing, and later model and mode) go in the **Setup** overlay: the embedded bpatcher `Settings`, shown and hidden through `thispatcher` by the Setup toggle. Its outlet sends messages to `jv_sysex_queue.js`.
 - Live parameter Long Names must be unique and stable. Renaming one breaks automation and users' saved sets, so do it only on purpose and note it in the changelog.
 - Use `---`-prefixed send/receive names so they stay local to the device instance.
 - Claude can't run Max, Live or the synth. Every change needs a hardware test by the maintainer, so write test steps in the PR or issue.
@@ -35,7 +36,7 @@ XP-50/80. These share model ID `0x6A`.
 
 `F0 41 <dev> 6A 12 <a1 a2 a3 a4> <data…> <sum> F7`
 
-- `dev` is the device ID minus 1. Senders always write `0x10`, and `jv_sysex_queue.js` replaces it with the **Dev ID** setting (17–32 → `0x10–0x1F`). The checksum doesn't include this byte.
+- `dev` is the device ID minus 1. Senders always write `0x10`, and `jv_sysex_queue.js` replaces it with the **Device ID** from the Setup panel (17–32 → `0x10–0x1F`). The checksum doesn't include this byte.
 - Checksum: `sum = (128 - (a1+a2+a3+a4+data…) % 128) % 128`. The outer `% 128` is required.
 - Temporary Patch (Patch mode): `03 00 00 xx` = patch common; `03 00 10/12/14/16 xx` = tones 1–4.
 - System common: `00 00 00 xx`. Performance-mode temporary patches use `02 xx 00 00` and are not supported yet.
