@@ -13,10 +13,16 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - A newly added device made no sound after **push to device**: the Amplifier's Level started at 0. The Amplifier and
   Filter now start from playable values: Level 80, envelope levels open, a short release, and the Filter on LPF and
   fully open, so Cutoff and Resonance work right away. (#1)
+- Tone level had two controls, the left-column Tone Level box and the Amplifier's Level knob, that sent the same
+  parameter and could disagree. The knob now mirrors the box: turning either one changes both, and only the box
+  sends. (#17)
+- **push to device** skipped Tone 2's level. (#17)
 
 ### Changed
 - New Live parameter names for the Amplifier: `T<n> Amp …` / `T<n> Pan …`. Tone 1's Amplifier parameters that
   already worked keep their old names, so existing automation still works. (#1)
+- The Amplifier Level knob is no longer a separate Live parameter. Automate `Tone1 Level` … `Tone4 Level` instead;
+  this only affects automation recorded on Tone 1's Amplifier `Tone Level`. (#17)
 
 ## [0.1.2] - 2026-10-16
 
