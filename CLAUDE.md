@@ -13,7 +13,7 @@ XP-50/80. These share model ID `0x6A`.
 - `device/jv_sysex_queue.js`: a Max `js` object (ES5) in front of the main `midiout`. **All SysEx must go through it**: wire it to inlet 1, or use `s ---sysex` inside subpatchers. It sends one message every 10 ms and merges queued messages for the same address. Without it, the JV reports "MIDI buffer full".
 - `tests/`: Node tests that mock the Max `js` globals. Run them with `node tests/<file>.test.js`.
 - `tools/maxjson.py`: loads and saves patchers in Max's exact formatting, so a file that is loaded and saved unchanged stays byte-identical. Use it for structural edits rather than splicing text.
-- `tools/validate.py`: checks that patch lines point at existing boxes and valid inlets/outlets, and that parameter long names are unique. Run it after every patch edit.
+- `tools/validate.py`: checks that patch lines point at existing boxes and valid inlets/outlets, and that parameter long names are unique. Run it after every patch edit. When adding boxes, derive new ids from the patcher's current maximum; never hard-code them.
 - `tools/amxd.py`: `unfreeze` splits a frozen device into source files. `textconv` prints the JSON for git diffs.
 - `docs/JV-2080_OM.pdf`: Roland owner's manual. It is gitignored; download it from
   https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf. It is a scan with no text layer, so read the pages as images.
@@ -27,7 +27,7 @@ XP-50/80. These share model ID `0x6A`.
 - After any edit, check that the file still parses as JSON. For the `.amxd`, the JSON starts after the `ptch` chunk header.
   If the payload length changes, update the 4-byte little-endian length that follows `ptch`.
 - Each tone section is one abstraction used 4 times (`Pitch_n`, `TVF_n`, `WG_n`, `VCA_n`). The Tone tab shows and hides them through `script show/hide` messages in the embedded tab bpatcher. Per-instance Live names live in the main patcher's `parameters.parameter_overrides`. The naming scheme for new parameters is `T<n> <Section> <Param>`.
-- Keep the main view uncluttered. Settings you set once (device ID, pacing, and later model and mode) go in the **Setup** overlay: the embedded bpatcher `Settings`, shown and hidden through `thispatcher` by the Setup toggle. Its outlet sends messages to `jv_sysex_queue.js`.
+- Keep the main view uncluttered. Settings you set once (device ID, pacing, and later model and mode) go on the **Setup** page: the embedded bpatcher `Settings`, shown by the 5th tab (`Setup`) of the tone tab bar. Don't use overlays: showing a hidden section doesn't reliably bring it to the front in Live, so pages swap content by hiding everything else instead. The tab logic is `t i b`: the bang hides every section, then `sel 0 1 2 3 4` shows the chosen page. Settings' outlet sends messages to `jv_sysex_queue.js`.
 - Live parameter Long Names must be unique and stable. Renaming one breaks automation and users' saved sets, so do it only on purpose and note it in the changelog.
 - Use `---`-prefixed send/receive names so they stay local to the device instance.
 - Claude can't run Max, Live or the synth. Every change needs a hardware test by the maintainer, so write test steps in the PR or issue.

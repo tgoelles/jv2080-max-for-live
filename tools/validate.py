@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Sanity-check device patchers: JSON parses, patch lines connect to existing boxes and valid
-inlet/outlet indexes, and Live parameter long names are unique.
+"""Sanity-check device patchers: JSON parses, box ids are unique per patcher, patch lines connect to
+existing boxes and valid inlet/outlet indexes, and Live parameter long names are unique.
 
     python3 -I tools/validate.py device/*.maxpat "device/JV 2080 Control.amxd"
 """
@@ -12,6 +12,8 @@ import maxjson
 
 
 def check(p, path, errors):
+    ids = [b["box"]["id"] for b in p["boxes"]]
+    errors += [f"{path}: duplicate box id {i}" for i in sorted({i for i in ids if ids.count(i) > 1})]
     boxes = {b["box"]["id"]: b["box"] for b in p["boxes"]}
     for l in p["lines"]:
         (s, so), (d, di) = l["patchline"]["source"][:2], l["patchline"]["destination"][:2]

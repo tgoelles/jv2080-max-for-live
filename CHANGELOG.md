@@ -6,10 +6,12 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- **Setup** panel (button below the Tone tabs) with **Device ID** (17–32), for JVs whose Device ID isn't the default
+- **Setup** tab (below Tone4) with **Device ID** (17–32), for JVs whose Device ID isn't the default
   17 or that share a MIDI port, and **SysEx gap** (1–50 ms, default 10) for JVs that still report "MIDI buffer full". (#5)
 
 ### Fixed
+- Switching tone tabs didn't reliably hide the previously shown tone's sections; the tab now hides all
+  sections and then shows the selected one.
 - The Amplifier section now works for all four tones; before, it only controlled Tone 1 and followed no tab. (#1)
 - Amp envelope times and levels, Pan, Pan Keyfollow, Random Pan Depth and Alternate Pan Depth now send to the
   JV. They were shown but never sent. Envelope levels use the JV's 0–127 range. (#1)
