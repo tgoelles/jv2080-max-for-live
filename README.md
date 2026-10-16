@@ -20,3 +20,7 @@ then edit it in Max. To see readable diffs of `.amxd` files, run:
 
 The [JV-2080 Owner's Manual](https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf) is from Roland. Its MIDI
 implementation starts on p.184.
+
+## License
+
+[CC BY 4.0](LICENSE) (Creative Commons Attribution), the same license as on maxforlive.com.
