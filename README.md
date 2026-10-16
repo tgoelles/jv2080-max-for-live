@@ -46,8 +46,12 @@ sets keep working if you move a board to another slot. A patch that uses a board
 
 ## Development
 
-The source files are in `device/`: an unfrozen `.amxd` plus its `.maxpat` abstractions. Open the `.amxd` in Live,
-then edit it in Max. To see readable diffs of `.amxd` files, run:
+The source files are in `device/`: an unfrozen `.amxd`, its `.maxpat` abstractions and two `.js` scripts. Open the
+`.amxd` in Live, then edit it in Max.
+
+**One-time setup:** in Max, open **Options → File Preferences** and add this repo's `device` folder to the search path.
+Without it, a copy of the device, which Live sometimes opens when you click Edit, fails with
+`bpatcher: error loading patcher JV_*.maxpat`, and freezing can't bundle the abstractions and scripts. To see readable diffs of `.amxd` files, run:
 
     git config diff.amxd.textconv "python3 -I tools/amxd.py textconv"
 
