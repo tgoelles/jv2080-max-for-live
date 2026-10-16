@@ -53,7 +53,7 @@ function hex(b) {
 function describe(m) {
 	if (m.length > 9 && m[1] === 0x41 && m[3] === 0x6A) {
 		var cmd = m[4] === 0x12 ? "DT1" : (m[4] === 0x11 ? "RQ1" : "cmd " + hex(m[4]));
-		return "Roland JV " + cmd + " dev " + (m[2] + 1) + " addr " + hex(m[5]) + " " + hex(m[6]) + " " + hex(m[7]) + " " + hex(m[8]);
+		return "Roland JV " + cmd + " dev " + (m[2] + 1) + " addr " + hex(m[5]) + "-" + hex(m[6]) + "-" + hex(m[7]) + "-" + hex(m[8]);
 	}
 	return "SysEx from " + (m.length > 1 ? "manufacturer " + hex(m[1]) : "?");
 }
