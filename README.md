@@ -11,6 +11,12 @@ choose which tone you're editing; the **Setup** button below them opens the Devi
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
+## Requirements
+
+- Ableton Live 12 with **Max 9** or newer (Max for Live). Since 0.1.3 the device is saved with Max 9; Live 11 / Max 8
+  aren't supported. Use [v0.1.2](https://github.com/tgoelles/jv2080-max-for-live/releases/tag/v0.1.2) for those.
+- A Roland JV-2080 connected by MIDI in and out. JV-1080 and XP-50/80 support is planned.
+
 ## Setup
 
 1. Put the device on a MIDI track and route that track's MIDI output to the port the JV-2080 is connected to.

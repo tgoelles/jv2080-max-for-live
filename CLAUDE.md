@@ -22,6 +22,8 @@ XP-50/80. These share model ID `0x6A`.
 
 ## Editing patches
 
+- Target: **Live 12 + Max 9** or newer. The device is saved with Max 9.1, in the 4-space JSON layout, and `tools/maxjson.py` keeps that layout. JavaScript may use the `v8` object (modern JS). The existing `js` object (`jv_sysex_queue.js`) keeps working.
+
 - Patchers are JSON, so edits can be made directly. Keep the `"id"` values unique within a patcher, and make every
   `lines` entry refer to existing ids and valid inlet/outlet indexes.
 - After any edit, check that the file still parses as JSON. For the `.amxd`, the JSON starts after the `ptch` chunk header.

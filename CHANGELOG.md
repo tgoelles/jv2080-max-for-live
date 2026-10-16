@@ -25,6 +25,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **push to device** skipped Tone 2's level. (#17)
 
 ### Changed
+- **Requires Live 12 with Max 9 or newer.** The device is now saved with Max 9. Live 11 / Max 8 users can stay on
+  0.1.2. (#12)
 - New Live parameter names for the Amplifier: `T<n> Amp …` / `T<n> Pan …`. Tone 1's Amplifier parameters that
   already worked keep their old names, so existing automation still works. (#1)
 - The Amplifier Level knob is no longer a separate Live parameter. Automate `Tone1 Level` … `Tone4 Level` instead;
