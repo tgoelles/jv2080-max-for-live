@@ -6,6 +6,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Send on load**: when a Live set loads, the device pushes all its settings to the JV after 1 s, so the JV matches
+  the device without pressing **push to device**. Can be turned off on the Setup page. (#23)
 - Expansion board waves: the Wave group menu now offers SR-01 … SR-19 (SR-JV80 board numbers) besides INT-A/INT-B,
   and sends Wave Group Type, which was never sent before. (#4)
 - **Expansion boards** on the Setup page: pick the board in each slot (A–H). The Wave group menu then lists only
