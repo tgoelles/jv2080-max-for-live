@@ -34,6 +34,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **push to device** skipped Tone 2's level. (#17)
 
 ### Changed
+- Effects On/Off: Reverb now also starts **off**, like EFX and Chorus. These are the JV's global effect switches.
 - **Requires Live 12 with Max 9 or newer.** The device is now saved with Max 9. Live 11 / Max 8 users can stay on
   0.1.2. (#12)
 - New Live parameter names for the Amplifier: `T<n> Amp …` / `T<n> Pan …`. Tone 1's Amplifier parameters that
