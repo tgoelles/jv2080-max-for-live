@@ -5,6 +5,16 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- The Amplifier section now works for all four tones; before, it only controlled Tone 1 and followed no tab. (#1)
+- Amp envelope times and levels, Pan, Pan Keyfollow, Random Pan Depth and Alternate Pan Depth now send to the
+  JV. They were shown but never sent. Envelope levels use the JV's 0–127 range. (#1)
+- **push to device** now also re-sends Amp Bias Position, Bias Level and Velocity Time 4. (#1)
+
+### Changed
+- New Live parameter names for the Amplifier: `T<n> Amp …` / `T<n> Pan …`. Tone 1's Amplifier parameters that
+  already worked keep their old names, so existing automation still works. (#1)
+
 ## [0.1.2] - 2026-10-16
 
 ### Fixed
