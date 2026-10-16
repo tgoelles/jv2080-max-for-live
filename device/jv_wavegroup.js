@@ -1,23 +1,25 @@
 // Short Wave group menu for one tone: INT-A, INT-B and only the expansion boards
 // set up on the Setup page, labelled with the JV's slot letter ("XP-A Techno").
 //
-// The stored Live parameter stays the full, fixed list (0 INT-A, 1 INT-B,
+// The visible menu is a live.menu with parameter_enable 0 (looks like the other
+// menus, but isn't a Live parameter), so its list can be replaced at runtime with
+// _parameter_range. The stored Live parameter stays the full, fixed list (0 INT-A, 1 INT-B,
 // 2..20 = SR-JV80 board 1..19), so saved sets and automation keep their meaning
 // when the board setup changes. This script only translates between that value
-// and the short umenu.
+// and the short visible menu.
 //
 // inlet 0: wave group value (0-20) from the live.menu parameter, or
 //          "boards a b c d e f g h" (board number per slot A-H, 0 = empty)
-// inlet 1: index chosen in the umenu
-// outlet 0: commands for the umenu (clear / append / set)
+// inlet 1: index chosen in the visible menu
+// outlet 0: commands for the visible menu (_parameter_range / set)
 // outlet 1: wave group value (0-20) for the live.menu parameter
 
 autowatch = 1;
 inlets = 2;
 outlets = 2;
 setinletassist(0, "wave group value 0-20, or boards a..h");
-setinletassist(1, "umenu index");
-setoutletassist(0, "to umenu");
+setinletassist(1, "visible menu index");
+setoutletassist(0, "to visible menu");
 setoutletassist(1, "wave group value 0-20");
 
 var BOARDS = ["Pop", "Orchestral", "Piano", "Vintage Synth", "World", "Dance", "Super Sound Set",
@@ -27,7 +29,7 @@ var SLOTS = "ABCDEFGH";
 
 var slots = [0, 0, 0, 0, 0, 0, 0, 0];
 var current = 0;
-var items = [];   // wave group value for each umenu entry, in menu order
+var items = [];   // wave group value for each visible menu entry, in menu order
 
 function loadbang() {
 	rebuild();
@@ -81,10 +83,7 @@ function rebuild() {
 		items.push(current);
 		labels.push("SR-" + pad2(current - 1) + " (not set up)");
 	}
-	outlet(0, "clear");
-	for (var i = 0; i < labels.length; i++) {
-		outlet(0, "append", labels[i]);
-	}
+	outlet(0, ["_parameter_range"].concat(labels));
 	show();
 }
 

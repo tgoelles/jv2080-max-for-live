@@ -1,11 +1,11 @@
 // Run: node tests/jv_wavegroup.test.js  (mocks the Max js globals)
 const fs = require('fs'), vm = require('vm'), assert = require('assert');
 let out = [];
-const ctx = { inlet: 0, outlet: (n, ...a) => out.push([n, ...a]), setinletassist() {}, setoutletassist() {},
+const ctx = { inlet: 0, outlet: (n, ...a) => out.push([n, ...(Array.isArray(a[0]) ? a[0] : a)]), setinletassist() {}, setoutletassist() {},
   arrayfromargs: a => Array.from(a) };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(require('path').join(__dirname, '../device/jv_wavegroup.js'), 'utf8'), ctx);
-const menu = () => out.filter(o => o[0] === 0 && o[1] === 'append').map(o => o[2]);
+const menu = () => { const r = out.filter(o => o[0] === 0 && o[1] === '_parameter_range').pop(); return r ? r.slice(2) : []; };
 const sel = () => out.filter(o => o[0] === 0 && o[1] === 'set').map(o => o[2]).pop();
 const param = () => out.filter(o => o[0] === 1).map(o => o[1]).pop();
 

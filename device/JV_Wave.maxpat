@@ -713,21 +713,29 @@
 			}
 , 			{
 				"box" : 				{
+					"appearance" : 1,
 					"id" : "obj-58",
-					"maxclass" : "umenu",
+					"lcdbgcolor" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
+					"maxclass" : "live.menu",
 					"numinlets" : 1,
 					"numoutlets" : 3,
-					"outlettype" : [ "int", "", "" ],
+					"outlettype" : [ "", "", "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 4.5, 40.0, 100.0, 22.0 ],
 					"presentation" : 1,
+					"varname" : "WaveGroupMenu",
 					"presentation_rect" : [ 0.166666686534882, 26.666666388511658, 40.0, 15.0 ],
-					"bgcolor" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
-					"bgfillcolor_type" : "color",
-					"bgfillcolor_color" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
-					"textcolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"fontsize" : 10.0,
-					"items" : [  ]
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_enum" : [ "INT-A", "INT-B" ],
+							"parameter_longname" : "WaveGroupMenu",
+							"parameter_mmax" : 1,
+							"parameter_shortname" : "WaveGroupMenu",
+							"parameter_type" : 2
+						}
+
+					}
+
 				}
 
 			}
