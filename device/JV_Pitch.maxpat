@@ -917,7 +917,7 @@
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_mmax" : 15,
-							"parameter_initial" : [ 5 ],
+							"parameter_initial" : [ 12 ],
 							"parameter_shortname" : "tune_key_follow",
 							"parameter_enum" : [ "-100", "-70", "-50", "-30", "-10", "0", "10", "20", "30", "40", "50", "70", "100", "120", "150", "200" ],
 							"parameter_type" : 2,

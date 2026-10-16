@@ -14,6 +14,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
   17 or that share a MIDI port, and **SysEx gap** (1–50 ms, default 10) for JVs that still report "MIDI buffer full". (#5)
 
 ### Fixed
+- Every key played the same pitch: Pitch Keyfollow ("key") started at 0 instead of +100, and push sent that to
+  the JV. New devices now start at +100. In existing sets, set "key" in the Pitch section to 100 for each tone.
 - **push to device** now re-sends FXM Depth, Tone Delay Mode and Tone Delay Time. (#4)
 - Switching tone tabs didn't reliably hide the previously shown tone's sections; the tab now hides all
   sections and then shows the selected one.
