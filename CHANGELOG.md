@@ -8,6 +8,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ### Added
 - Expansion board waves: the Wave group menu now offers SR-01 … SR-19 (SR-JV80 board numbers) besides INT-A/INT-B,
   and sends Wave Group Type, which was never sent before. (#4)
+- **Expansion boards** on the Setup page: pick the board in each slot (A–H). The Wave group menu then lists only
+  INT-A, INT-B and your boards, like the JV shows them ("XP-A Techno"). (#4)
 - **Setup** page, opened with the button below the Tone tabs, with **Device ID** (17–32), for JVs whose Device ID isn't the default
   17 or that share a MIDI port, and **SysEx gap** (1–50 ms, default 10) for JVs that still report "MIDI buffer full". (#5)
 
