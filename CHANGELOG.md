@@ -6,10 +6,13 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Expansion board waves: the Wave group menu now offers SR-01 … SR-19 (SR-JV80 board numbers) besides INT-A/INT-B,
+  and sends Wave Group Type, which was never sent before. (#4)
 - **Setup** page, opened with the button below the Tone tabs, with **Device ID** (17–32), for JVs whose Device ID isn't the default
   17 or that share a MIDI port, and **SysEx gap** (1–50 ms, default 10) for JVs that still report "MIDI buffer full". (#5)
 
 ### Fixed
+- **push to device** now re-sends FXM Depth, Tone Delay Mode and Tone Delay Time. (#4)
 - Switching tone tabs didn't reliably hide the previously shown tone's sections; the tab now hides all
   sections and then shows the selected one.
 - The Amplifier section now works for all four tones; before, it only controlled Tone 1 and followed no tab. (#1)

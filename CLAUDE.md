@@ -43,6 +43,7 @@ XP-50/80. These share model ID `0x6A`.
 - Temporary Patch (Patch mode): `03 00 00 xx` = patch common; `03 00 10/12/14/16 xx` = tones 1–4.
 - System common: `00 00 00 xx`. Performance-mode temporary patches use `02 xx 00 00` and are not supported yet.
 - Values with a "#" in the address map, such as the wave number, are split into 4-bit nibbles, high nibble first.
+- Wave group (tone `0x01` type, `0x02` id): INT-A/B = type 0, id 1/2; expansion = type 2 (EXP), id = SR-JV80 board number (assumed, confirm on hardware). The encoding is the two `expr`s after the Wave group menu in `JV_Wave.maxpat`.
 - Bank select MSB/LSB for the JV-2080 is on p.184. The JV-1080 bank list is different.
 
 ## Releases

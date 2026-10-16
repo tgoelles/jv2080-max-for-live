@@ -24,6 +24,21 @@ Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click the **push to device** button (left column, above Effects On/Off) to send every setting shown in the device.
 
+## Expansion boards
+
+The Wave group menu lists **INT-A**, **INT-B** and **SR-01 … SR-19**, one entry per SR-JV80 expansion board number. Pick the
+number of your board, not the slot it's in. The JV finds it in whichever slot (A–H) it's installed.
+
+| | | | |
+|---|---|---|---|
+| SR-01 Pop | SR-06 Dance | SR-11 Techno | SR-16 Orchestral II |
+| SR-02 Orchestral | SR-07 Super Sound Set | SR-12 Hip Hop | SR-17 Country |
+| SR-03 Piano | SR-08 Keyboards of the 60s & 70s | SR-13 Vocal | SR-18 Latin |
+| SR-04 Vintage Synth | SR-09 Session | SR-14 Asia | SR-19 House |
+| SR-05 World | SR-10 Bass & Drum | SR-15 Special FX | |
+
+SYSTEM → Info on the JV shows which boards are installed.
+
 ## Development
 
 The source files are in `device/`: an unfrozen `.amxd` plus its `.maxpat` abstractions. Open the `.amxd` in Live,
