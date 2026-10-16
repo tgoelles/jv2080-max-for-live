@@ -66,13 +66,20 @@ function done(r, m) {
 		h.push(hex(m[i]));
 	}
 	post("JV SysEx Monitor [" + ROUTE[r] + "] " + m.length + " bytes: " + h.join(" ") + "\n");
-	say(r, ROUTE[r] + ": " + count[r] + " msgs, " + bytes[r] + " bytes");
-	say(2, "last (" + ROUTE[r] + "): " + describe(m) + ", " + m.length + " bytes");
+	say(r, ROUTE[r] + ": " + count[r] + " msgs / " + bytes[r] + " bytes");
+	say(2, "last (" + ROUTE[r] + "): " + describe(m) + " / " + m.length + " bytes");
 }
 
-// one word per atom, so the message box shows the text without quotes
+// One atom per word, with numbers as real numbers, so the message box shows plain
+// text: no quotes around "1" and no escaped commas.
 function say(o, text) {
-	outlet(o, ["set"].concat(text.split(" ")));
+	var words = text.replace(/,/g, "").split(" ");
+	for (var i = 0; i < words.length; i++) {
+		if (/^-?\d+$/.test(words[i])) {
+			words[i] = parseInt(words[i], 10);
+		}
+	}
+	outlet(o, ["set"].concat(words));
 }
 
 function clear() {
