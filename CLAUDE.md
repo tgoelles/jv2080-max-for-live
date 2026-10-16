@@ -51,7 +51,7 @@ XP-50/80. These share model ID `0x6A`.
 
 ## Testing copies
 
-Only the device in `device/` finds its abstractions and scripts. A copy of the unfrozen `.amxd` elsewhere, such as the Live User Library, fails with "error loading patcher JV_*.maxpat". To use or share it elsewhere, freeze it first.
+Only the device in `device/` finds its abstractions and scripts. A copy of the unfrozen `.amxd` elsewhere, such as the Live User Library, fails with "error loading patcher JV_*.maxpat". To use or share it elsewhere, freeze it first. The maintainer has the repo's `device/` folder in Max's File Preferences search path, so copies opened by Live's Edit button and the freeze step can find the files.
 
 ## Releases
 
