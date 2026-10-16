@@ -10,6 +10,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - Amp envelope times and levels, Pan, Pan Keyfollow, Random Pan Depth and Alternate Pan Depth now send to the
   JV. They were shown but never sent. Envelope levels use the JV's 0–127 range. (#1)
 - **push to device** now also re-sends Amp Bias Position, Bias Level and Velocity Time 4. (#1)
+- A newly added device made no sound after **push to device**: the Amplifier's Level started at 0. The Amplifier and
+  Filter now start from playable values: Level 80, envelope levels open, a short release, and the Filter on LPF and
+  fully open, so Cutoff and Resonance work right away. (#1)
 
 ### Changed
 - New Live parameter names for the Amplifier: `T<n> Amp …` / `T<n> Pan …`. Tone 1's Amplifier parameters that

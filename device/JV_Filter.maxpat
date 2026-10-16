@@ -484,7 +484,9 @@
 							"parameter_shortname" : "vel_curve",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Velocity Curve[4]"
+							"parameter_longname" : "Velocity Curve[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -623,7 +625,9 @@
 							"parameter_shortname" : "lev_r",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Level Filter R[4]"
+							"parameter_longname" : "Level Filter R[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -662,7 +666,9 @@
 							"parameter_shortname" : "lev_s",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Level Filter S[4]"
+							"parameter_longname" : "Level Filter S[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 127 ]
 						}
 
 					}
@@ -689,7 +695,9 @@
 							"parameter_shortname" : "lev_d",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Level Filter D[4]"
+							"parameter_longname" : "Level Filter D[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 127 ]
 						}
 
 					}
@@ -740,7 +748,9 @@
 							"parameter_shortname" : "lev_a",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Level Filter A[4]"
+							"parameter_longname" : "Level Filter A[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 127 ]
 						}
 
 					}
@@ -779,7 +789,9 @@
 							"parameter_shortname" : "R",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "R[4]"
+							"parameter_longname" : "R[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -820,7 +832,9 @@
 							"parameter_shortname" : "S",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "S[4]"
+							"parameter_longname" : "S[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -861,7 +875,9 @@
 							"parameter_shortname" : "D",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "D[4]"
+							"parameter_longname" : "D[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -890,7 +906,9 @@
 							"parameter_shortname" : "A",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "A[4]"
+							"parameter_longname" : "A[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -933,7 +951,9 @@
 							"parameter_shortname" : "Resonance",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Resonance[4]"
+							"parameter_longname" : "Resonance[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -974,7 +994,9 @@
 							"parameter_shortname" : "filter_type",
 							"parameter_enum" : [ "off", "LPF", "BPF", "HPF", "PKG" ],
 							"parameter_type" : 2,
-							"parameter_longname" : "Filter Type[4]"
+							"parameter_longname" : "Filter Type[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 1 ]
 						}
 
 					}
@@ -1027,7 +1049,9 @@
 							"parameter_shortname" : "Cutoff",
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
-							"parameter_longname" : "Cutoff[4]"
+							"parameter_longname" : "Cutoff[4]",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 127 ]
 						}
 
 					}

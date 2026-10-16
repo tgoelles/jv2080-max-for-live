@@ -353,7 +353,7 @@
 							"parameter_initial_enable" : 1,
 							"parameter_mmax" : 7.0,
 							"parameter_steps" : 126,
-							"parameter_initial" : [ 0 ],
+							"parameter_initial" : [ 1 ],
 							"parameter_shortname" : "vel_sens"
 						}
 
@@ -463,7 +463,9 @@
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 8,
 							"parameter_longname" : "Bias Position",
-							"parameter_shortname" : "bias_position"
+							"parameter_shortname" : "bias_position",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 64 ]
 						}
 
 					}
@@ -491,7 +493,9 @@
 							"parameter_type" : 2,
 							"parameter_longname" : "live.menu",
 							"parameter_mmax" : 3,
-							"parameter_shortname" : "live.menu"
+							"parameter_shortname" : "live.menu",
+							"parameter_initial_enable" : 1,
+							"parameter_initial" : [ 0 ]
 						}
 
 					}
@@ -544,7 +548,7 @@
 							"parameter_unitstyle" : 0,
 							"parameter_longname" : "Tone Level",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 0 ],
+							"parameter_initial" : [ 80 ],
 							"parameter_shortname" : "Level"
 						}
 
@@ -894,7 +898,7 @@
 							"parameter_mmin" : 0.0,
 							"parameter_mmax" : 127.0,
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 0 ]
+							"parameter_initial" : [ 20 ]
 						}
 
 					}
