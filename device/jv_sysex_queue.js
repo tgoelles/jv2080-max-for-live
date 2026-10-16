@@ -8,7 +8,7 @@
 // A queued DT1 message is replaced in place by a newer one for the same
 // address, so moving a knob quickly doesn't build up a backlog.
 //
-// Messages: "interval <ms>" sets the gap (default 20), "clear" empties the queue.
+// Messages: "interval <ms>" sets the gap (default 10), "clear" empties the queue.
 
 autowatch = 1;
 inlets = 2;
@@ -17,7 +17,7 @@ setinletassist(0, "MIDI bytes to pass through");
 setinletassist(1, "SysEx bytes to queue");
 setoutletassist(0, "MIDI bytes to midiout");
 
-var gap = 20;
+var gap = 10;
 var queue = [];
 var current = null;
 var busy = false;
