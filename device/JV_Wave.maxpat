@@ -190,7 +190,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 52.0, 861.0, 466.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 10 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 10 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -202,7 +202,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 52.0, 821.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 9 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 9 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -226,7 +226,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 59.0, 758.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 8 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 8 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -314,7 +314,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 106.0, 638.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 7 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 7 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -361,7 +361,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 100.0, 534.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 5 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 5 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -373,7 +373,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 118.0, 466.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 6 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 6 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -521,7 +521,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 108.0, 283.0, 504.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 3 / is $i1 / is $i3 / is 128-checksum(5\\,10\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 3 / is $i1 / is $i3 / is (128-checksum(5\\,10\\,1)%128)%128 / 247"
 				}
 
 			}
@@ -611,7 +611,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"patching_rect" : [ 100.0, 220.0, 459.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 2 / is $i1 / is 128-checksum(5\\,9\\,1)%128 / 247"
+					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 2 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
 				}
 
 			}
