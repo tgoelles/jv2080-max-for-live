@@ -7,15 +7,15 @@ The JV-1080 and XP-50/80 support is planned.
 
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
 velocity), plus Tone switches and levels, Effects on/off, and bank/program select. Use the Tone1–4 tabs to
-choose which tone you're editing; the **Setup** tab holds the Device ID and SysEx timing settings.
+choose which tone you're editing; the **Setup** button below them opens the Device ID and SysEx timing settings.
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
 ## Setup
 
 1. Put the device on a MIDI track and route that track's MIDI output to the port the JV-2080 is connected to.
-2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), select the **Setup** tab
-   (below Tone4) and set **Device ID** to the same number.
+2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
+   (below the Tone tabs) and set **Device ID** to the same number.
 3. Click the **push to device** button (left column, above Effects On/Off) to send every setting shown in the device.
 
 ## Development

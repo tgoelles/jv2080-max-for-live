@@ -6,7 +6,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-- **Setup** tab (below Tone4) with **Device ID** (17–32), for JVs whose Device ID isn't the default
+- **Setup** page, opened with the button below the Tone tabs, with **Device ID** (17–32), for JVs whose Device ID isn't the default
   17 or that share a MIDI port, and **SysEx gap** (1–50 ms, default 10) for JVs that still report "MIDI buffer full". (#5)
 
 ### Fixed
