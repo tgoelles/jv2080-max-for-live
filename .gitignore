@@ -1,0 +1,7 @@
+# Frozen release builds go to GitHub Releases, not git
+dist/
+*_frozen.amxd
+# Roland manual: copyrighted, download link in README
+docs/*.pdf
+.DS_Store
+node_modules/

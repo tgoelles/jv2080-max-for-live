@@ -1,0 +1,6 @@
+# Max patchers are JSON; keep them byte-exact
+*.maxpat -text diff
+*.maxhelp -text diff
+# .amxd = binary header + JSON; show the JSON in diffs
+# enable with: git config diff.amxd.textconv "python3 -I tools/amxd.py textconv"
+*.amxd binary diff=amxd
