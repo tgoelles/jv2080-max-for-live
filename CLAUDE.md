@@ -10,6 +10,8 @@ XP-50/80. These share model ID `0x6A`.
 - `device/JV 2080 Control.amxd`: the main device, **unfrozen**. It is a binary header followed by patcher JSON.
 - `device/JV_*.maxpat`: abstractions loaded as bpatchers: `JV_Wave`, `JV_Pitch`, `JV_Filter`, `JV_VCA`.
   Each runs once per tone. The tone's address byte (`16/18/20/22` = `0x10/0x12/0x14/0x16`) comes in on inlet 2.
+- `device/jv_sysex_queue.js`: a Max `js` object (ES5) in front of the main `midiout`. **All SysEx must go through it**: wire it to inlet 1, or use `s ---sysex` inside subpatchers. It sends one message every 20 ms and merges queued messages for the same address. Without it, the JV reports "MIDI buffer full".
+- `tests/`: Node tests that mock the Max `js` globals. Run them with `node tests/<file>.test.js`.
 - `tools/amxd.py`: `unfreeze` splits a frozen device into source files. `textconv` prints the JSON for git diffs.
 - `docs/JV-2080_OM.pdf`: Roland owner's manual. It is gitignored; download it from
   https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf. It is a scan with no text layer, so read the pages as images.
