@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-16
+
 ### Added
 - **Send on load**: when a Live set loads, the device pushes all its settings to the JV after 1 s, so the JV matches
   the device without pressing **push to device**. Can be turned off on the Setup page. (#23)
@@ -62,6 +64,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/tgoelles/jv2080-max-for-live/releases/tag/v0.1.1
