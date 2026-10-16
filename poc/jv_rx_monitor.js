@@ -66,8 +66,13 @@ function done(r, m) {
 		h.push(hex(m[i]));
 	}
 	post("JV SysEx Monitor [" + ROUTE[r] + "] " + m.length + " bytes: " + h.join(" ") + "\n");
-	outlet(r, "set", ROUTE[r] + ": " + count[r] + " msgs, " + bytes[r] + " bytes");
-	outlet(2, "set", "last (" + ROUTE[r] + "): " + describe(m) + ", " + m.length + " bytes");
+	say(r, ROUTE[r] + ": " + count[r] + " msgs, " + bytes[r] + " bytes");
+	say(2, "last (" + ROUTE[r] + "): " + describe(m) + ", " + m.length + " bytes");
+}
+
+// one word per atom, so the message box shows the text without quotes
+function say(o, text) {
+	outlet(o, ["set"].concat(text.split(" ")));
 }
 
 function clear() {
@@ -76,9 +81,9 @@ function clear() {
 		bytes[r] = 0;
 		buf[r] = [];
 		collecting[r] = false;
-		outlet(r, "set", ROUTE[r] + ": 0 msgs");
+		say(r, ROUTE[r] + ": 0 msgs");
 	}
-	outlet(2, "set", "last: -");
+	say(2, "last: -");
 }
 
 function loadbang() {
