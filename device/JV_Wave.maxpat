@@ -39,6 +39,35 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"appearance" : 1,
+					"id" : "obj-58",
+					"lcdbgcolor" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
+					"maxclass" : "live.menu",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "float" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 4.5, 40.0, 100.0, 22.0 ],
+					"presentation" : 1,
+					"varname" : "WaveGroupMenu",
+					"presentation_rect" : [ 0.166666686534882, 26.666666388511658, 40.0, 15.0 ],
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_enum" : [ "INT-A", "INT-B" ],
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Wave Group Display",
+							"parameter_mmax" : 1,
+							"parameter_shortname" : "wave_group",
+							"parameter_type" : 2
+						}
+
+					}
+
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "",
 					"id" : "obj-17",
 					"index" : 0,
@@ -708,35 +737,6 @@
 					"outlettype" : [ "int", "int" ],
 					"patching_rect" : [ 600.0, 30.0, 40.0, 22.0 ],
 					"text" : "t i i"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"appearance" : 1,
-					"id" : "obj-58",
-					"lcdbgcolor" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
-					"maxclass" : "live.menu",
-					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "float" ],
-					"parameter_enable" : 1,
-					"patching_rect" : [ 4.5, 40.0, 100.0, 22.0 ],
-					"presentation" : 1,
-					"varname" : "WaveGroupMenu",
-					"presentation_rect" : [ 0.166666686534882, 26.666666388511658, 40.0, 15.0 ],
-					"saved_attribute_attributes" : 					{
-						"valueof" : 						{
-							"parameter_enum" : [ "INT-A", "INT-B" ],
-							"parameter_invisible" : 2,
-							"parameter_longname" : "Wave Group Display",
-							"parameter_mmax" : 1,
-							"parameter_shortname" : "wave_group",
-							"parameter_type" : 2
-						}
-
-					}
-
 				}
 
 			}
