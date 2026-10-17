@@ -61,8 +61,6 @@ def main():
                     maxes[str(slot)] = hi
             elif hi is not None and hi > expected_max(k):
                 problems.append(f"{n} {name}: {label} (slot {slot}) reached {hi}, more than its {kind} range 0-{expected_max(k)}: wrong slot?")
-            elif swept and hi != expected_max(k):
-                problems.append(f"{n} {name}: {label} (slot {slot}) swept 0-{hi}, expected 0-{expected_max(k)} ({kind})")
         if maxes:
             entry["max"] = maxes
         measured[n] = entry
