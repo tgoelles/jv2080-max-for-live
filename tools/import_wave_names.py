@@ -7,9 +7,11 @@ Roland's copyright. So the names are imported by the maintainer, not written int
     python3 -I tools/import_wave_names.py                 # download boards 01-19, write device/jv2080_names.js
     python3 -I tools/import_wave_names.py --from DIR      # use local copies DIR/sr-jv80-NN.txt instead
 
-Internal waves (INT-A / INT-B) can be added from a local text file with lines "A 001 Name" / "B 001 Name":
+Internal waves (INT-A / INT-B) come from a local text file: either "=== INT-A ===" / "=== INT-B ===" headings
+followed by "1 Name" lines, or lines "A 001 Name" / "B 001 Name". --keep merges into the existing names file
+instead of downloading the boards again:
 
-    python3 -I tools/import_wave_names.py --internal docs/int_waves.txt
+    python3 -I tools/import_wave_names.py --internal docs/int_waves.txt --keep
 
 Only the WAVEFORM section of each document is used; patch lists and other sections are skipped.
 Boards whose document has no wave list are left out (the device then shows only the number).
@@ -17,6 +19,7 @@ Boards whose document has no wave list are left out (the device then shows only 
 import argparse
 import json
 import re
+import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -72,12 +75,27 @@ def parse_waves(text):
 
 
 def parse_internal(path):
-    groups = {"INT-A": {}, "INT-B": {}}
+    groups, section = {"INT-A": {}, "INT-B": {}}, None
     for line in Path(path).read_text().splitlines():
+        h = re.match(r"^\s*=+\s*INT-([AB])\s*=+\s*$", line)
+        if h:
+            section = "INT-" + h.group(1)
+            continue
         m = re.match(r"^\s*([AB])\s+(\d{1,3})\s+(\S.*?)\s*$", line)
         if m:
             groups["INT-" + m.group(1)][int(m.group(2))] = clean(m.group(3))
+            continue
+        m = re.match(r"^\s*(\d{1,3})\s+(\S.*?)\s*$", line)
+        if m and section:
+            groups[section][int(m.group(1))] = clean(m.group(2))
     return groups
+
+
+def load_existing(path):
+    """The groups in an existing jv2080_names.js, as number -> name dicts."""
+    out = subprocess.run(["node", "-e", "console.log(JSON.stringify(require(process.argv[1])))", str(Path(path).resolve())],
+                         capture_output=True, text=True, check=True).stdout
+    return {k: {i + 1: n for i, n in enumerate(v) if n} for k, v in json.loads(out).items()}
 
 
 def render(groups):
@@ -102,8 +120,18 @@ def main():
     ap.add_argument("--from", dest="local", help="directory with local copies sr-jv80-NN.txt")
     ap.add_argument("--internal", help="text file with INT-A/INT-B names (lines 'A 001 Name')")
     ap.add_argument("--out", default=str(ROOT / "device" / "jv2080_names.js"))
+    ap.add_argument("--keep", action="store_true", help="merge into the existing names file, don't download boards")
     a = ap.parse_args()
     groups = parse_internal(a.internal) if a.internal else {}
+    for k, v in groups.items():
+        print(f"  {k}: {len(v)} waves")
+    if a.keep:
+        existing = load_existing(a.out)
+        existing.update({k: v for k, v in groups.items() if v})
+        groups = dict(sorted(existing.items()))
+        Path(a.out).write_text(render(groups))
+        print(f"wrote {a.out}: {', '.join(groups)}")
+        return
     for n in range(1, 20):
         waves = parse_waves(fetch(n, a.local))
         print(f"  SR-JV80-{n:02d}: {len(waves)} waves" + ("" if waves else " (no wave list)"))

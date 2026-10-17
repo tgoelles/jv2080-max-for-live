@@ -7,7 +7,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 - **Wave names** under each tone's Wave dial, for wave groups whose names were imported with
-  `tools/import_wave_names.py` (SR-JV80 boards 01–11 from their documentation; INT-A/B from a local file). (#30)
+  `tools/import_wave_names.py`: INT-A, INT-B and SR-JV80 boards 01–11. (#30)
 
 ## [0.3.0] - 2026-10-17
 
