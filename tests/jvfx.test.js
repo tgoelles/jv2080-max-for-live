@@ -45,7 +45,10 @@ for (let ty = 0; ty < 40; ty++) for (let s = 0; s < 12; s++) {
 assert.strictEqual(E.format(1, 1, 0), 'L64'); assert.strictEqual(E.format(1, 1, 64), '0'); assert.strictEqual(E.format(1, 1, 127), '63R');   // OVERDRIVE Pan is slot 2 (measured)
 assert.strictEqual(E.format(16, 6, 17), 'BYPASS'); assert.strictEqual(E.format(16, 6, 7), '1000 Hz');
 assert.strictEqual(E.format(21, 1, 36), '+12 st');
-assert.strictEqual(E.format(3, 1, 80), '(80)', 'undocumented steps shown raw');
+assert.strictEqual(E.format(3, 1, 80), '(80)', 'rate: steps not known, shown raw');
+assert.strictEqual(E.maxRaw(3, 1), 125, 'rate range measured');
+assert.strictEqual(E.format(14, 5, 90), '180 deg', 'STEREO-FLANGER Phase, slot 6');
+assert.strictEqual(E.format(24, 2, 0), '5 ms'); assert.strictEqual(E.format(24, 2, 99), '500 ms', 'GATE-REVERB Gate Time');
 
 // jvfx.js: labels, value text and raw values per dial
 const [fx, out] = load('jvfx.js');

@@ -118,7 +118,7 @@ const sv = {};
 ctx.record(sv, 1, 3, 0); ctx.record(sv, 1, 1, 5); ctx.record(sv, 1, 3, 120); ctx.record(sv, 1, 1, 2);
 assert.deepStrictEqual(JSON.parse(JSON.stringify(sv["2"])), { name: "OVERDRIVE", order: [3, 1], min: { 1: 2, 3: 0 }, max: { 1: 5, 3: 120 } });
 feed(dt1([3, 0, 0, 0x0C], [3, 0, 64]));     // type 4 PHASER, Manual and Rate in one message
-assert.strictEqual(set["FX/EFXParam2"], 64, "Rate (steps not measured yet) passes through");
+assert.strictEqual(set["FX/EFXParam2"], 65, "Rate raw 64 of 0-125 on the 0-127 dial");
 assert.strictEqual(set["FX/EFXParam1"], 0, "Manual");
 
 // the JV's EFX / CHORUS / REVERB buttons (System Common 08-0A) move the Effects On/Off toggles, muted
