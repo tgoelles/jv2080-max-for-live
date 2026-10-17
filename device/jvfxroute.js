@@ -9,6 +9,8 @@
 //   efx mix|cho|rev <v>         EFX Mix Out, Chorus and Reverb Send Level
 //   chorus level <v> / chorus out <0-2>   Chorus Level, Output: MIX REVERB MIX+REV
 //   reverb level <v> / reverb type <0-7>
+//   efx|chorus|reverb on <0/1>   the JV-wide Effects On/Off switches (s ---fxsw): an unit that's off is drawn
+//                                with a dashed outline, like on the JV
 
 autowatch = 1;
 inlets = 1;
@@ -18,9 +20,9 @@ setinletassist(0, "tone / efx / efxname / chorus / reverb messages");
 var REVERB_TYPES = ["ROOM1", "ROOM2", "STAGE1", "STAGE2", "HALL1", "HALL2", "DELAY", "PAN-DLY"];
 var state = {
 	tones: [],
-	efx: { out: 0, mix: 127, cho: 0, rev: 0, name: "" },
-	chorus: { level: 0, out: 0 },
-	reverb: { level: 0, type: 4 }
+	efx: { out: 0, mix: 127, cho: 0, rev: 0, name: "", on: 1 },
+	chorus: { level: 0, out: 0, on: 1 },
+	reverb: { level: 0, type: 4, on: 1 }
 };
 for (var t = 0; t < 4; t++) {
 	state.tones.push({ out: 0, mix: 127, cho: 0, rev: 0 });
@@ -122,32 +124,67 @@ function layout(w, h) {
 	return L;
 }
 
-function block(r, label, sub, on) {
+// switchedOff: the JV-wide switch for this unit is off -> dashed outline
+function block(r, label, sub, on, switchedOff) {
 	mgraphics.set_source_rgba(0.12, 0.12, 0.12, 1);
 	mgraphics.rectangle(r[0], r[1], r[2], r[3]);
 	mgraphics.fill();
-	if (on) {
-		mgraphics.set_source_rgba(0.65, 0.65, 0.65, 1);
-	} else {
-		mgraphics.set_source_rgba(0.35, 0.35, 0.35, 1);
-	}
+	var a = on && !switchedOff ? 0.65 : 0.35;
+	mgraphics.set_source_rgba(a, a, a, 1);
 	mgraphics.set_line_width(1);
-	mgraphics.rectangle(r[0] + 0.5, r[1] + 0.5, r[2] - 1, r[3] - 1);
-	mgraphics.stroke();
-	text(label, r[0] + r[2] / 2, r[1] + (sub ? r[3] / 2 - 2 : r[3] / 2 + 3), 9, on);
+	if (switchedOff) {
+		dashedRect(r[0] + 0.5, r[1] + 0.5, r[2] - 1, r[3] - 1);
+	} else {
+		mgraphics.rectangle(r[0] + 0.5, r[1] + 0.5, r[2] - 1, r[3] - 1);
+		mgraphics.stroke();
+	}
+	var lit = on && !switchedOff;
+	text(switchedOff ? label + " off" : label, r[0] + r[2] / 2, r[1] + (sub ? r[3] / 2 - 2 : r[3] / 2 + 3), 9, lit, r[2] - 4);
 	if (sub) {
-		text(sub, r[0] + r[2] / 2, r[1] + r[3] / 2 + 9, 8, on);
+		text(sub, r[0] + r[2] / 2, r[1] + r[3] / 2 + 9, 8, lit, r[2] - 4);
 	}
 }
 
-function text(s, cx, y, size, on) {
+function dashedRect(x, y, w, h) {
+	var pts = [[x, y], [x + w, y], [x + w, y + h], [x, y + h], [x, y]];
+	for (var i = 0; i < 4; i++) {
+		var a = pts[i], b = pts[i + 1];
+		var len = Math.abs(b[0] - a[0]) + Math.abs(b[1] - a[1]);
+		for (var s = 0; s < len; s += 5) {
+			var e = Math.min(len, s + 3);
+			mgraphics.move_to(a[0] + (b[0] - a[0]) * s / len, a[1] + (b[1] - a[1]) * s / len);
+			mgraphics.line_to(a[0] + (b[0] - a[0]) * e / len, a[1] + (b[1] - a[1]) * e / len);
+		}
+	}
+	mgraphics.stroke();
+}
+
+// Text centred at cx; shrinks down to 6 pt, then shortens with "..", to fit maxWidth.
+function fit(s, size, maxWidth, measure) {
+	while (size > 6 && measure(s, size) > maxWidth) {
+		size -= 0.5;
+	}
+	if (measure(s, size) > maxWidth) {
+		while (s.length > 2 && measure(s + "..", size) > maxWidth) {
+			s = s.slice(0, -1);
+		}
+		s += "..";
+	}
+	return [s, size];
+}
+
+function text(s, cx, y, size, on, maxWidth) {
 	mgraphics.select_font_face("Arial");
-	mgraphics.set_font_size(size);
-	var m = mgraphics.text_measure(s);
+	var f = fit(s, size, maxWidth, function (t, sz) {
+		mgraphics.set_font_size(sz);
+		return mgraphics.text_measure(t)[0];
+	});
+	mgraphics.set_font_size(f[1]);
+	var m = mgraphics.text_measure(f[0]);
 	var a = on ? 0.9 : 0.45;
 	mgraphics.set_source_rgba(a, a, a, 1);
 	mgraphics.move_to(cx - m[0] / 2, y);
-	mgraphics.show_text(s);
+	mgraphics.show_text(f[0]);
 }
 
 function paint() {
@@ -181,9 +218,9 @@ function paint() {
 	for (var t = 1; t <= 4; t++) {
 		block(L["T" + t], "T" + t, null, true);
 	}
-	block(L.EFX, "EFX", state.efx.name, !!used.EFX);
-	block(L.CHO, "Cho", null, !!used.CHO);
-	block(L.REV, "Rev", REVERB_TYPES[state.reverb.type] || null, !!used.REV);
+	block(L.EFX, "EFX", state.efx.name, !!used.EFX, !state.efx.on);
+	block(L.CHO, "Cho", null, !!used.CHO, !state.chorus.on);
+	block(L.REV, "Rev", REVERB_TYPES[state.reverb.type] || null, !!used.REV, !state.reverb.on);
 	block(L.MIX, "Mix", null, true);
 	block(L.DIR1, "D1", null, !!used.DIR1);
 	block(L.DIR2, "D2", null, !!used.DIR2);

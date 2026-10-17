@@ -38,4 +38,12 @@ r.efx('out', 1); r.efx('rev', 60);            // EFX to DIR1: its sends aren't u
 assert.ok(conns().includes('EFX>DIR1') && !conns().includes('EFX>REV'));
 r.efxname(17, 'STEREO-DELAY');
 assert.strictEqual(vm.runInContext('state.efx.name', r), '17 STEREO-DELAY');
+// global Effects On/Off switches
+r.efx('on', 0); r.chorus('on', 0);
+assert.strictEqual(vm.runInContext('state.efx.on + state.chorus.on + state.reverb.on', r), 1);
+// long names shrink, then get shortened, to fit the EFX box
+const fit = vm.runInContext('fit', r), measure = (s, size) => s.length * size * 0.55;
+assert.deepStrictEqual(JSON.parse(JSON.stringify(fit('1 STEREO-EQ', 8, 88, measure))), ['1 STEREO-EQ', 8]);
+const [s, size] = fit('20 QUADRUPLE-TAP-DELAY', 8, 88, measure);
+assert.ok(size >= 6 && measure(s, size) <= 88, `${s} @ ${size}`);
 console.log('jvfx: all tests passed');

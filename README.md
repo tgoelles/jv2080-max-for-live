@@ -96,7 +96,8 @@ Click **FX** (below the Tone tabs) for the patch's effects, as on the JV's PATCH
 
 - **Routing**: where each tone goes (**Output** MIX / EFX / DIR1 / DIR2) and its mix/EFX, chorus and reverb send
   levels. The graphic next to it is redrawn from these settings: amber lines are outputs, blue lines are chorus and
-  reverb sends, brighter means louder, and blocks nothing reaches are greyed out.
+  reverb sends, brighter means louder, and blocks nothing reaches are greyed out. A unit switched off with the
+  *Effects On/Off* buttons is drawn dashed, like on the JV.
 - **EFX**: the type (40 types) and its 12 parameters. The dials are labelled for the selected type; unused slots are
   greyed out. Below them are the EFX output, level, and chorus and reverb sends.
 - **Chorus** and **Reverb**: level, rate, depth, pre-delay, feedback and output; reverb type, level, time, HF damp

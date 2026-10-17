@@ -2207,8 +2207,8 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1833.0, 426.0, 128.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 633.0, 126.0, 128.0, 18.0 ],
-					"text" : "values 0-127, see the JV display",
+					"presentation_rect" : [ 633.0, 126.0, 120.0, 18.0 ],
+					"text" : "raw values 0-127",
 					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
 					"textjustification" : 0,
 					"id" : "obj-108"
@@ -2995,6 +2995,18 @@
 					}
 ,
 					"id" : "obj-148"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 900.0, 760.0, 92.0, 22.0 ],
+					"text" : "r ---fxsw",
+					"id" : "obj-149"
 				}
 
 			}
@@ -4354,6 +4366,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-2", 0 ],
 					"source" : [ "obj-148", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"source" : [ "obj-149", 0 ]
 				}
 
 			}
