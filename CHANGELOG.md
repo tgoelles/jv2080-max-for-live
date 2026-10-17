@@ -5,6 +5,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Macros** page (button above Setup): four automatable dials, **Cutoff, Resonance, Attack, Release**, that shift all
+  four tones at once relative to the patch, using the JV's global controllers (CC 74 / 71 / 73 / 72, channel 1). (#31)
+
 ## [0.3.0] - 2026-10-17
 
 **Full duplex: the device now reads from the JV as well as writing to it.** This needs the track's MIDI From to

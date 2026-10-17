@@ -7,7 +7,9 @@ The JV-1080 and XP-50/80 support is planned.
 
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
 velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
-(JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
+(JV → device). Below are the tone switches and levels, and Effects on/off. The **Macros** button (above Setup)
+opens four global dials, **Cutoff, Resonance, Attack, Release**, that shift all four tones at once. They're
+automatable and use the JV's own controllers (CC 74/71/73/72), so the JV needs *Rx Control Change* on. Use the Tone1–4 tabs to
 choose which tone you're editing; the **Setup** button below them opens the Device ID and SysEx timing settings.
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
