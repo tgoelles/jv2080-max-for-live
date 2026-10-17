@@ -105,19 +105,18 @@ sets keep working if you move a board to another slot. A patch that uses a board
 ## Wave names
 
 Each tone's Wave section shows the selected wave's **name** under the Wave dial, e.g. *TB Dst Saw*, when the device
-knows the names for that wave group. The names are Roland's, from the boards' documentation, so they aren't included
-in this repository. Import them once:
+knows the names for that wave group. The names for SR-JV80 boards 01–11 are included. They're generated from the boards' documentation with:
 
     python3 -I tools/import_wave_names.py
 
-This downloads the SR-JV80 board documents from planet-groove.com and writes `device/jv2080_names.js`. It finds wave
+The script downloads the SR-JV80 board documents from planet-groove.com and writes `device/jv2080_names.js`. It finds wave
 lists for boards **01–11**; the documents for 12–19 only list patches. If the site refuses a download (it sometimes
 answers 403), run the script again. Internal waves
 (INT-A / INT-B) can be added from a text file with lines like `A 001 Name`:
 
     python3 -I tools/import_wave_names.py --internal docs/int_waves.txt
 
-Without the import, the device works as before and shows only wave numbers.
+For wave groups without names, the device shows only the wave number.
 
 ## Development
 
