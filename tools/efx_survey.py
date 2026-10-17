@@ -42,8 +42,9 @@ def main():
         n = int(key)
         name, params = t["types"][n - 1]
         order = s["order"]
-        if sorted(order) != list(range(1, len(params) + 1)):
-            problems.append(f"{n} {name}: slots touched {order}, expected each of 1-{len(params)} once (walk incomplete?)")
+        # the JV may leave slots unused (STEREO-CHORUS skips 7, where STEREO-FLANGER has Feedback)
+        if len(order) != len(params) or len(set(order)) != len(order) or not all(1 <= x <= 12 for x in order):
+            problems.append(f"{n} {name}: slots touched {order}, expected {len(params)} different slots (walk incomplete?)")
             continue
         entry = {"order": order}
         maxes = {}
