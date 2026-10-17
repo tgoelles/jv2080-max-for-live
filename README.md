@@ -8,7 +8,8 @@ The JV-1080 and XP-50/80 are supported experimentally (Setup → Model).
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
 velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
 (JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
-choose which tone you're editing; the **Setup** button below them opens the [Setup page](#setup-page).
+choose which tone you're editing. Below them, **LFO** opens the selected tone's [LFO page](#lfo-page), **FX** the
+patch's [effects](#fx-page), and **Setup** the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
