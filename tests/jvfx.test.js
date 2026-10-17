@@ -50,7 +50,7 @@ assert.strictEqual(E.format(3, 1, 80), '(80)', 'undocumented steps shown raw');
 // jvfx.js: labels, value text and raw values per dial
 const [fx, out] = load('jvfx.js');
 fx.msg_int(16);   // 17 STEREO-DELAY: 11 parameters
-assert.deepStrictEqual(out.filter(o => o[0] === 0), [[0, '_parameter_shortname', 'Delay L'], [0, 'active', 1]]);
+assert.deepStrictEqual(out.filter(o => o[0] === 0), [[0, '_parameter_shortname', 'Fbk Mode'], [0, 'active', 1]]);   // measured order
 assert.deepStrictEqual(out.filter(o => o[0] === 11), [[11, '_parameter_shortname', '-'], [11, 'active', 0]]);
 assert.deepStrictEqual(out.filter(o => o[0] === 36), [[36, 'efxname', '17 STEREO-DELAY']]);
 assert.strictEqual(out.filter(o => o[0] >= 24 && o[0] < 36).length, 12, 'type change sends all 12 parameters');
