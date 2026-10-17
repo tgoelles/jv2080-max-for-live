@@ -6,11 +6,12 @@
 // expansion boards set up on the Setup page: the fixed banks plus "XP-A1"/"XP-A2" (patches 1-128 /
 // 129-255) for every slot that has a board.
 //
-// inlet 0: bank index (0-22) from the stored menu -> send bank select, then bang the program number;
+// inlet 0: bank index (0-23) from the stored menu -> send bank select, then bang the program number;
 //          "boards a b c d e f g h" (board number per slot, 0 = empty);
 //          "msb n" / "lsb n": bank select received as MIDI (e.g. from a JV-1080);
 //          "jvpatch type id number": the JV-2080 reports a patch picked on its panel (System Common 02-05);
-//          "follow 0/1": follow patches picked on the JV (Setup -> Follow JV patch changes)
+//          "follow 0/1": follow patches picked on the JV (Setup -> Follow JV patch changes);
+//          "model 0/1/2": JV-2080, JV-1080, XP-50/80 decides which banks exist
 // inlet 1: index chosen in the visible menu
 // outlet 0: commands for the visible menu (_parameter_range / set)
 // outlet 1: bank index for the stored menu (plain = user choice, "set n" = silently follow the JV)
@@ -22,7 +23,7 @@
 autowatch = 1;
 inlets = 2;
 outlets = 6;
-setinletassist(0, "bank index 0-22, boards, msb/lsb from the JV");
+setinletassist(0, "bank index 0-23, boards, msb/lsb, jvpatch, follow, model");
 setinletassist(1, "visible menu index");
 setoutletassist(0, "to visible menu");
 setoutletassist(1, "to stored Bank menu");
@@ -39,6 +40,15 @@ for (var s = 0; s < 8; s++) {
 	BANKS.push(["XP-" + SLOTS.charAt(s) + "1", 84, 2 * s]);
 	BANKS.push(["XP-" + SLOTS.charAt(s) + "2", 84, 2 * s + 1]);
 }
+BANKS.push(["PCM", 83, 0]);   // JV-1080 PCM card; appended so stored indices keep their meaning
+
+// Which banks exist per model (#9): 0 JV-2080, 1 JV-1080, 2 XP-50/80
+var MODEL_BANKS = [
+	{ fixed: [0, 1, 2, 3, 4, 5, 6], slots: 8, gm: "PR-GM" },
+	{ fixed: [0, 1, 2, 3, 4, 6, 23], slots: 4, gm: "PR-D" },
+	{ fixed: [0, 1, 2, 3, 4], slots: 4, gm: "PR-D" }
+];
+var currentModel = 0;
 
 var slots = [0, 0, 0, 0, 0, 0, 0, 0];
 var current = 0;
@@ -116,6 +126,12 @@ function lsb(v) {
 	}
 }
 
+// "model 0/1/2" from the Setup page
+function model(m) {
+	currentModel = MODEL_BANKS[m] ? m : 0;
+	rebuild();
+}
+
 function follow(on) {
 	following = !!on;
 }
@@ -151,13 +167,20 @@ function jvpatch(type, id, number) {
 }
 
 function rebuild() {
+	var m = MODEL_BANKS[currentModel];
 	items = [];
 	var labels = [];
 	for (var i = 0; i < BANKS.length; i++) {
-		var slot = i >= FIXED ? Math.floor((i - FIXED) / 2) : -1;
-		if (i < FIXED || slots[slot] > 0 || i === current) {
+		var xp = i >= FIXED && i < FIXED + 16;
+		var slot = xp ? Math.floor((i - FIXED) / 2) : -1;
+		var available = xp ? (slot < m.slots && slots[slot] > 0) : m.fixed.indexOf(i) >= 0;
+		if (available || i === current) {
 			items.push(i);
-			labels.push(BANKS[i][0] + (slot >= 0 && slots[slot] === 0 ? " (not set up)" : ""));
+			var label = i === 4 ? m.gm : BANKS[i][0];
+			if (!available) {
+				label += xp && slot < m.slots ? " (not set up)" : " (n/a)";
+			}
+			labels.push(label);
 		}
 	}
 	outlet(0, ["_parameter_range"].concat(labels));
