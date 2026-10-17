@@ -432,7 +432,9 @@
 							"parameter_type" : 1,
 							"parameter_unitstyle" : 0,
 							"parameter_longname" : "Velocity Sensitivity[4]",
-							"parameter_initial_enable" : 1
+							"parameter_initial_enable" : 1,
+							"parameter_mmin" : 0.0,
+							"parameter_mmax" : 125.0
 						}
 
 					}

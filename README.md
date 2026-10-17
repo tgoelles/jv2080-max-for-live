@@ -55,6 +55,8 @@ Without it, a copy of the device, which Live sometimes opens when you click Edit
 
     git config diff.amxd.textconv "python3 -I tools/amxd.py textconv"
 
+Run all offline checks (patch structure, generated bindings, tests) with `tools/check.sh`. It needs Python 3 and Node.
+
 The [JV-2080 Owner's Manual](https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf) is from Roland. Its MIDI
 implementation starts on p.184.
 
