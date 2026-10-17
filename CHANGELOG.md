@@ -5,7 +5,14 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- All parameter messages are now built by one tested library (`jvparam.js` / `jvsysex.js`) instead of 78 separate
+  `sxformat` objects. Same messages on the wire; values are clamped to the JV's documented ranges. This also removes
+  the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)
+
 ### Fixed
+- When a set loaded, the tone sections could send their restored values before knowing which tone they belong to,
+  so they landed on **patch common** parameters (e.g. Octave Shift). Senders now wait for their tone address. (#7)
 - Filter **vel sens** could be set to 126 and 127, which the JV doesn't accept (its range is 0–125). Found by checking every
   control's range against the manual's address map. (#7)
 
