@@ -49,9 +49,10 @@ var JVSysEx = (function () {
 		return block === "tone" ? P.blocks.tone.temp[tone - 1].slice() : P.blocks.common.temp.slice();
 	}
 
-	// Request the whole temporary patch: common + 4 tones
-	function requestPatch(dev) {
-		var out = [rq1(dev, patchAddress("common"), P.blocks.common.size)];
+	// Request the whole temporary patch: common + 4 tones. commonSize: 0x4A JV-2080 (default), 0x48 JV-1080,
+	// 0x49 XP-50/80 (their patch common is shorter, see #9)
+	function requestPatch(dev, commonSize) {
+		var out = [rq1(dev, patchAddress("common"), commonSize || P.blocks.common.size)];
 		for (var t = 1; t <= 4; t++) {
 			out.push(rq1(dev, patchAddress("tone", t), P.blocks.tone.size));
 		}

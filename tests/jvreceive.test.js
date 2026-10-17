@@ -98,4 +98,13 @@ for (const v of ["10 0C", "11 0B", "12 0A", "13 09", "0F 0D"]) feed(hex("F0 41 1
 assert.strictEqual(set["TVF_1/live.dial"], 0x0F, "Tone 1 cutoff follows the JV's knob");
 assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0, 1, 0, 1, 0, 1, 0, 1, 0], "muted around each update");
 
+// models (#9): Get asks for the model's patch common size
+for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {
+	ctx.model(m); out.length = 0; ctx.get();
+	const req = out.filter(o => o[0] === 0).map(o => o[1]).slice(0, 15);
+	assert.strictEqual(req[12], size, "model " + m + " common size");
+	assert.strictEqual((req.slice(5, 13).reduce((a, b) => a + b, 0) + req[13]) % 128, 0, "checksum");
+	run();
+}
+
 console.log("jvreceive: all tests passed");

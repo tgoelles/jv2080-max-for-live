@@ -6,6 +6,11 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **JV-1080 and XP-50/80 (experimental)**: Setup → *Model*. Picks the right bank list (no PR-E, GM bank as PR-D, PCM
+  card on the JV-1080, expansion slots A–D) and the right patch size for **Get**. Sound parameters are identical to
+  the JV-2080. Not yet tested on real hardware. (#9)
+
+### Added
 - **Wave names** under each tone's Wave dial, for wave groups whose names were imported with
   `tools/import_wave_names.py`: INT-A, INT-B and SR-JV80 boards 01–11. (#30)
 

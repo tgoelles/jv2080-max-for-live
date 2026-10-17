@@ -66,4 +66,19 @@ ctx.follow(0); out = []; ctx.jvpatch(0, 3, 0);
 assert.deepStrictEqual(out, [], "not following when switched off");
 ctx.follow(1);
 
+// models (#9): which banks exist
+ctx.boards(11, 3, 0, 0, 7, 0, 0, 0);                  // boards in slots A, B, E
+out = []; ctx.model(0);                                // JV-2080: PR-E, PR-GM, 8 slots
+assert.deepStrictEqual(menu().slice(0, 7), ["USER", "PR-A", "PR-B", "PR-C", "PR-GM", "PR-E", "CARD"]);
+assert.ok(menu().includes("XP-E1") && !menu().includes("PCM"));
+out = []; ctx.inlet = 0; ctx.msg_int(0); out = []; ctx.model(1);   // JV-1080 (current bank USER)
+assert.deepStrictEqual(menu(), ["USER", "PR-A", "PR-B", "PR-C", "PR-D", "CARD", "XP-A1", "XP-A2", "XP-B1", "XP-B2", "PCM"]);
+out = []; bank(23);
+assert.deepStrictEqual(midi(), [0xB0, 0, 83, 0xB0, 32, 0], "PCM card = 83/0");
+out = []; bank(0); out = []; ctx.model(2);              // XP-50/80: no cards, no PR-E, 4 slots
+assert.deepStrictEqual(menu(), ["USER", "PR-A", "PR-B", "PR-C", "PR-D", "XP-A1", "XP-A2", "XP-B1", "XP-B2"]);
+out = []; bank(5);                                      // a stored PR-E on an XP stays visible, marked
+assert.ok(menu().includes("PR-E (n/a)"));
+ctx.model(0);
+
 console.log("jvbank: all tests passed");

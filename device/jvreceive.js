@@ -1,6 +1,7 @@
 // Read the JV's temporary patch back into the device (#6).
 //
-// inlet 0: MIDI bytes from midiin (only complete SysEx messages are used); "get" requests the patch
+// inlet 0: MIDI bytes from midiin (only complete SysEx messages are used); "get" requests the patch;
+//          "model 0/1/2" (JV-2080, JV-1080, XP-50/80) sets the patch common size to request
 // outlet 0: SysEx bytes (RQ1 requests) for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "set <patch name>" for a comment showing the name
@@ -36,6 +37,14 @@ for (var i = 0; i < JV2080_BINDINGS.length; i++) {
 	(BY_ID[b.id] = BY_ID[b.id] || []).push(b);
 }
 
+var COMMON_SIZE = [0x4A, 0x48, 0x49];   // per model: JV-2080, JV-1080, XP-50/80 (#9)
+var commonSize = COMMON_SIZE[0];
+
+// "model 0/1/2" from the Setup page
+function model(m) {
+	commonSize = COMMON_SIZE[m] || COMMON_SIZE[0];
+}
+
 var GAP_MS = 30;        // pause after a reply before the next request
 var TIMEOUT_MS = 500;   // give up waiting for a reply and move on
 var pending = [];       // requests still to send
@@ -44,7 +53,7 @@ var nextTask = new Task(sendNext, this);
 var timeoutTask = new Task(onTimeout, this);
 
 function get() {
-	pending = JVSysEx.requestPatch(0x10);   // the queue sets the real device ID
+	pending = JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
 	waiting = null;
 	timeoutTask.cancel();
 	sendNext();
