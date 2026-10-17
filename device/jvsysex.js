@@ -97,9 +97,14 @@ var JVSysEx = (function () {
 		};
 	}
 
-	// Where does an address point? Patch blocks: a1 a2 = which patch (03 00 temporary, 11 nn USER),
+	// Where does an address point? Only patch areas (else null). Patch blocks: a1 a2 = which patch (03 00 temporary, 11 nn USER),
 	// a3 = 00 common or 10/12/14/16 tone 1-4 (with 11/13/15/17 for the carried part of a tone).
+	var PATCH_AREAS = [0x02, 0x03, 0x11];   // performance-part temp patches, temp patch, user patches (p.188)
+
 	function locate(addr) {
+		if (PATCH_AREAS.indexOf(addr[0]) < 0) {
+			return null;
+		}
 		var base = toNumber([addr[0], addr[1], 0, 0]);
 		var rel = toNumber(addr) - base;
 		if (rel < P.blocks.common.size) {

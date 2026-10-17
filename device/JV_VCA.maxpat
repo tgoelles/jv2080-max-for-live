@@ -43,9 +43,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 124.5, 781.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 109 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 124.5, 781.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 109",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -55,9 +60,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 124.5, 736.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 108 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 124.5, 736.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 108",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -67,9 +77,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 134.0, 696.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 107 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 134.0, 696.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 107",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -286,9 +301,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 102.0, 653.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 106 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 102.0, 653.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 106",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -314,9 +334,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 185.25, 574.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 105 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 185.25, 574.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 105",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -370,9 +395,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 167.5, 402.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 104 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 167.5, 402.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 104",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -382,9 +412,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 141.75, 342.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 103 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 141.75, 342.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 103",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -394,9 +429,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 129.5, 263.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 102 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 129.5, 263.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 102",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1053,9 +1093,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 400.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 110 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 400.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 110",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1065,9 +1110,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 460.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 111 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 460.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 111",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1077,9 +1127,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 520.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 112 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 520.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 112",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1089,9 +1144,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 580.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 113 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 580.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 113",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1101,9 +1161,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 640.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 114 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 640.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 114",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1113,9 +1178,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 700.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 115 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 700.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 115",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1125,9 +1195,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 760.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 116 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 760.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 116",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1137,9 +1212,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 820.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 119 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 820.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 119",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1161,9 +1241,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 880.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 120 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 880.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 120",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1173,9 +1258,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 940.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 121 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 940.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 121",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}
@@ -1185,9 +1275,14 @@
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"patching_rect" : [ 1300, 1000.0, 511.0, 22.0 ],
-					"text" : "sxformat 240 65 16 106 18 3 0 / is $i2 / 122 / is $i1 / is (128-checksum(5\\,9\\,1)%128)%128 / 247"
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1300, 1000.0, 140.0, 22.0 ],
+					"text" : "js jvparam.js 3 0 -1 122",
+					"saved_object_attributes" : 					{
+						"filename" : "jvparam.js",
+						"parameter_enable" : 0
+					}
+
 				}
 
 			}

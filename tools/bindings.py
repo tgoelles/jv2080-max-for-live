@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Trace every UI control in the device to the JV parameter it sends, and write device/jv2080_bindings.js.
 
-For each sxformat sender, follow its value inlet upstream through simple math objects (+ n, - n,
+For each jvparam sender (js jvparam.js a1 a2 a3 a4), follow its value inlet upstream through simple math objects (+ n, - n,
 expr $i1 /2, ...) to the live.* control that feeds it. The result says, per parameter, which control
 shows it and how the control's value turns into the raw JV value. The read-back (#6) inverts that to set
 controls from received data.
@@ -22,8 +22,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DEVICE = ROOT / "device"
 SECTIONS = {"JV_Wave": "WG", "JV_Pitch": "Pitch", "JV_Filter": "TVF", "JV_VCA": "VCA"}
 UI = {"live.dial", "live.numbox", "live.slider", "live.menu", "live.toggle", "live.tab", "live.text"}
-SX_ABSTRACTION = re.compile(r"sxformat 240 65 16 106 18 3 0 / is \$i2 / (\d+) /")
-SX_FIXED = re.compile(r"sxformat 240 65 16 106 18 3 0 (\d+) (\d+) /")
+SX_ABSTRACTION = re.compile(r"^js jvparam\.js 3 0 -1 (\d+)$")
+SX_FIXED = re.compile(r"^js jvparam\.js 3 0 (\d+) (\d+)$")
 TONE_BY_A3 = {16: 1, 18: 2, 20: 3, 22: 4}
 OPS = [
     (re.compile(r"^\+ (-?\d+)$"), lambda m: ["add", int(m.group(1))]),
@@ -48,7 +48,7 @@ def control_range(box):
 
 
 def trace(patcher, sx_id, inlet=0):
-    """Walk upstream from an sxformat inlet; return (control box, ops applied control -> raw) or None."""
+    """Walk upstream from a sender's value inlet; return (control box, ops applied control -> raw) or None."""
     boxes = {b["box"]["id"]: b["box"] for b in patcher["boxes"]}
     into = {}
     for l in patcher["lines"]:
@@ -102,13 +102,6 @@ def build():
             if not m:
                 continue
             off = int(m.group(1))
-            if off == 3:   # wave number: control -> "- 1" -> split into nibbles (special-cased in the reader)
-                got = trace(pat, b["box"]["id"], 0)
-                hi = [x for x in pat["lines"] if x["patchline"]["destination"] == [b["box"]["id"], 0]]
-                src = {x["box"]["id"]: x["box"] for x in pat["boxes"]}
-                dial = next(x for x in src.values() if x.get("varname") == "live.dial" and "Wave" in x["saved_attribute_attributes"]["valueof"]["parameter_longname"])
-                add("tone", 3, section, [section + "_{n}"], dial, [["add", -1]], [1, 2, 3, 4])
-                continue
             if off in (1, 2):  # wave group type/id come from one menu (expr after t i i), special-cased
                 continue
             got = trace(pat, b["box"]["id"])

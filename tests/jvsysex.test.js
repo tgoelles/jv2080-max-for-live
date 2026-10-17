@@ -35,6 +35,10 @@ assert.deepStrictEqual(JV.setParam(0x10, "tone", 2, "cutoff", 100), hex("F0 41 1
 assert.deepStrictEqual(JV.setParam(0x10, "tone", 1, "wave_number", 102), hex("F0 41 10 6A 12 03 00 10 03 06 06 5E F7"));
 assert.deepStrictEqual(JV.setParam(0x10, "tone", 4, "reverb_send", 127).slice(5, 9), [3, 0, 0x17, 0], "tone offset 0x80 lands on a3+1");
 
+// system settings are not patch data
+assert.strictEqual(JV.locate([0, 0, 0, 8]), null, "System EFX switch is not patch common");
+assert.deepStrictEqual(JV.locate([0x11, 0, 0x14, 0x51]), { patch: [0x11, 0], block: "tone", tone: 3, index: 0x51 });
+
 // --- the real JV dump ---------------------------------------------------------------------------
 const msgs = dump.map(JV.parse);
 assert.ok(msgs.every(m => m && m.command === "DT1" && m.valid), "all fixture messages parse with valid checksums");
