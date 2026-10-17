@@ -90,6 +90,28 @@ back. The Tone tabs keep working on the LFO page.
 
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
 
+### FX page
+
+Click **FX** (below the Tone tabs) for the patch's effects, as on the JV's PATCH → Effects pages:
+
+- **Routing**: where each tone goes (**Output** MIX / EFX / DIR1 / DIR2) and its mix/EFX, chorus and reverb send
+  levels. The graphic next to it is redrawn from these settings: amber lines are outputs, blue lines are chorus and
+  reverb sends, brighter means louder, and blocks nothing reaches are greyed out. A unit switched off with the
+  *Effects On/Off* buttons is drawn dashed, like on the JV. Those buttons also follow the JV's own EFX / CHORUS /
+  REVERB buttons.
+- **EFX**: the type (40 types) and its 12 parameters. The dials are labelled for the selected type; unused slots are
+  greyed out. Below them are the EFX output, level, and chorus and reverb sends.
+- **Chorus** and **Reverb**: level, rate, depth, pre-delay, feedback and output; reverb type, level, time, HF damp
+  and delay feedback.
+
+Under each EFX dial is the value as the JV shows it: dB, Hz, cent, %, degrees, pan, balance, or the type's choices.
+Each dial's full travel covers the parameter's range. Rates, pre delay and delay times show the JV's raw number in
+brackets, e.g. "(80)", until their value tables are measured
+([#51](https://github.com/tgoelles/jv2080-max-for-live/issues/51)); the JV's display shows them in Hz or ms.
+The order and ranges of all 40 EFX types were measured on a JV-2080, since the manual's parameter lists aren't in the
+order the JV uses. The **EFX / Chorus / Reverb** buttons under *Effects
+On/Off* still switch the whole unit's effects on and off.
+
 ## Global controls (cutoff, resonance, attack, release)
 
 The JV-2080 has built-in controllers that shift a parameter on **all four tones at once**, relative to the patch

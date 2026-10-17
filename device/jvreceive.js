@@ -15,10 +15,14 @@
 // through the generated bindings (path + varname) and converted with toControl(). Controls are updated
 // with output, so Live's stored values, the senders' stored values and linked displays stay consistent;
 // the queue is muted meanwhile so nothing is sent back to the JV.
+//
+// The JV also reports its EFX / CHORUS / REVERB buttons (System Common 08-0A); the device's Effects On/Off
+// toggles follow them the same way.
 
 include("jv2080_params.js");
 include("jvsysex.js");
 include("jv2080_bindings.js");
+include("jv2080_efx.js");
 
 autowatch = 1;
 inlets = 1;
@@ -30,6 +34,8 @@ setoutletassist(2, "patch name (set ...)");
 setoutletassist(3, "jvpatch type id number");
 
 var jsthis = this;
+// System Common 08-0A: EFX, Chorus and Reverb switch -> the toggles in the Effects On/Off bpatcher
+var SWITCHES = { 8: "live.toggle[3]", 9: "live.toggle[2]", 10: "live.toggle[1]" };
 var buf = null;
 var BY_ID = {};
 for (var i = 0; i < JV2080_BINDINGS.length; i++) {
@@ -120,12 +126,31 @@ function receive(bytes) {
 		outlet(3, "jvpatch", msg.data[0], msg.data[1], (msg.data[2] << 4) | msg.data[3]);
 		return;
 	}
+	if (msg.addr[0] === 0 && msg.addr[1] === 0 && msg.addr[2] === 0) {
+		switches(msg.addr[3], msg.data);
+		return;
+	}
 	var where = JVSysEx.locate(msg.addr);
 	if (!where || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
 	}
 	apply(JVSysEx.decode(msg));
 	answered(msg.addr);
+}
+
+function switches(start, data) {
+	outlet(1, "mute", 1);
+	try {
+		for (var i = 0; i < data.length; i++) {
+			var name = SWITCHES[start + i];
+			var obj = name ? find("EffectsSwitch", name) : null;
+			if (obj) {
+				obj.message("int", data[i] ? 1 : 0);
+			}
+		}
+	} finally {
+		outlet(1, "mute", 0);
+	}
 }
 
 function apply(values) {
@@ -164,10 +189,23 @@ function setControls(id, tone, value, isControlValue) {
 			continue;
 		}
 		var obj = find(b.path[0].replace("{n}", tone), b.varname);
-		if (obj) {
+		if (!obj) {
+			continue;
+		}
+		if (b.ops.length && b.ops[0][0] === "efx") {
+			obj.message("int", JV2080_EFX.toDial(currentEfxType(), b.ops[0][1], value));
+		} else {
 			obj.message("int", isControlValue ? value : JVSysEx.toControl(b, value));
 		}
 	}
+}
+
+// EFX parameter values are converted per EFX type: the device's EFX Type menu. In a read, the type (offset 0x0C)
+// is set before its parameters (0x0D-0x18), so the menu already has the JV's type.
+function currentEfxType() {
+	var menu = find("FX", "EFXType");
+	var v = menu ? menu.getvalueof() : 0;
+	return Math.round(v instanceof Array ? v[0] : v) || 0;
 }
 
 function notifydeleted() {

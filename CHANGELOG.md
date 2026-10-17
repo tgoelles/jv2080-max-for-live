@@ -5,14 +5,21 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-17
+
 ### Added
 - **LFO page** per tone (button **LFO** below the Tone tabs): LFO 1 and LFO 2 (wave, rate, delay, fade, offset, key
   trigger, sync) and their depths for pitch, filter, amp and pan, with a preview of each LFO's shape. 96 new automatable parameters, named
   `T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, … Read back by **Get**. (#8)
 
+- **FX page** (button **FX** below the Tone tabs): the patch's effects with a routing graphic like the JV's Effects
+  page. Per-tone output assign and mix/EFX, chorus and reverb sends; EFX type and its 12 parameters, labelled per
+  type with the value shown as the JV does (dB, Hz, %, pan, choices; rates and delay times still raw, #51); EFX output and sends; chorus and reverb. 44 new automatable parameters. Read back by **Get**. The Effects On/Off buttons follow the JV's
+  EFX / CHORUS / REVERB buttons. (#8)
+
 ### Upgrading
-- Sets saved with an older version have no LFO values yet, so the device starts with LFO depths at 0 and, with
-  *Send on load* on, sends that to the JV. To keep a patch's LFOs, click **Get** once and save the set.
+- Sets saved with an older version have no LFO or effect values yet, so the device starts with LFO depths at 0 and default
+  effects and, with *Send on load* on, sends that to the JV. To keep a patch's LFOs and effects, click **Get** once and save the set.
 
 ## [0.4.0] - 2026-10-17
 
@@ -120,7 +127,8 @@ include the JV (see *MIDI setup* in the README).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.2...v0.2.0

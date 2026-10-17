@@ -5,7 +5,8 @@ const dir = path.join(__dirname, "../device");
 const set = {};   // "Pitch_4/live.dial" -> last value sent to that control
 const out = [];
 const patcher = {
-	getnamed: p => ({ subpatcher: () => ({ getnamed: v => ({ message: (sel, val) => { set[p + "/" + v] = val; } }) }) })
+	getnamed: p => ({ subpatcher: () => ({ getnamed: v => ({ message: (sel, val) => { set[p + "/" + v] = val; },
+		getvalueof: () => set[p + "/" + v] || 0 }) }) })
 };
 let now = 0, timers = [], posts = [];
 function Task(fn) { this.schedule = ms => { this.cancel(); this.t = [now + ms, fn]; timers.push(this.t); };
@@ -73,7 +74,13 @@ for (const b of B) {
 	for (const t of b.tones) {
 		assert.ok(b.path[0].replace("{n}", t) + "/" + b.varname in set, `${b.id} tone ${t} not set`);
 	}
+	if (!b.tones.length) {
+		assert.ok(b.path[0] + "/" + b.varname in set, `${b.id} (patch common) not set`);
+	}
 }
+// FX page: patch common and the per-tone outputs, including the reverb send at tone offset 0x80
+assert.ok(B.some(b => b.block === "common" && b.id === "efx_type"), "EFX type is bound");
+assert.ok(Number.isInteger(set["FX/EFXType"]) && Number.isInteger(set["FX/T4RevSend"]));
 
 // a lost reply doesn't stall the read: after the timeout the next request goes out
 out.length = 0; ctx.get();
@@ -97,6 +104,25 @@ out.length = 0;
 for (const v of ["10 0C", "11 0B", "12 0A", "13 09", "0F 0D"]) feed(hex("F0 41 10 6A 12 03 00 10 51 " + v + " F7"));
 assert.strictEqual(set["TVF_1/live.dial"], 0x0F, "Tone 1 cutoff follows the JV's knob");
 assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0, 1, 0, 1, 0, 1, 0, 1, 0], "muted around each update");
+
+// EFX parameters are converted per EFX type (the device's EFX Type menu): Stereo-EQ Low Gain +15 dB = raw 30
+const dt1 = (addr, data) => { const body = [...addr, ...data];
+	return [0xF0, 0x41, 0x10, 0x6A, 0x12, ...body, (128 - body.reduce((a, b) => a + b, 0) % 128) % 128, 0xF7]; };
+feed(dt1([3, 0, 0, 0x0C], [0]));            // EFX type 1 STEREO-EQ
+feed(dt1([3, 0, 0, 0x0E], [30]));           // EFX Parameter 2 (Low Gain) = +15 dB
+assert.strictEqual(set["FX/EFXType"], 0);
+assert.strictEqual(set["FX/EFXParam2"], 127, "+15 dB is the top of the dial");
+feed(dt1([3, 0, 0, 0x0C], [3, 0, 64]));     // type 4 PHASER, Manual and Rate in one message
+assert.strictEqual(set["FX/EFXParam2"], 65, "Rate raw 64 of 0-125 on the 0-127 dial");
+assert.strictEqual(set["FX/EFXParam1"], 0, "Manual");
+
+// the JV's EFX / CHORUS / REVERB buttons (System Common 08-0A) move the Effects On/Off toggles, muted
+out.length = 0;
+feed(dt1([0, 0, 0, 0x09], [0]));
+assert.strictEqual(set["EffectsSwitch/live.toggle[2]"], 0, "chorus off");
+feed(dt1([0, 0, 0, 0x08], [1, 1, 0]));
+assert.deepStrictEqual([set["EffectsSwitch/live.toggle[3]"], set["EffectsSwitch/live.toggle[2]"], set["EffectsSwitch/live.toggle[1]"]], [1, 1, 0]);
+assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0, 1, 0]);
 
 // models (#9): Get asks for the model's patch common size
 for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {

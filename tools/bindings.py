@@ -115,6 +115,30 @@ def build():
             bindings.append({"block": "tone", "id": "wave_group", "section": section, "path": [section + "_{n}"],
                              "varname": menu.get("varname"), "ops": [["wave_group"]], "range": control_range(menu), "tones": [1, 2, 3, 4]})
 
+    # FX page: one instance with fixed addresses, patch common (a3 = 0) and per-tone outputs (a3 = tone byte,
+    # +1 for tone offsets from 0x80)
+    pat = maxjson.load(DEVICE / "JV_FX.maxpat")["patcher"]
+    for b in pat["boxes"]:
+        m = SX_FIXED.match(b["box"].get("text", ""))
+        if not m:
+            continue
+        a3, a4 = int(m.group(1)), int(m.group(2))
+        if a3 == 0 and 13 <= a4 <= 24:
+            # EFX Parameter 1-12: the dial feeds jvfx.js, which converts per EFX type (jv2080_efx.js)
+            n = a4 - 12
+            bindings.append({"block": "common", "id": "efx_param_%d" % n, "section": "FX", "path": ["FX"],
+                             "varname": "EFXParam%d" % n, "ops": [["efx", n - 1]], "range": [0, 127], "tones": []})
+            continue
+        got = trace(pat, b["box"]["id"])
+        if got is None:
+            problems.append(f"FX: can't trace sender {b['box']['text']}")
+        elif a3 == 0:
+            add("common", a4, "FX", ["FX"], got[0], got[1], [])
+        elif a3 - (a3 % 2) in TONE_BY_A3:
+            add("tone", (a3 % 2) * 128 + a4, "FX", ["FX"], got[0], got[1], [TONE_BY_A3[a3 - (a3 % 2)]])
+        else:
+            problems.append(f"FX: unexpected address in {b['box']['text']}")
+
     # main patch: per-tone switches and levels live in the embedded Tone Switch bpatcher
     main = maxjson.load(DEVICE / "JV 2080 Control.amxd")["patcher"]
     for top in main["boxes"]:
