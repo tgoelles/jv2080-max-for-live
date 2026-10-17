@@ -39,6 +39,66 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"border" : 0,
+					"filename" : "jvlfoind.js",
+					"ignoreclick" : 1,
+					"jsarguments" : [ 3, -64, 63 ],
+					"maxclass" : "jsui",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1180.0, 120.0, 27.0, 48.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 295.0, 7.0, 27.0, 48.0 ],
+					"varname" : "LFORing3",
+					"id" : "obj-80"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"border" : 0,
+					"filename" : "jvlfoind.js",
+					"ignoreclick" : 1,
+					"jsarguments" : [ 2, 0, 127 ],
+					"maxclass" : "jsui",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1120.0, 120.0, 41.0, 48.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 0.0, 12.999999344348907, 41.0, 48.0 ],
+					"varname" : "LFORing2",
+					"id" : "obj-79"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1100.0, 60.0, 85.0, 22.0 ],
+					"text" : "r ---lfodepth",
+					"id" : "obj-78"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1000.0, 60.0, 80.0, 22.0 ],
+					"text" : "prepend addr",
+					"id" : "obj-77"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-31",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
@@ -1938,6 +1998,62 @@
 				"patchline" : 				{
 					"destination" : [ "obj-55", 0 ],
 					"source" : [ "obj-76", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-77", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-79", 0 ],
+					"source" : [ "obj-55", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-79", 0 ],
+					"source" : [ "obj-77", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-79", 0 ],
+					"source" : [ "obj-78", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-79", 0 ],
+					"source" : [ "obj-74", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-80", 0 ],
+					"source" : [ "obj-37", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-80", 0 ],
+					"source" : [ "obj-77", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-80", 0 ],
+					"source" : [ "obj-78", 0 ]
 				}
 
 			}

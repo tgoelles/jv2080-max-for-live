@@ -39,6 +39,48 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"border" : 0,
+					"filename" : "jvlfoind.js",
+					"ignoreclick" : 1,
+					"jsarguments" : [ 0, -48, 48 ],
+					"maxclass" : "jsui",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"parameter_enable" : 0,
+					"patching_rect" : [ 1000.0, 120.0, 41.0, 48.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 0.0, 12.999999344348907, 41.0, 48.0 ],
+					"varname" : "LFORing0",
+					"id" : "obj-63"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1100.0, 60.0, 85.0, 22.0 ],
+					"text" : "r ---lfodepth",
+					"id" : "obj-62"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1000.0, 60.0, 80.0, 22.0 ],
+					"text" : "prepend addr",
+					"id" : "obj-61"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-45",
 					"maxclass" : "live.comment",
 					"numinlets" : 1,
@@ -1841,6 +1883,34 @@
 				"patchline" : 				{
 					"destination" : [ "obj-37", 0 ],
 					"source" : [ "obj-9", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-61", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-63", 0 ],
+					"source" : [ "obj-55", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-63", 0 ],
+					"source" : [ "obj-61", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-63", 0 ],
+					"source" : [ "obj-62", 0 ]
 				}
 
 			}

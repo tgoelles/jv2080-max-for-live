@@ -7,7 +7,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 - **LFO page** per tone (button **LFO** below the Tone tabs): LFO 1 and LFO 2 (wave, rate, delay, fade, offset, key
-  trigger, sync) and their depths for pitch, filter, amp and pan, with a preview of each LFO's shape. 96 new automatable parameters, named
+  trigger, sync) and their depths for pitch, filter, amp and pan, with a preview of each LFO's shape. Modulated dials (Coarse tune, Cutoff, Amp Level, Pan) get a
+  ring showing the LFO range, like Live's modulation display. 96 new automatable parameters, named
   `T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, … Read back by **Get**. (#8)
 
 ### Upgrading
