@@ -5,6 +5,10 @@
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "set <patch name>" for a comment showing the name
 //
+// The 5 requests (common + 4 tones) go out one at a time: the next only after the previous reply has
+// arrived (or after a timeout). The JV needs ~45 ms to send a tone; a request arriving while it is still
+// sending makes it report "Receive data error".
+//
 // Replies (DT1) are decoded with jvsysex.js. Each value is written to the control that edits it, found
 // through the generated bindings (path + varname) and converted with toControl(). Controls are updated
 // with output, so Live's stored values, the senders' stored values and linked displays stay consistent;
@@ -30,12 +34,44 @@ for (var i = 0; i < JV2080_BINDINGS.length; i++) {
 	(BY_ID[b.id] = BY_ID[b.id] || []).push(b);
 }
 
+var GAP_MS = 30;        // pause after a reply before the next request
+var TIMEOUT_MS = 500;   // give up waiting for a reply and move on
+var pending = [];       // requests still to send
+var waiting = null;     // the request we're waiting for: its 4 address bytes
+var nextTask = new Task(sendNext, this);
+var timeoutTask = new Task(onTimeout, this);
+
 function get() {
-	var reqs = JVSysEx.requestPatch(0x10);   // the queue sets the real device ID
-	for (var r = 0; r < reqs.length; r++) {
-		for (var j = 0; j < reqs[r].length; j++) {
-			outlet(0, reqs[r][j]);
-		}
+	pending = JVSysEx.requestPatch(0x10);   // the queue sets the real device ID
+	waiting = null;
+	timeoutTask.cancel();
+	sendNext();
+}
+
+function sendNext() {
+	if (!pending.length) {
+		waiting = null;
+		return;
+	}
+	var req = pending.shift();
+	waiting = req.slice(5, 9);
+	for (var j = 0; j < req.length; j++) {
+		outlet(0, req[j]);
+	}
+	timeoutTask.schedule(TIMEOUT_MS);
+}
+
+function onTimeout() {
+	post("jvreceive: no reply from the JV for " + waiting.join(" ") + "\n");
+	sendNext();
+}
+
+// a reply for the block we asked for: move on to the next request
+function answered(addr) {
+	if (waiting && addr.join(" ") === waiting.join(" ")) {
+		timeoutTask.cancel();
+		waiting = null;
+		nextTask.schedule(GAP_MS);
 	}
 }
 
@@ -72,6 +108,7 @@ function receive(bytes) {
 		return;   // only the temporary patch is what the device edits
 	}
 	apply(JVSysEx.decode(msg));
+	answered(msg.addr);
 }
 
 function apply(values) {
@@ -114,6 +151,13 @@ function setControls(id, tone, value, isControlValue) {
 			obj.message("int", isControlValue ? value : JVSysEx.toControl(b, value));
 		}
 	}
+}
+
+function notifydeleted() {
+	nextTask.cancel();
+	nextTask.freepeer();
+	timeoutTask.cancel();
+	timeoutTask.freepeer();
 }
 
 var cache = {};
