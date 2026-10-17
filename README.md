@@ -111,7 +111,8 @@ in this repository. Import them once:
     python3 -I tools/import_wave_names.py
 
 This downloads the SR-JV80 board documents from planet-groove.com and writes `device/jv2080_names.js`. It finds wave
-lists for boards **03–11**; the documents for 12–19 only list patches, and 01–02 aren't downloadable. Internal waves
+lists for boards **01–11**; the documents for 12–19 only list patches. If the site refuses a download (it sometimes
+answers 403), run the script again. Internal waves
 (INT-A / INT-B) can be added from a text file with lines like `A 001 Name`:
 
     python3 -I tools/import_wave_names.py --internal docs/int_waves.txt
