@@ -17,16 +17,40 @@ Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-
   aren't supported. Use [v0.1.2](https://github.com/tgoelles/jv2080-max-for-live/releases/tag/v0.1.2) for those.
 - A Roland JV-2080 connected by MIDI in and out. JV-1080 and XP-50/80 support is planned.
 
+## MIDI setup
+
+The device talks to the JV in **both directions**. It sends your edits, and it reads the JV's patch back (**get**). Both
+directions must be wired, or **get** silently does nothing.
+
+**Cables:** interface MIDI OUT → JV **MIDI IN**, and JV **MIDI OUT** → interface MIDI IN.
+
+**Live → Settings → Link, Tempo & MIDI:** for your MIDI interface, turn **Track** on for both the **input** and the
+**output** port.
+
+**The track with the device:**
+
+| Setting | Value |
+|---|---|
+| MIDI From | **All Ins**, or your interface's port, e.g. *UltraLite mk3 Hybrid (MIDI Port)* |
+| Channel (below MIDI From) | **All Channels** |
+| Monitor | **In** |
+| MIDI To | your interface's port, the one going to the JV |
+
+> **Common mistake:** setting **MIDI From** to *another Live track* (e.g. a track named "JV 2080 MIDI") instead of the
+> hardware port. Editing still works, but nothing from the JV reaches the device, so **get** never loads anything.
+> MIDI From must be the hardware port or All Ins. All Ins also keeps your keyboard working on this track.
+
+To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows whether data from the JV arrives.
+
 ## Setup
 
-1. Put the device on a MIDI track. Set the track's **MIDI To** to the JV's port, and its **MIDI From** to **All Ins** (or the JV's
-   port) with **Monitor In**, so the device can also read from the JV. Connect the JV's MIDI OUT to your interface.
+1. Put the device on the MIDI track set up as above.
 2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **get** (left column) to load the JV's current patch into the device, including its name. After a program change
-   this happens automatically, which you can turn off on the **Setup** page.
-4. When the set loads, the device sends all its settings to the JV. To send them again, click **push** (left column, above Effects On/Off). You can turn off sending on load on the
-   **Setup** page.
+   this happens automatically. You can turn that off on the **Setup** page.
+4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
+   them again, click **push** (left column). You can turn off sending on load on the **Setup** page.
 
 ## Expansion boards
 
