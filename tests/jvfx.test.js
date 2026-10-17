@@ -48,6 +48,7 @@ assert.strictEqual(E.format(21, 1, 36), '+12 st');
 assert.strictEqual(E.format(3, 1, 80), '(80)', 'rate: steps not known, shown raw');
 assert.strictEqual(E.maxRaw(3, 1), 125, 'rate range measured');
 assert.strictEqual(E.format(14, 5, 90), '180 deg', 'STEREO-FLANGER Phase, slot 6');
+assert.strictEqual(E.format(14, 6, 98), '+98%'); assert.strictEqual(E.format(14, 6, 0), '-98%'); assert.strictEqual(E.format(14, 6, 49), '0%');
 assert.strictEqual(E.format(24, 2, 0), '5 ms'); assert.strictEqual(E.format(24, 2, 99), '500 ms', 'GATE-REVERB Gate Time');
 
 // jvfx.js: labels, value text and raw values per dial
