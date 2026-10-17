@@ -5,6 +5,15 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **LFO page** per tone (button **LFO** below the Tone tabs): LFO 1 and LFO 2 (wave, rate, delay, fade, offset, key
+  trigger, sync) and their depths for pitch, filter, amp and pan, with a preview of each LFO's shape. 96 new automatable parameters, named
+  `T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, … Read back by **Get**. (#8)
+
+### Upgrading
+- Sets saved with an older version have no LFO values yet, so the device starts with LFO depths at 0 and, with
+  *Send on load* on, sends that to the JV. To keep a patch's LFOs, click **Get** once and save the set.
+
 ## [0.4.0] - 2026-10-17
 
 ### Added

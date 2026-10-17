@@ -20,7 +20,7 @@ import maxjson
 
 ROOT = Path(__file__).resolve().parent.parent
 DEVICE = ROOT / "device"
-SECTIONS = {"JV_Wave": "WG", "JV_Pitch": "Pitch", "JV_Filter": "TVF", "JV_VCA": "VCA"}
+SECTIONS = {"JV_Wave": "WG", "JV_Pitch": "Pitch", "JV_Filter": "TVF", "JV_VCA": "VCA", "JV_LFO": "LFO"}
 UI = {"live.dial", "live.numbox", "live.slider", "live.menu", "live.toggle", "live.tab", "live.text"}
 SX_ABSTRACTION = re.compile(r"^js jvparam\.js 3 0 -1 (\d+)( 2)?$")
 SX_FIXED = re.compile(r"^js jvparam\.js 3 0 (\d+) (\d+)$")
