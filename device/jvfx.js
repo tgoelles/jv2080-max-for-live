@@ -23,10 +23,10 @@ function msg_int(t) {
 		return;
 	}
 	type = t;
-	var ps = JV2080_EFX.TYPES[t][1];
+	var names = JV2080_EFX.labels(t);
 	for (var i = 0; i < 12; i++) {
-		var used = i < ps.length;
-		outlet(i, "_parameter_shortname", used ? ps[i][0] : "-");
+		var used = names[i] !== "-";
+		outlet(i, "_parameter_shortname", names[i]);
 		outlet(i, "active", used ? 1 : 0);
 		show(i);
 		outlet(24 + i, JV2080_EFX.toRaw(type, i, dials[i]));   // the new type's parameters follow the dials

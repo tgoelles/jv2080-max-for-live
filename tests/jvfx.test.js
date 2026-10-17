@@ -20,10 +20,19 @@ E.TYPES.forEach(([name, ps], i) => {
 		assert.ok(E.KINDS[kind], `${name} ${label}: unknown kind ${kind}`);
 	});
 });
+// every parameter with undocumented steps is one of the known raw kinds
+E.TYPES.forEach(([name, ps], i) => ps.forEach(([label, kind]) => {
+	if (kind === 'raw') assert.ok(E.RAW_KINDS[E.rawKind(i, label)], `${i + 1} ${name} ${label}: which raw kind?`);
+}));
 // measured on a JV-2080: Stereo-EQ Low Freq 400 Hz = raw 1, Low Gain +15 dB = raw 30
 assert.strictEqual(E.format(0, 0, 1), '400 Hz');
 // STEREO-EQ wire order (measured): Low Freq, Low Gain, High Freq, High Gain, P1 Freq, P1 Q, P1 Gain, P2 Freq, P2 Q, P2 Gain, Level
-assert.deepStrictEqual(E.TYPES[0][1].map(x => x[0]).join(','), 'Low Freq,Low Gain,High Freq,High Gain,P1 Freq,P1 Q,P1 Gain,P2 Freq,P2 Q,P2 Gain,Level');
+assert.strictEqual(E.labels(0).join(','), 'Low Freq,Low Gain,High Freq,High Gain,P1 Freq,P1 Q,P1 Gain,P2 Freq,P2 Q,P2 Gain,Level,-');
+// 2VOICE-PITCH-SHIFTER (measured): the JV pairs A and B
+assert.strictEqual(E.labels(21).join(','), 'Mode,Coarse A,Coarse B,Fine A,Fine B,PreDly A,PreDly B,Pan A,Pan B,Lvl Bal,Balance,Level');
+assert.strictEqual(E.format(21, 3, 100), '+100 cent'); assert.strictEqual(E.format(21, 3, 50), '0 cent');
+assert.strictEqual(E.format(21, 10, 30), 'D70:30W'); assert.strictEqual(E.format(21, 9, 100), 'A0:100B');
+assert.strictEqual(E.maxRaw(21, 5), 126, 'pre delay 0-500 ms: 127 steps, max measured');
 assert.strictEqual(E.format(0, 1, 30), '+15 dB');
 assert.strictEqual(E.format(0, 1, 15), '0 dB');
 assert.strictEqual(E.format(0, 1, 0), '-15 dB');
@@ -35,7 +44,7 @@ for (let ty = 0; ty < 40; ty++) for (let s = 0; s < 12; s++) {
 }
 assert.strictEqual(E.format(1, 4, 0), 'L64'); assert.strictEqual(E.format(1, 4, 64), '0'); assert.strictEqual(E.format(1, 4, 127), '63R');
 assert.strictEqual(E.format(16, 6, 17), 'BYPASS'); assert.strictEqual(E.format(16, 6, 7), '1000 Hz');
-assert.strictEqual(E.format(21, 0, 36), '+12 st');
+assert.strictEqual(E.format(21, 1, 36), '+12 st');
 assert.strictEqual(E.format(3, 1, 80), '(80)', 'undocumented steps shown raw');
 
 // jvfx.js: labels, value text and raw values per dial
