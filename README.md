@@ -50,7 +50,8 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
-   patches on the **JV's own panel**, turn on **Setup → Follow JV patch changes**.
+   patches on the **JV's own panel**, keep **Setup → Follow JV patch changes** on (default). Edits made on the JV's
+   panel, such as turning Cutoff, also show up in the device live.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
 
@@ -58,6 +59,9 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 
 Open **Setup** and pick the board installed in each slot (A–H). SYSTEM → Info on the JV shows them. The Wave group menu then
 lists INT-A, INT-B and your boards with their slot, e.g. **XP-A Techno**. The setup is saved with the Live set.
+
+The **bank menu** in the program block works the same way: it adds **XP-A1** (patches 1–128) and **XP-A2**
+(129–255) for every slot with a board, so you can select the board's own patches.
 
 Internally a wave group is stored by SR-JV80 board number, the same way the JV stores it in a patch. So automation and saved
 sets keep working if you move a board to another slot. A patch that uses a board you haven't set up shows as

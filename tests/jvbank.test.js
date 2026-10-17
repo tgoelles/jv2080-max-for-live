@@ -1,0 +1,69 @@
+// Run: node tests/jvbank.test.js  (mocks the Max js globals)
+const fs = require("fs"), vm = require("vm"), path = require("path"), assert = require("assert");
+let out = [];
+const posts = [];
+const ctx = { post: m => posts.push(m), inlet: 0, outlet: (n, ...a) => out.push([n, ...(Array.isArray(a[0]) ? a[0] : a)]),
+	setinletassist() {}, setoutletassist() {}, arrayfromargs: a => Array.from(a) };
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(path.join(__dirname, "../device/jvbank.js"), "utf8"), ctx);
+const menu = () => { const r = out.filter(o => o[0] === 0 && o[1] === "_parameter_range").pop(); return r ? r.slice(2) : null; };
+const shown = () => out.filter(o => o[0] === 0 && o[1] === "set").map(o => o[2]).pop();
+const midi = () => out.filter(o => o[0] === 2).map(o => o[1]);
+const stored = () => out.filter(o => o[0] === 1).map(o => o.slice(1));
+const bank = v => { ctx.inlet = 0; ctx.msg_int(v); };
+const pick = i => { ctx.inlet = 1; ctx.msg_int(i); };
+
+ctx.loadbang();
+assert.deepStrictEqual(menu(), ["USER", "PR-A", "PR-B", "PR-C", "PR-GM", "PR-E", "CARD"], "no boards: fixed banks only");
+
+// stored PR-B (as from a saved set): bank select 81/1, then the program change
+out = []; bank(2);
+assert.deepStrictEqual(midi(), [0xB0, 0, 81, 0xB0, 32, 1]);
+assert.ok(out.some(o => o[0] === 3 && o[1] === "bang"), "program number re-sent after the bank select");
+assert.strictEqual(shown(), 2);
+
+// Techno in slot A: XP-A1 / XP-A2 appear
+out = []; ctx.boards(11, 0, 0, 0, 0, 0, 0, 0);
+assert.deepStrictEqual(menu(), ["USER", "PR-A", "PR-B", "PR-C", "PR-GM", "PR-E", "CARD", "XP-A1", "XP-A2"]);
+
+// picking "XP-A2" in the visible menu sets the stored bank (index 8); it echoes back and sends 84/1
+out = []; pick(8);
+assert.deepStrictEqual(stored(), [[8]]);
+out = []; bank(8);
+assert.deepStrictEqual(midi(), [0xB0, 0, 84, 0xB0, 32, 1]);
+
+// slot H, second half = LSB 15
+out = []; bank(22);
+assert.deepStrictEqual(midi(), [0xB0, 0, 84, 0xB0, 32, 15]);
+assert.ok(menu().includes("XP-H2 (not set up)"), "a stored bank without a board stays selectable");
+
+// following the JV: CC 0 = 81, CC 32 = 4 -> PR-E, set silently (nothing sent)
+out = []; ctx.msb(81); ctx.lsb(4);
+assert.deepStrictEqual(stored(), [["set", 5]]);
+assert.deepStrictEqual(midi(), []);
+// following onto XP-A1 from the JV
+out = []; ctx.msb(84); ctx.lsb(0);
+assert.deepStrictEqual(stored(), [["set", 7]]);
+assert.strictEqual(shown(), 7, "visible menu shows XP-A1");
+
+// the JV-2080 reports a patch picked on its panel (captured on hardware)
+const prog = () => out.filter(o => o[0] === 4).map(o => o.slice(1)).pop();
+const reads = () => out.filter(o => o[0] === 5).length;
+out = []; ctx.jvpatch(0, 3, 0);                     // PR-A 001
+assert.deepStrictEqual(stored(), [["set", 1]]); assert.deepStrictEqual(prog(), ["set", 1]); assert.strictEqual(reads(), 1);
+assert.deepStrictEqual(midi(), [], "nothing sent back to the JV");
+out = []; ctx.jvpatch(0, 7, 0);                     // PR-E 001
+assert.deepStrictEqual(stored(), [["set", 5]]);
+out = []; ctx.jvpatch(0, 1, 0x13);                  // USER 020
+assert.deepStrictEqual(stored(), [["set", 0]]); assert.deepStrictEqual(prog(), ["set", 20]);
+out = []; ctx.jvpatch(2, 11, 1);                    // Techno (SR-JV80-11, slot A) patch 2
+assert.deepStrictEqual(stored(), [["set", 7]]); assert.deepStrictEqual(prog(), ["set", 2]);
+out = []; ctx.jvpatch(2, 11, 200);                  // Techno patch 201 -> XP-A2, program 73
+assert.deepStrictEqual(stored(), [["set", 8]]); assert.deepStrictEqual(prog(), ["set", 73]);
+out = []; ctx.jvpatch(2, 5, 0);                     // a board that isn't set up: still read, bank unchanged
+assert.deepStrictEqual(stored(), []); assert.strictEqual(reads(), 1); assert.ok(posts.pop().includes("SR-05"));
+ctx.follow(0); out = []; ctx.jvpatch(0, 3, 0);
+assert.deepStrictEqual(out, [], "not following when switched off");
+ctx.follow(1);
+
+console.log("jvbank: all tests passed");

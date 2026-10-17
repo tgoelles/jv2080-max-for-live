@@ -85,4 +85,17 @@ assert.strictEqual(requests(), 2);
 assert.ok(posts[0].includes("no reply"));
 run();
 
+// the JV-2080's "patch picked on the panel" message (captured: Techno patch 2)
+out.length = 0;
+feed(hex("F0 41 10 6A 12 00 00 00 02 02 0B 00 01 70 F7"));
+assert.deepStrictEqual(out, [[3, "jvpatch", 2, 11, 1]]);
+feed(hex("F0 41 10 6A 12 00 00 00 02 00 01 01 03 79 F7"));
+assert.deepStrictEqual(out[1], [3, "jvpatch", 0, 1, 0x13], "USER 020");
+
+// panel edits are broadcast live (captured: turning Tone 1 Cutoff on the JV) and land on the control, muted
+out.length = 0;
+for (const v of ["10 0C", "11 0B", "12 0A", "13 09", "0F 0D"]) feed(hex("F0 41 10 6A 12 03 00 10 51 " + v + " F7"));
+assert.strictEqual(set["TVF_1/live.dial"], 0x0F, "Tone 1 cutoff follows the JV's knob");
+assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0, 1, 0, 1, 0, 1, 0, 1, 0], "muted around each update");
+
 console.log("jvreceive: all tests passed");
