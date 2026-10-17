@@ -580,7 +580,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 108.0, 283.0, 140.0, 22.0 ],
-					"text" : "js jvparam.js 3 0 -1 3",
+					"text" : "js jvparam.js 3 0 -1 3 2",
 					"saved_object_attributes" : 					{
 						"filename" : "jvparam.js",
 						"parameter_enable" : 0

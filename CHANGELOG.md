@@ -15,6 +15,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
   track's MIDI From to include the JV, e.g. All Ins. (#6)
 
 ### Changed
+- The frozen device is small again: the parameter senders no longer include the shared library, which freezing
+  had copied into each of the ~80 senders (9.5 MB).
 - **Program block** top left: bank and program, the **patch name** in its own field, and **Send** / **Get** text
   buttons that replace the unlabeled "push" and "get" dots. The "Tone Switch" label is gone; the tone switches
   moved down.
