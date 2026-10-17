@@ -41,6 +41,11 @@ directions must be wired, or **Get** silently does nothing.
 > hardware port. Editing still works, but nothing from the JV reaches the device, so **Get** never loads anything.
 > MIDI From must be the hardware port or All Ins. All Ins also keeps your keyboard working on this track.
 
+> **Avoid MIDI loops:** only the JV 2080 Control track should both **receive from** and **send to** the JV. Any other
+> track with MIDI From = the JV's port (or All Ins), Monitor In **and** MIDI To = the JV's port echoes everything the JV
+> sends straight back to it. The JV then writes its own patch data into the edit buffer and shows the patch as edited
+> (**\***), and every read-back doubles the traffic.
+
 To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows whether data from the JV arrives.
 
 ## Setup
