@@ -57,6 +57,7 @@ XP-50/80. These share model ID `0x6A`.
 - Values with a "#" in the address map, such as the wave number, are split into 4-bit nibbles, high nibble first.
 - Wave group (tone `0x01` type, `0x02` id): INT-A/B = type 0, id 1/2; expansion = type 2 (EXP), id = SR-JV80 board number (confirmed on hardware with SR-JV80-11 in slot A). The encoding is the two `expr`s after the hidden `live.menu` in `JV_Wave.maxpat`.
 - The visible Wave group control is a `live.menu` set to a **Hidden** parameter (`parameter_invisible 2`: not stored, not automatable) whose list `jv_wavegroup.js` sets with `_parameter_range`, filled `jv_wavegroup.js` from the Setup page's slot menus (`s/r ---boards`). The stored, automatable parameter stays the hidden 21-entry `live.menu`. Never make a *stored* parameter's list depend on settings, because stored values would change meaning. A `live.menu` with `parameter_enable 0` has no item list ("there's no enum"), so use a Hidden parameter for runtime-built menus.
+- Values in `< >` in the address map (p.188 note) are JV-1080/XP-80 only and **ignored by the JV-2080**, e.g. System `0x28`/`0x29` Transmit Program Change/Bank Select. Check for `< >` before relying on a parameter. The JV-2080 equivalent of those is `0x2A` Patch Transmit Channel (0–15 = ch 1–16, 16 = RX-CH, 17 = OFF).
 - Bank select MSB/LSB for the JV-2080 is on p.184. The JV-1080 bank list is different.
 
 ## Testing copies

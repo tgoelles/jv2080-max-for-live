@@ -24,6 +24,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)
 
 ### Fixed
+- **Follow JV patch changes** did nothing on a JV-2080: it wrote *Transmit Program Change / Bank Select*
+  (System `0x28`/`0x29`), which the JV-2080 ignores (JV-1080/XP only, manual p.188). Turning it on now also sets the
+  JV-2080's **Patch Transmit Channel** (`0x2A`) to RX-CH. Turning it off leaves the JV's setting alone.
 - The bank section's leftovers are removed: a hidden patcher that built the bank select, three automatable
   "Bank MSB / Bank LSB / Program" dials inside it, debug number boxes, and a `ctlout` that sent the bank menu's index
   as a controller value. One script now sends the correct CC 0 / CC 32 before the program change.
