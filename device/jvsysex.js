@@ -1,0 +1,245 @@
+// Roland JV-2080 SysEx: build DT1/RQ1 messages and parse DT1 replies into named parameters.
+// Pure functions, ES5, no Max objects: usable from a Max js object (after include("jv2080_params.js")
+// and include("jvsysex.js")) and from Node tests (require).
+//
+// Addresses are 4 bytes of 7 bits each (manual p.188): adding 1 to 03 00 10 7F gives 03 00 11 00.
+
+var JVSysEx = (function () {
+	var P = (typeof JV2080 !== "undefined") ? JV2080 : require("./jv2080_params.js");
+
+	var ROLAND = 0x41;
+	var RQ1 = 0x11;
+	var DT1 = 0x12;
+
+	// Roland checksum over address + data (or address + size): the low 7 bits of the sum plus the
+	// checksum must be 0. The outer % 128 turns 128 into 0.
+	function checksum(bytes) {
+		var sum = 0;
+		for (var i = 0; i < bytes.length; i++) {
+			sum += bytes[i];
+		}
+		return (128 - (sum % 128)) % 128;
+	}
+
+	function toNumber(addr) {
+		return ((addr[0] * 128 + addr[1]) * 128 + addr[2]) * 128 + addr[3];
+	}
+
+	function toAddress(n) {
+		return [(n >> 21) & 0x7F, (n >> 14) & 0x7F, (n >> 7) & 0x7F, n & 0x7F];
+	}
+
+	function addOffset(addr, offset) {
+		return toAddress(toNumber(addr) + offset);
+	}
+
+	// dev is the byte on the wire (device ID 17 -> 0x10)
+	function dt1(dev, addr, data) {
+		var body = addr.concat(data);
+		return [0xF0, ROLAND, dev, P.modelId, DT1].concat(body, [checksum(body), 0xF7]);
+	}
+
+	function rq1(dev, addr, size) {
+		var body = addr.concat(toAddress(size));
+		return [0xF0, ROLAND, dev, P.modelId, RQ1].concat(body, [checksum(body), 0xF7]);
+	}
+
+	// Patch temporary area (Patch mode): block "common" or "tone" (tone 1-4)
+	function patchAddress(block, tone) {
+		return block === "tone" ? P.blocks.tone.temp[tone - 1].slice() : P.blocks.common.temp.slice();
+	}
+
+	// Request the whole temporary patch: common + 4 tones
+	function requestPatch(dev) {
+		var out = [rq1(dev, patchAddress("common"), P.blocks.common.size)];
+		for (var t = 1; t <= 4; t++) {
+			out.push(rq1(dev, patchAddress("tone", t), P.blocks.tone.size));
+		}
+		return out;
+	}
+
+	// Raw value of one parameter as DT1 data bytes (nibble-split where the table says "bytes": 2)
+	function encodeValue(param, raw) {
+		raw = Math.max(param.min, Math.min(param.max, Math.round(raw)));
+		return param.bytes === 2 ? [(raw >> 4) & 0x0F, raw & 0x0F] : [raw];
+	}
+
+	function setParam(dev, block, tone, id, raw) {
+		var param = find(block, id);
+		return dt1(dev, addOffset(patchAddress(block, tone), param.off), encodeValue(param, raw));
+	}
+
+	function find(block, id) {
+		var list = P[block];
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].id === id) {
+				return list[i];
+			}
+		}
+		throw new Error("unknown " + block + " parameter " + id);
+	}
+
+	// Parse one complete SysEx message. Returns null for anything that isn't a Roland 0x6A DT1/RQ1.
+	function parse(m) {
+		if (m.length < 11 || m[0] !== 0xF0 || m[1] !== ROLAND || m[3] !== P.modelId || m[m.length - 1] !== 0xF7) {
+			return null;
+		}
+		if (m[4] !== DT1 && m[4] !== RQ1) {
+			return null;
+		}
+		var body = m.slice(5, m.length - 2);
+		return {
+			command: m[4] === DT1 ? "DT1" : "RQ1",
+			dev: m[2],
+			addr: body.slice(0, 4),
+			data: body.slice(4),
+			valid: checksum(body) === m[m.length - 2]
+		};
+	}
+
+	// Where does an address point? Patch blocks: a1 a2 = which patch (03 00 temporary, 11 nn USER),
+	// a3 = 00 common or 10/12/14/16 tone 1-4 (with 11/13/15/17 for the carried part of a tone).
+	function locate(addr) {
+		var base = toNumber([addr[0], addr[1], 0, 0]);
+		var rel = toNumber(addr) - base;
+		if (rel < P.blocks.common.size) {
+			return { patch: addr.slice(0, 2), block: "common", tone: null, index: rel };
+		}
+		for (var t = 1; t <= 4; t++) {
+			var start = toNumber([0, 0, 0x10 + 2 * (t - 1), 0]);
+			if (rel >= start && rel < start + P.blocks.tone.size) {
+				return { patch: addr.slice(0, 2), block: "tone", tone: t, index: rel - start };
+			}
+		}
+		return null;
+	}
+
+	// Decode a DT1 into parameter values. Works for full blocks and for partial writes; a two-byte
+	// parameter is only reported when both bytes are present.
+	function decode(msg) {
+		var out = [];
+		if (!msg || msg.command !== "DT1") {
+			return out;
+		}
+		var where = locate(msg.addr);
+		if (!where) {
+			return out;
+		}
+		var list = P[where.block];
+		for (var i = 0; i < list.length; i++) {
+			var param = list[i];
+			var start = param.off - where.index;
+			var n = param.bytes || 1;
+			if (start < 0 || start + n > msg.data.length) {
+				continue;
+			}
+			var raw = n === 2 ? (msg.data[start] << 4) | msg.data[start + 1] : msg.data[start];
+			out.push({ block: where.block, tone: where.tone, id: param.id, raw: raw });
+		}
+		return out;
+	}
+
+	// How the JV shows a raw value: number or text
+	function display(block, id, raw) {
+		var d = find(block, id).display;
+		if (!d) {
+			return raw;
+		}
+		if (d.enum) {
+			var e = P.enums[d.enum];
+			return raw < e.length ? e[raw] : raw;
+		}
+		if (d.char) {
+			return String.fromCharCode(raw);
+		}
+		if (d.note) {
+			var names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+			return names[raw % 12] + (Math.floor(raw / 12) - 1);
+		}
+		return raw * (d.mul === undefined ? 1 : d.mul) + (d.add || 0);
+	}
+
+	// Patch name from decoded common values
+	function patchName(values) {
+		var chars = [];
+		for (var i = 1; i <= 12; i++) {
+			for (var j = 0; j < values.length; j++) {
+				if (values[j].id === "name_" + i) {
+					chars.push(String.fromCharCode(values[j].raw));
+				}
+			}
+		}
+		return chars.join("");
+	}
+
+	// --- device controls (see jv2080_bindings.js) ---------------------------------------------
+
+	// control value -> raw JV value, applying the binding's ops in order
+	function fromControl(binding, value) {
+		var x = Math.round(value);
+		for (var i = 0; i < binding.ops.length; i++) {
+			var op = binding.ops[i];
+			if (op[0] === "add") {
+				x += op[1];
+			} else if (op[0] === "div") {
+				x = Math.floor(x / op[1]);
+			}
+		}
+		return x;
+	}
+
+	// raw JV value -> control value: the ops undone in reverse order. "div" is undone by multiplying,
+	// which picks the lowest control value that sends this raw value (e.g. velocity sens in steps of 2).
+	function toControl(binding, raw) {
+		var x = raw;
+		for (var i = binding.ops.length - 1; i >= 0; i--) {
+			var op = binding.ops[i];
+			if (op[0] === "add") {
+				x -= op[1];
+			} else if (op[0] === "div") {
+				x *= op[1];
+			}
+		}
+		return Math.max(binding.range[0], Math.min(binding.range[1], x));
+	}
+
+	// The Wave group menu: 0 INT-A, 1 INT-B, 2..20 = SR-JV80 board 1..19 (type 0 = INT, 2 = EXP)
+	function waveGroupToMenu(type, id) {
+		if (type === 2) {
+			return id >= 1 && id <= 19 ? id + 1 : null;
+		}
+		return type === 0 && (id === 1 || id === 2) ? id - 1 : null;
+	}
+
+	function waveGroupFromMenu(index) {
+		return index > 1 ? { type: 2, id: index - 1 } : { type: 0, id: index + 1 };
+	}
+
+	return {
+		fromControl: fromControl,
+		toControl: toControl,
+		waveGroupToMenu: waveGroupToMenu,
+		waveGroupFromMenu: waveGroupFromMenu,
+		checksum: checksum,
+		addOffset: addOffset,
+		toAddress: toAddress,
+		toNumber: toNumber,
+		dt1: dt1,
+		rq1: rq1,
+		patchAddress: patchAddress,
+		requestPatch: requestPatch,
+		encodeValue: encodeValue,
+		setParam: setParam,
+		find: find,
+		parse: parse,
+		locate: locate,
+		decode: decode,
+		display: display,
+		patchName: patchName,
+		params: P
+	};
+})();
+
+if (typeof module !== "undefined") {
+	module.exports = JVSysEx;
+}

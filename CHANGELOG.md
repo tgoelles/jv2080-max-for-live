@@ -5,6 +5,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Filter **vel sens** could be set to 126 and 127, which the JV doesn't accept (its range is 0–125). Found by checking every
+  control's range against the manual's address map. (#7)
+
 ## [0.2.0] - 2026-10-16
 
 ### Added

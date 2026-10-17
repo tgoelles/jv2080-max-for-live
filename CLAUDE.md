@@ -11,12 +11,16 @@ XP-50/80. These share model ID `0x6A`.
 - `device/JV_*.maxpat`: abstractions loaded as bpatchers: `JV_Wave`, `JV_Pitch`, `JV_Filter`, `JV_VCA`.
   Each runs once per tone. The tone's address byte (`16/18/20/22` = `0x10/0x12/0x14/0x16`) comes in on inlet 2.
 - `device/jv_sysex_queue.js`: a Max `js` object (ES5) in front of the main `midiout`. **All SysEx must go through it**: wire it to inlet 1, or use `s ---sysex` inside subpatchers. It sends one message every 10 ms and merges queued messages for the same address. Without it, the JV reports "MIDI buffer full".
+- `device/jv2080_params.js`: the JV-2080 **parameter address map** (patch common + tone, manual pp.189–190): offset, range, nibble size, display rule (`add`/`mul`/`enum`/`char`/`note`) and the value lists. This is the single source of truth for addresses and ranges. Transcribed by hand; tests check that it covers every byte once.
+- `device/jvsysex.js`: pure ES5 library (Max `include()` or Node `require`) for building DT1/RQ1 (7-bit addressing, checksums), parsing replies into named parameters (`parse` → `decode`), display values, and converting between control values and raw values for a binding (`fromControl`/`toControl`, wave group menu helpers).
+- `device/jv2080_bindings.js`: **generated** by `tools/bindings.py`. For every control in the patches it records which parameter it sends, the bpatcher path (`Pitch_{n}`, `TVF_{n}`, `WG_{n}`, `VCA_{n}`, `ToneMix`), the control's varname and the math between control and raw value. Regenerate after patch edits; `--check` fails if it's stale. The tracer also flags controls whose range exceeds the JV's.
 - `device/jv_wavegroup.js`: builds each tone's short Wave group menu from the expansion board setup.
 - `diagnostics/JV SysEx Monitor.amxd`: a standalone diagnostic device that receives SysEx (sysexin + midiin) and sends RQ1 test requests. It proved that Live 12 delivers SysEx to Max for Live, and that one track can send and receive (#6).
 - `tests/fixtures/`: real JV dumps for parser tests.
 - `tests/`: Node tests that mock the Max `js` globals. Run them with `node tests/<file>.test.js`.
 - `tools/maxjson.py`: loads and saves patchers in Max's exact formatting, so a file that is loaded and saved unchanged stays byte-identical. Use it for structural edits rather than splicing text.
 - `tools/validate.py`: checks that patch lines point at existing boxes and valid inlets/outlets, and that parameter long names are unique. Run it after every patch edit. When adding boxes, derive new ids from the patcher's current maximum; never hard-code them.
+- `tools/check.sh`: runs every offline check (validate, bindings `--check`, all Node tests). CI runs it on every PR (`.github/workflows/check.yml`).
 - `tools/amxd.py`: `unfreeze` splits a frozen device into source files. `textconv` prints the JSON for git diffs.
 - `docs/JV-2080_OM.pdf`: Roland owner's manual. It is gitignored; download it from
   https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf. It is a scan with no text layer, so read the pages as images.
