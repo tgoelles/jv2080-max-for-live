@@ -140,17 +140,85 @@ function receive(bytes) {
 	answered(msg.addr);
 }
 
-// A single EFX parameter edited on the JV's panel: say which slot it is, to check the order in jv2080_efx.js
-// against the hardware (#8). Full reads (Get) carry many values and are not logged.
+// EFX survey (#8, temporary, removed before merging): a single EFX parameter edited on the JV's panel is
+// recorded per EFX type: the order in which the slots are first touched, and the lowest and highest raw value
+// seen. Walk the JV's EFX Param page top to bottom, turning each parameter to its minimum and maximum, and the
+// survey has the type's wire order and ranges. It's kept in efx_survey.json next to the device, read at load so
+// the survey can continue over several sessions. Full reads (Get) carry many values and are not recorded.
+var survey = null;
+var surveyAnnounced = false;
+
 function logEfx(values) {
 	if (values.length !== 1 || !/^efx_param_\d+$/.test(values[0].id)) {
 		return;
 	}
 	var slot = parseInt(values[0].id.slice(10), 10);
 	var type = currentEfxType();
-	var ps = JV2080_EFX.TYPES[type] ? JV2080_EFX.TYPES[type][1] : [];
-	post("jvreceive: EFX " + (type + 1) + " parameter " + slot + " = " + values[0].raw +
-		" (device label: " + (ps[slot - 1] ? ps[slot - 1][0] : "-") + ")\n");
+	var s = record(loadSurvey(), type, slot, values[0].raw);
+	saveSurvey();
+	post("jvreceive: EFX " + (type + 1) + " " + JV2080_EFX.TYPES[type][0] + ": slot " + slot + " = " + values[0].raw +
+		" (range so far " + s.min[slot] + "-" + s.max[slot] + "; slots in order touched: " + s.order.join(" ") + ")\n");
+}
+
+// survey[type 1-40] = { name, order: [slots in first-touched order], min: {slot: raw}, max: {slot: raw} }
+function record(data, type, slot, raw) {
+	var key = String(type + 1);
+	var s = data[key] || (data[key] = { name: JV2080_EFX.TYPES[type][0], order: [], min: {}, max: {} });
+	if (s.order.indexOf(slot) < 0) {
+		s.order.push(slot);
+	}
+	s.min[slot] = s.min[slot] === undefined ? raw : Math.min(s.min[slot], raw);
+	s.max[slot] = s.max[slot] === undefined ? raw : Math.max(s.max[slot], raw);
+	return s;
+}
+
+function surveyPath() {
+	var p = jsthis.patcher.filepath;
+	return p ? p.slice(0, p.lastIndexOf("/") + 1) + "efx_survey.json" : null;
+}
+
+function loadSurvey() {
+	if (survey) {
+		return survey;
+	}
+	survey = {};
+	var path = typeof File !== "undefined" ? surveyPath() : null;
+	if (!path) {
+		return survey;
+	}
+	var f = new File(path, "read");
+	if (f.isopen) {
+		var text = "";
+		while (f.position < f.eof) {
+			text += f.readstring(Math.min(16384, f.eof - f.position));
+		}
+		f.close();
+		try {
+			survey = JSON.parse(text) || {};
+		} catch (e) {
+			post("jvreceive: efx_survey.json unreadable, starting a new survey\n");
+		}
+	}
+	return survey;
+}
+
+function saveSurvey() {
+	var path = typeof File !== "undefined" ? surveyPath() : null;
+	if (!path) {
+		return;
+	}
+	var f = new File(path, "write", "TEXT");
+	if (!surveyAnnounced) {
+		surveyAnnounced = true;
+		post("jvreceive: EFX survey file: " + path + "\n");
+	}
+	if (f.isopen) {
+		f.eof = 0;
+		f.writestring(JSON.stringify(survey, null, 1));
+		f.close();
+	} else {
+		post("jvreceive: can't write " + path + "\n");
+	}
 }
 
 function switches(start, data) {

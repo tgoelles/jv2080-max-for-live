@@ -112,7 +112,11 @@ feed(dt1([3, 0, 0, 0x0C], [0]));            // EFX type 1 STEREO-EQ
 feed(dt1([3, 0, 0, 0x0E], [30]));           // EFX Parameter 2 (Low Gain) = +15 dB
 assert.strictEqual(set["FX/EFXType"], 0);
 assert.strictEqual(set["FX/EFXParam2"], 127, "+15 dB is the top of the dial");
-assert.strictEqual(posts.pop(), "jvreceive: EFX 1 parameter 2 = 30 (device label: Low Gain)", "panel edits of EFX parameters are logged");
+assert.ok(posts.pop().startsWith("jvreceive: EFX 1 STEREO-EQ: slot 2 = 30"), "panel edits of EFX parameters are logged");
+// the survey records first-touched order and the range per slot
+const sv = {};
+ctx.record(sv, 1, 3, 0); ctx.record(sv, 1, 1, 5); ctx.record(sv, 1, 3, 120); ctx.record(sv, 1, 1, 2);
+assert.deepStrictEqual(JSON.parse(JSON.stringify(sv["2"])), { name: "OVERDRIVE", order: [3, 1], min: { 1: 2, 3: 0 }, max: { 1: 5, 3: 120 } });
 feed(dt1([3, 0, 0, 0x0C], [16, 64]));       // type 17 STEREO-DELAY and its parameter 1 in one message
 assert.strictEqual(set["FX/EFXParam1"], 64, "raw parameter (undocumented steps) passes through");
 
