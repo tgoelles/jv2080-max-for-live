@@ -6,6 +6,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Expansion board patches**: the bank menu lists **XP-A1 / XP-A2** (patches 1–128 / 129–255) for every slot set up
+  on the Setup page, plus **CARD**. With *Follow JV patch changes*, the bank now follows the JV too.
 - **Read-back from the JV**: **get** loads the JV's current patch into the device, with every control on all four tones
   and the patch name. After a program change it happens automatically (Setup → *Get on program change*). Needs the
   track's MIDI From to include the JV, e.g. All Ins. (#6)
@@ -22,6 +24,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)
 
 ### Fixed
+- The bank section's leftovers are removed: a hidden patcher that built the bank select, three automatable
+  "Bank MSB / Bank LSB / Program" dials inside it, debug number boxes, and a `ctlout` that sent the bank menu's index
+  as a controller value. One script now sends the correct CC 0 / CC 32 before the program change.
 - Incoming MIDI was passed through twice (a second passthrough hidden in the bank section), and incoming SysEx was
   echoed back to the JV. Now everything passes once, and SysEx from the JV is never echoed. (#6)
 - When a set loaded, the tone sections could send their restored values before knowing which tone they belong to,

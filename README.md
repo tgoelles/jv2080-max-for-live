@@ -59,6 +59,9 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 Open **Setup** and pick the board installed in each slot (A–H). SYSTEM → Info on the JV shows them. The Wave group menu then
 lists INT-A, INT-B and your boards with their slot, e.g. **XP-A Techno**. The setup is saved with the Live set.
 
+The **bank menu** in the program block works the same way: it adds **XP-A1** (patches 1–128) and **XP-A2**
+(129–255) for every slot with a board, so you can select the board's own patches.
+
 Internally a wave group is stored by SR-JV80 board number, the same way the JV stores it in a patch. So automation and saved
 sets keep working if you move a board to another slot. A patch that uses a board you haven't set up shows as
 "SR-nn (not set up)".
