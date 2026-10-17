@@ -11,6 +11,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   track's MIDI From to include the JV, e.g. All Ins. (#6)
 
 ### Changed
+- The unlabeled square next to the program number is now **Setup → Follow JV patch changes**. It switches the JV's
+  *Transmit Program Change / Bank Select*: when on, picking a patch on the JV's panel sends a program change, and with
+  *Get on program change* the device loads that patch. Default off; earlier sets don't carry their old setting over.
 - All parameter messages are now built by one tested library (`jvparam.js` / `jvsysex.js`) instead of 78 separate
   `sxformat` objects. Same messages on the wire; values are clamped to the JV's documented ranges. This also removes
   the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)

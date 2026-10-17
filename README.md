@@ -48,7 +48,8 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **get** (left column) to load the JV's current patch into the device, including its name. After a program change
-   this happens automatically. You can turn that off on the **Setup** page.
+   this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
+   patches on the **JV's own panel**, turn on **Setup → Follow JV patch changes**.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **push** (left column). You can turn off sending on load on the **Setup** page.
 
