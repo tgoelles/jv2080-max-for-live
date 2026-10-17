@@ -60,6 +60,27 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
 
+## Global controls (cutoff, resonance, attack, release)
+
+The JV-2080 has built-in controllers that shift a parameter on **all four tones at once**, relative to the patch
+(manual p.185). They're plain MIDI CCs, so you don't need this device for them. Use them from Live directly:
+
+| CC | Effect |
+|---|---|
+| 74 | Filter cutoff, all tones |
+| 71 | Resonance, all tones |
+| 73 | Envelope attack (Time 1 of filter and amp envelopes) |
+| 72 | Envelope decay/release (Times 2–4 of filter and amp envelopes) |
+| 80 / 81 / 82 / 83 | Amp envelope levels of Tone 1 / 2 / 3 / 4 |
+
+Value 64 means "as stored in the patch". Lower or higher values shift down or up.
+
+- **Knobs:** add Live's **CC Control** device (Max for Live, MIDI tools, Live Suite) next to JV 2080 Control on the same
+  track, and set its knobs to the CCs above. They're automatable and mappable to a controller.
+- **Automation:** in a MIDI clip, draw an envelope for *MIDI Ctrl → 74* (etc.).
+- The JV must receive control changes (*Rx Control Change* on) on the channel you send. These offsets aren't stored in the
+  patch, and **Get** doesn't see them.
+
 ## Expansion boards
 
 Open **Setup** and pick the board installed in each slot (A–H). SYSTEM → Info on the JV shows them. The Wave group menu then
