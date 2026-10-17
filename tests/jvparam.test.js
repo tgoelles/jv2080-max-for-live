@@ -1,4 +1,4 @@
-// Run: node tests/jvparam.test.js  (mocks the Max js globals, include() loads the real files)
+// Run: node tests/jvparam.test.js  (mocks the Max js globals)
 const fs = require("fs"), vm = require("vm"), path = require("path"), assert = require("assert");
 const dir = path.join(__dirname, "../device");
 
@@ -7,7 +7,7 @@ function sender(...args) {
 	const ctx = { inlet: 0, jsarguments: ["jvparam.js", ...args], outlet: (n, b) => out.push(b),
 		setinletassist() {}, setoutletassist() {} };
 	vm.createContext(ctx);
-	ctx.include = f => vm.runInContext(fs.readFileSync(path.join(dir, f), "utf8"), ctx);
+	ctx.include = f => { throw new Error("jvparam.js must not include " + f + " (freezing would copy it into every sender)"); };
 	vm.runInContext(fs.readFileSync(path.join(dir, "jvparam.js"), "utf8"), ctx);
 	return { ctx, out, value(v) { ctx.inlet = 0; ctx.msg_int(v); }, tone(a3) { ctx.inlet = 1; ctx.msg_int(a3); },
 		bang() { ctx.inlet = 0; ctx.bang(); }, take() { return out.splice(0); } };
@@ -27,15 +27,10 @@ assert.deepStrictEqual(cutoff.take(), old([3, 0, 18, 0x51], 100), "push resends 
 cutoff.value(28);
 assert.deepStrictEqual(cutoff.take(), old([3, 0, 18, 0x51], 28), "same bytes as the old sender (sum 128 -> checksum 0)");
 cutoff.value(200);
-assert.strictEqual(cutoff.take()[9], 127, "clamped to the parameter range");
+assert.strictEqual(cutoff.take()[9], 127, "clamped to 7 bits");
 
-// alternate pan: range starts at 1
-const alt = sender(3, 0, -1, 0x7A);
-alt.tone(16); alt.value(0);
-assert.strictEqual(alt.take()[9], 1);
-
-// wave number: nibble split, wave 103 -> value 102 -> 06 06
-const wave = sender(3, 0, -1, 3);
+// wave number: nibble split (5th argument), wave 103 -> value 102 -> 06 06
+const wave = sender(3, 0, -1, 3, 2);
 wave.tone(16); wave.value(102);
 assert.deepStrictEqual(wave.take(), [0xF0, 0x41, 0x10, 0x6A, 0x12, 3, 0, 16, 3, 6, 6, 0x5E, 0xF7]);
 
@@ -44,7 +39,7 @@ const level = sender(3, 0, 20, 0x65);
 level.value(80);
 assert.deepStrictEqual(level.take(), old([3, 0, 20, 0x65], 80));
 
-// system setting (not patch data): raw byte, not checked against the patch map
+// system setting
 const efx = sender(0, 0, 0, 8);
 efx.value(1);
 assert.deepStrictEqual(efx.take(), old([0, 0, 0, 8], 1));
