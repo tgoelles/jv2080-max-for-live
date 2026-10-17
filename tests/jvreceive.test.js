@@ -85,4 +85,11 @@ assert.strictEqual(requests(), 2);
 assert.ok(posts[0].includes("no reply"));
 run();
 
+// the JV-2080's "patch picked on the panel" message (captured: Techno patch 2)
+out.length = 0;
+feed(hex("F0 41 10 6A 12 00 00 00 02 02 0B 00 01 70 F7"));
+assert.deepStrictEqual(out, [[3, "jvpatch", 2, 11, 1]]);
+feed(hex("F0 41 10 6A 12 00 00 00 02 00 01 01 03 79 F7"));
+assert.deepStrictEqual(out[1], [3, "jvpatch", 0, 1, 0x13], "USER 020");
+
 console.log("jvreceive: all tests passed");

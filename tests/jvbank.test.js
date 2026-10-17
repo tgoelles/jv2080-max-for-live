@@ -1,7 +1,8 @@
 // Run: node tests/jvbank.test.js  (mocks the Max js globals)
 const fs = require("fs"), vm = require("vm"), path = require("path"), assert = require("assert");
 let out = [];
-const ctx = { inlet: 0, outlet: (n, ...a) => out.push([n, ...(Array.isArray(a[0]) ? a[0] : a)]),
+const posts = [];
+const ctx = { post: m => posts.push(m), inlet: 0, outlet: (n, ...a) => out.push([n, ...(Array.isArray(a[0]) ? a[0] : a)]),
 	setinletassist() {}, setoutletassist() {}, arrayfromargs: a => Array.from(a) };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(__dirname, "../device/jvbank.js"), "utf8"), ctx);
@@ -44,5 +45,25 @@ assert.deepStrictEqual(midi(), []);
 out = []; ctx.msb(84); ctx.lsb(0);
 assert.deepStrictEqual(stored(), [["set", 7]]);
 assert.strictEqual(shown(), 7, "visible menu shows XP-A1");
+
+// the JV-2080 reports a patch picked on its panel (captured on hardware)
+const prog = () => out.filter(o => o[0] === 4).map(o => o.slice(1)).pop();
+const reads = () => out.filter(o => o[0] === 5).length;
+out = []; ctx.jvpatch(0, 3, 0);                     // PR-A 001
+assert.deepStrictEqual(stored(), [["set", 1]]); assert.deepStrictEqual(prog(), ["set", 1]); assert.strictEqual(reads(), 1);
+assert.deepStrictEqual(midi(), [], "nothing sent back to the JV");
+out = []; ctx.jvpatch(0, 7, 0);                     // PR-E 001
+assert.deepStrictEqual(stored(), [["set", 5]]);
+out = []; ctx.jvpatch(0, 1, 0x13);                  // USER 020
+assert.deepStrictEqual(stored(), [["set", 0]]); assert.deepStrictEqual(prog(), ["set", 20]);
+out = []; ctx.jvpatch(2, 11, 1);                    // Techno (SR-JV80-11, slot A) patch 2
+assert.deepStrictEqual(stored(), [["set", 7]]); assert.deepStrictEqual(prog(), ["set", 2]);
+out = []; ctx.jvpatch(2, 11, 200);                  // Techno patch 201 -> XP-A2, program 73
+assert.deepStrictEqual(stored(), [["set", 8]]); assert.deepStrictEqual(prog(), ["set", 73]);
+out = []; ctx.jvpatch(2, 5, 0);                     // a board that isn't set up: still read, bank unchanged
+assert.deepStrictEqual(stored(), []); assert.strictEqual(reads(), 1); assert.ok(posts.pop().includes("SR-05"));
+ctx.follow(0); out = []; ctx.jvpatch(0, 3, 0);
+assert.deepStrictEqual(out, [], "not following when switched off");
+ctx.follow(1);
 
 console.log("jvbank: all tests passed");

@@ -4,6 +4,7 @@
 // outlet 0: SysEx bytes (RQ1 requests) for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "set <patch name>" for a comment showing the name
+// outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05)
 //
 // The 5 requests (common + 4 tones) go out one at a time: the next only after the previous reply has
 // arrived (or after a timeout). The JV needs ~45 ms to send a tone; a request arriving while it is still
@@ -20,11 +21,12 @@ include("jv2080_bindings.js");
 
 autowatch = 1;
 inlets = 1;
-outlets = 3;
+outlets = 4;
 setinletassist(0, "MIDI bytes from midiin; get");
 setoutletassist(0, "RQ1 SysEx bytes to the queue");
 setoutletassist(1, "mute 1 / mute 0 to the queue");
 setoutletassist(2, "patch name (set ...)");
+setoutletassist(3, "jvpatch type id number");
 
 var jsthis = this;
 var buf = null;
@@ -101,6 +103,12 @@ function list() {
 function receive(bytes) {
 	var msg = JVSysEx.parse(bytes);
 	if (!msg || msg.command !== "DT1" || !msg.valid) {
+		return;
+	}
+	// System Common 02-05: Patch Group Type, Group ID, Patch Number (2 nibbles). The JV-2080 sends this
+	// when a patch is picked on its panel.
+	if (msg.addr.join(" ") === "0 0 0 2" && msg.data.length >= 4) {
+		outlet(3, "jvpatch", msg.data[0], msg.data[1], (msg.data[2] << 4) | msg.data[3]);
 		return;
 	}
 	var where = JVSysEx.locate(msg.addr);
