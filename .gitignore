@@ -7,4 +7,3 @@ docs/*.pdf
 node_modules/
 __pycache__/
 *.pyc
-device/efx_survey.json

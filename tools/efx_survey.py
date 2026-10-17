@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Turn an EFX survey (device/efx_survey.json, recorded by jvreceive.js while the JV's EFX parameters are turned
-on its panel) into the MEASURED block of device/jv2080_efx.js: per EFX type, the wire slot of each parameter in
+"""Turn the EFX survey (docs/efx_survey.json, measured on a JV-2080 in October 2026) into the MEASURED block of
+device/jv2080_efx.js: per EFX type, the wire slot of each parameter in
 the manual's order, and the highest raw value of parameters whose steps the manual doesn't give.
 
     python3 -I tools/efx_survey.py            # check the survey, update device/jv2080_efx.js
@@ -9,6 +9,10 @@ the manual's order, and the highest raw value of parameters whose steps the manu
 The survey is the order in which slots were first touched while walking the JV's EFX Param page top to bottom
 (= the manual's order), plus min/max raw per slot. A slot counts as swept when it went down to 0.
 Types already in MEASURED and not in the survey are kept.
+
+The survey was recorded by a temporary recorder in jvreceive.js (see git history, commit 2d00206 "EFX survey
+recorder"): every EFX parameter edited on the JV's panel was logged per type with its slot and raw value.
+To measure more, bring that back on a branch.
 """
 import json
 import re
@@ -18,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TABLE = ROOT / "device" / "jv2080_efx.js"
-SURVEY = ROOT / "device" / "efx_survey.json"
+SURVEY = ROOT / "docs" / "efx_survey.json"
 BLOCK = re.compile(r"(// BEGIN MEASURED[^\n]*\n)(.*?)(\t// END MEASURED)", re.S)
 
 
