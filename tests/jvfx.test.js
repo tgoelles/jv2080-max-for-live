@@ -42,7 +42,7 @@ for (let ty = 0; ty < 40; ty++) for (let s = 0; s < 12; s++) {
 	assert.strictEqual(E.toRaw(ty, s, 0), 0); assert.strictEqual(E.toRaw(ty, s, 127), m);
 	for (let r = 0; r <= m; r++) assert.strictEqual(E.toRaw(ty, s, E.toDial(ty, s, r)), r, `type ${ty + 1} slot ${s + 1} raw ${r}`);
 }
-assert.strictEqual(E.format(1, 4, 0), 'L64'); assert.strictEqual(E.format(1, 4, 64), '0'); assert.strictEqual(E.format(1, 4, 127), '63R');
+assert.strictEqual(E.format(1, 1, 0), 'L64'); assert.strictEqual(E.format(1, 1, 64), '0'); assert.strictEqual(E.format(1, 1, 127), '63R');   // OVERDRIVE Pan is slot 2 (measured)
 assert.strictEqual(E.format(16, 6, 17), 'BYPASS'); assert.strictEqual(E.format(16, 6, 7), '1000 Hz');
 assert.strictEqual(E.format(21, 1, 36), '+12 st');
 assert.strictEqual(E.format(3, 1, 80), '(80)', 'undocumented steps shown raw');
