@@ -5,12 +5,19 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Read-back from the JV**: **get** loads the JV's current patch into the device, with every control on all four tones
+  and the patch name. After a program change it happens automatically (Setup → *Get on program change*). Needs the
+  track's MIDI From to include the JV, e.g. All Ins. (#6)
+
 ### Changed
 - All parameter messages are now built by one tested library (`jvparam.js` / `jvsysex.js`) instead of 78 separate
   `sxformat` objects. Same messages on the wire; values are clamped to the JV's documented ranges. This also removes
   the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)
 
 ### Fixed
+- Incoming MIDI was passed through twice (a second passthrough hidden in the bank section), and incoming SysEx was
+  echoed back to the JV. Now everything passes once, and SysEx from the JV is never echoed. (#6)
 - When a set loaded, the tone sections could send their restored values before knowing which tone they belong to,
   so they landed on **patch common** parameters (e.g. Octave Shift). Senders now wait for their tone address. (#7)
 - Filter **vel sens** could be set to 126 and 127, which the JV doesn't accept (its range is 0–125). Found by checking every

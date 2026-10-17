@@ -42,4 +42,15 @@ assert.ok(posts.some(p => p.includes("device ID must be 17-32")));
 ctx.deviceid(17); reset(); send(dt1([3, 0, 16, 81], 6)); run();
 assert.strictEqual(out[2][1], 0x10);
 
+// 5. incoming SysEx (the JV's replies) is not passed through; notes and clock around it are
+reset(); ctx.inlet = 0;
+[0x90, 60, 100, 0xF0, 0x41, 0x10, 0xF8, 0x6A, 0x12, 1, 2, 0xF7, 0x80, 60, 0].forEach(b => ctx.msg_int(b));
+assert.deepStrictEqual(out.map(([t, b]) => b), [0x90, 60, 100, 0xF8, 0x80, 60, 0]);
+
+// 6. mute drops SysEx from the senders, and only while on
+reset(); ctx.mute(1); send(dt1([3, 0, 16, 81], 9)); ctx.mute(0); run();
+assert.deepStrictEqual(out, []);
+send(dt1([3, 0, 16, 81], 10)); run();
+assert.strictEqual(messages().length, 1);
+
 console.log("jv_sysex_queue: all tests passed");

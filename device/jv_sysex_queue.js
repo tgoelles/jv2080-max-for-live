@@ -1,7 +1,8 @@
 // Paces outgoing SysEx so the JV's MIDI input buffer doesn't overflow.
 //
-// inlet 0: MIDI bytes passed straight through (notes etc. from midiin)
-// inlet 1: SysEx bytes (F0 ... F7) from the sxformat senders; queued and sent
+// inlet 0: MIDI bytes passed straight through (notes etc. from midiin). Incoming SysEx is
+//          dropped, so the JV's replies to a read-back are never echoed back to it.
+// inlet 1: SysEx bytes (F0 ... F7) from the jvparam senders; queued and sent
 //          one message every `interval` ms
 // outlet 0: MIDI bytes to midiout
 //
@@ -12,7 +13,9 @@
 // Roland 0x6A message to the device ID set with "deviceid".
 //
 // Messages: "interval <ms>" sets the gap (default 10), "clear" empties the queue,
-// "deviceid <17-32>" sets the JV's Device ID as shown on its display (default 17).
+// "deviceid <17-32>" sets the JV's Device ID as shown on its display (default 17),
+// "mute 1" / "mute 0" drops SysEx arriving on inlet 1 in between (used while the read-back
+// updates the controls, so the received values aren't sent back).
 
 autowatch = 1;
 inlets = 2;
@@ -26,11 +29,27 @@ var dev = 0x10;
 var queue = [];
 var current = null;
 var busy = false;
+var inSysex = false;   // passthrough is inside an incoming SysEx message
+var muted = false;
 var task = new Task(next, this);
 
 function msg_int(b) {
 	if (inlet === 0) {
-		outlet(0, b);
+		if (b === 0xF0) {
+			inSysex = true;
+		} else if (inSysex && b < 0xF8 && (b < 0x80 || b === 0xF7)) {
+			if (b === 0xF7) {
+				inSysex = false;
+			}
+		} else {
+			if (b >= 0x80 && b < 0xF8) {
+				inSysex = false;   // any other status byte ends a broken SysEx
+			}
+			outlet(0, b);
+		}
+		return;
+	}
+	if (muted) {
 		return;
 	}
 	if (b === 0xF0) {
@@ -99,6 +118,11 @@ function deviceid(id) {
 	} else {
 		post("jv_sysex_queue: device ID must be 17-32, got " + id + "\n");
 	}
+}
+
+function mute(on) {
+	muted = !!on;
+	current = null;
 }
 
 function clear() {
