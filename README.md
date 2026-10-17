@@ -6,7 +6,8 @@ The JV-1080 and XP-50/80 support is planned.
 ![JV-2080 Control in Ableton Live](docs/screenshot.webp)
 
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
-velocity), plus Tone switches and levels, Effects on/off, and bank/program select. Use the Tone1–4 tabs to
+velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
+(JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
 choose which tone you're editing; the **Setup** button below them opens the Device ID and SysEx timing settings.
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
@@ -19,8 +20,8 @@ Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-
 
 ## MIDI setup
 
-The device talks to the JV in **both directions**. It sends your edits, and it reads the JV's patch back (**get**). Both
-directions must be wired, or **get** silently does nothing.
+The device talks to the JV in **both directions**. It sends your edits, and it reads the JV's patch back (**Get**). Both
+directions must be wired, or **Get** silently does nothing.
 
 **Cables:** interface MIDI OUT → JV **MIDI IN**, and JV **MIDI OUT** → interface MIDI IN.
 
@@ -37,7 +38,7 @@ directions must be wired, or **get** silently does nothing.
 | MIDI To | your interface's port, the one going to the JV |
 
 > **Common mistake:** setting **MIDI From** to *another Live track* (e.g. a track named "JV 2080 MIDI") instead of the
-> hardware port. Editing still works, but nothing from the JV reaches the device, so **get** never loads anything.
+> hardware port. Editing still works, but nothing from the JV reaches the device, so **Get** never loads anything.
 > MIDI From must be the hardware port or All Ins. All Ins also keeps your keyboard working on this track.
 
 To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows whether data from the JV arrives.
@@ -47,10 +48,11 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 1. Put the device on the MIDI track set up as above.
 2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (below the Tone tabs) and set **Device ID** to the same number.
-3. Click **get** (left column) to load the JV's current patch into the device, including its name. After a program change
-   this happens automatically. You can turn that off on the **Setup** page.
+3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
+   this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
+   patches on the **JV's own panel**, turn on **Setup → Follow JV patch changes**.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
-   them again, click **push** (left column). You can turn off sending on load on the **Setup** page.
+   them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
 
 ## Expansion boards
 
