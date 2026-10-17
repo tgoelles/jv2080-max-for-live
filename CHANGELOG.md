@@ -5,43 +5,38 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-17
+
+**Full duplex: the device now reads from the JV as well as writing to it.** This needs the track's MIDI From to
+include the JV (see *MIDI setup* in the README).
+
 ### Added
-- **Live follow of the JV's panel**: knob moves on the JV (e.g. Cutoff) are broadcast by the JV and now move the
-  matching control in the device, without echoing back.
-- **Expansion board patches**: the bank menu lists **XP-A1 / XP-A2** (patches 1–128 / 129–255) for every slot set up
-  on the Setup page, plus **CARD**. With *Follow JV patch changes*, the bank now follows the JV too.
-- **Read-back from the JV**: **get** loads the JV's current patch into the device, with every control on all four tones
-  and the patch name. After a program change it happens automatically (Setup → *Get on program change*). Needs the
-  track's MIDI From to include the JV, e.g. All Ins. (#6)
+- **Get**: loads the JV's current patch into the device: every control on all four tones, plus the **patch name**.
+  It also happens automatically after a program change from the device or a MIDI clip (Setup → *Get on program
+  change*). (#6)
+- **Follow the JV's panel** (Setup → *Follow JV patch changes*, on by default):
+  - picking a patch on the JV updates bank, program number, controls and name in the device
+  - turning a knob on the JV, e.g. Cutoff, moves the matching control live
+
+  Nothing is echoed back to the JV.
+- **Expansion board patches**: the bank menu lists **XP-A1 / XP-A2** (patches 1–128 / 129–255) for every slot set up on
+  the Setup page, plus **CARD**.
+- A diagnostic device, `diagnostics/JV SysEx Monitor.amxd`, to check that SysEx travels between the JV and Live.
 
 ### Changed
-- The frozen device is small again: the parameter senders no longer include the shared library, which freezing
-  had copied into each of the ~80 senders (9.5 MB).
-- **Program block** top left: bank and program, the **patch name** in its own field, and **Send** / **Get** text
-  buttons that replace the unlabeled "push" and "get" dots. The "Tone Switch" label is gone; the tone switches
-  moved down.
-- The unlabeled square next to the program number is now **Setup → Follow JV patch changes**. It switches the JV's
-  *Transmit Program Change / Bank Select*: when on, picking a patch on the JV's panel sends a program change, and with
-  *Get on program change* the device loads that patch. Default off; earlier sets don't carry their old setting over.
-- All parameter messages are now built by one tested library (`jvparam.js` / `jvsysex.js`) instead of 78 separate
-  `sxformat` objects. Same messages on the wire; values are clamped to the JV's documented ranges. This also removes
-  the "sxformat: inlet: bang: wrong message int" errors in the Max console. (#7)
+- **Program block** top left: patch name, bank and program, and **Send** (device → JV) / **Get** (JV → device) buttons
+  on a dark panel. The "Tone Switch" label is gone, and the tone switches moved down.
+- The unlabeled square next to the program number is gone. It never had an effect on a JV-2080; see *Follow JV patch
+  changes* on the Setup page.
+- All parameter messages are built by one tested sender instead of 78 `sxformat` objects. The messages on the wire
+  are the same, and the "sxformat: inlet: bang: wrong message int" errors in the Max console are gone. (#7)
 
 ### Fixed
-- **Follow JV patch changes** did nothing on a JV-2080: it wrote *Transmit Program Change / Bank Select*
-  (System `0x28`/`0x29`), which the JV-2080 ignores (JV-1080/XP only, manual p.188). The JV-2080 instead reports a patch
-  picked on its panel as SysEx (System Common `02`–`05`: group type, group ID, patch number). The device now follows
-  that message: bank menu and program number update silently and the new patch is read back, including expansion
-  board patches. On by default.
-- The bank section's leftovers are removed: a hidden patcher that built the bank select, three automatable
-  "Bank MSB / Bank LSB / Program" dials inside it, debug number boxes, and a `ctlout` that sent the bank menu's index
-  as a controller value. One script now sends the correct CC 0 / CC 32 before the program change.
-- Incoming MIDI was passed through twice (a second passthrough hidden in the bank section), and incoming SysEx was
-  echoed back to the JV. Now everything passes once, and SysEx from the JV is never echoed. (#6)
-- When a set loaded, the tone sections could send their restored values before knowing which tone they belong to,
-  so they landed on **patch common** parameters (e.g. Octave Shift). Senders now wait for their tone address. (#7)
-- Filter **vel sens** could be set to 126 and 127, which the JV doesn't accept (its range is 0–125). Found by checking every
-  control's range against the manual's address map. (#7)
+- Incoming MIDI was passed through **twice**, and incoming SysEx was echoed back to the JV. (#6)
+- When a set loaded, Pitch values could land on **patch common** parameters, e.g. Octave Shift. (#7)
+- The bank section sent the bank menu's position as a controller value; it now sends a proper bank select (CC 0 / 32)
+  before the program change. Three hidden, automatable "Bank MSB / Bank LSB / Program" parameters are removed.
+- Filter **vel sens** allowed 126 and 127, outside the JV's range of 0–125. (#7)
 
 ## [0.2.0] - 2026-10-16
 
@@ -102,7 +97,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/tgoelles/jv2080-max-for-live/releases/tag/v0.1.1
