@@ -73,7 +73,13 @@ for (const b of B) {
 	for (const t of b.tones) {
 		assert.ok(b.path[0].replace("{n}", t) + "/" + b.varname in set, `${b.id} tone ${t} not set`);
 	}
+	if (!b.tones.length) {
+		assert.ok(b.path[0] + "/" + b.varname in set, `${b.id} (patch common) not set`);
+	}
 }
+// FX page: patch common and the per-tone outputs, including the reverb send at tone offset 0x80
+assert.ok(B.some(b => b.block === "common" && b.id === "efx_type"), "EFX type is bound");
+assert.ok(Number.isInteger(set["FX/EFXType"]) && Number.isInteger(set["FX/T4RevSend"]));
 
 // a lost reply doesn't stall the read: after the timeout the next request goes out
 out.length = 0; ctx.get();
