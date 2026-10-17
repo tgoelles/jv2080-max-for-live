@@ -2424,7 +2424,7 @@
 					"patching_rect" : [ 1833.0, 426.0, 128.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 633.0, 126.0, 120.0, 18.0 ],
-					"text" : "raw values 0-127",
+					"text" : "(n) = raw value",
 					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
 					"textjustification" : 0,
 					"id" : "obj-108"

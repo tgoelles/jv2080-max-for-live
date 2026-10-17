@@ -81,6 +81,8 @@ Click **Setup** below the Tone tabs to open it, and click a Tone tab to go back.
 
 ### LFO page
 
+![The LFO page](docs/lfo.webp)
+
 Click **LFO** (below the Tone tabs) to swap the selected tone's sections for its two LFOs, and click it again to go
 back. The Tone tabs keep working on the LFO page.
 
@@ -92,6 +94,8 @@ back. The Tone tabs keep working on the LFO page.
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
 
 ### FX page
+
+![The FX page](docs/fx.webp)
 
 Click **FX** (below the Tone tabs) for the patch's effects, as on the JV's PATCH → Effects pages:
 
