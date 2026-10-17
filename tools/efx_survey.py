@@ -36,7 +36,7 @@ def main():
     t = table()
     survey = json.loads(SURVEY.read_text()) if SURVEY.exists() else {}
     measured = {int(k): v for k, v in t["measured"].items()}
-    kmax = dict(t["kmax"])
+    kmax = {}   # recomputed from the survey every time
     problems = []
     for key, s in sorted(survey.items(), key=lambda kv: int(kv[0])):
         n = int(key)
@@ -52,7 +52,7 @@ def main():
             slot = order[i]
             lo, hi = s["min"].get(str(slot)), s["max"].get(str(slot))
             k = t["kinds"][kind]
-            swept = lo == 0
+            swept = lo == 0 and hi is not None and hi > 0   # went down to 0 and up again
             if k.get("raw"):
                 rk = t["rawkind"][n - 1][i]
                 if swept and hi is not None:
