@@ -347,7 +347,7 @@ Numbering is 1-based, as shown on the synth's display.
 86 Verb Tom Lo
 87 Dry Tom Hi
 88 Dry Tom Lo
-89 Al HiHat 1
+89 Cl HiHat 1
 90 Cl HiHat 2
 91 Op Hihat
 92 Pedal HiHat
