@@ -9,7 +9,8 @@ to the Max console. **Request Tone 1** and **Request patch common** ask the JV f
 ## Setup
 Use a MIDI track with **MIDI From** set to the JV's **hardware** MIDI port, not another Live track, **All Channels**, and
 **Monitor In**. To use the request buttons, also set **MIDI To** to the port that goes to the JV. One track can send and
-receive.
+receive. **Set MIDI To back to *No Output* after testing.** Otherwise this track echoes everything the JV sends straight
+back to it, which marks the JV's patch as edited (\*).
 
 ## Checks
 1. **JV → Live:** on the JV, UTILITY → Xfer → F1 (to MIDI), Source PATCH TEMP, F6 Execute. You should see 5 DT1 messages:
