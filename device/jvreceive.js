@@ -134,8 +134,23 @@ function receive(bytes) {
 	if (!where || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
 	}
-	apply(JVSysEx.decode(msg));
+	var values = JVSysEx.decode(msg);
+	logEfx(values);
+	apply(values);
 	answered(msg.addr);
+}
+
+// A single EFX parameter edited on the JV's panel: say which slot it is, to check the order in jv2080_efx.js
+// against the hardware (#8). Full reads (Get) carry many values and are not logged.
+function logEfx(values) {
+	if (values.length !== 1 || !/^efx_param_\d+$/.test(values[0].id)) {
+		return;
+	}
+	var slot = parseInt(values[0].id.slice(10), 10);
+	var type = currentEfxType();
+	var ps = JV2080_EFX.TYPES[type] ? JV2080_EFX.TYPES[type][1] : [];
+	post("jvreceive: EFX " + (type + 1) + " parameter " + slot + " = " + values[0].raw +
+		" (device label: " + (ps[slot - 1] ? ps[slot - 1][0] : "-") + ")\n");
 }
 
 function switches(start, data) {
