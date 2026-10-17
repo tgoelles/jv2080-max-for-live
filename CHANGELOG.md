@@ -5,6 +5,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Wave names** under each tone's Wave dial, for wave groups whose names were imported with
+  `tools/import_wave_names.py` (SR-JV80 boards 03–11 from their documentation; INT-A/B from a local file). (#30)
+
 ## [0.3.0] - 2026-10-17
 
 **Full duplex: the device now reads from the JV as well as writing to it.** This needs the track's MIDI From to
