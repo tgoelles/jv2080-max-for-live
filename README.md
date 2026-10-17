@@ -8,7 +8,7 @@ The JV-1080 and XP-50/80 are supported experimentally (Setup → Model).
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
 velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
 (JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
-choose which tone you're editing; the **Setup** button below them opens the Device ID and SysEx timing settings.
+choose which tone you're editing; the **Setup** button below them opens the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -61,6 +61,22 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
    panel, such as turning Cutoff, also show up in the device live.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
+
+### Setup page
+
+![The Setup page](docs/setup.webp)
+
+Click **Setup** below the Tone tabs to open it, and click a Tone tab to go back. You usually set these once.
+
+| Setting | What it does |
+|---|---|
+| **Device ID** | Must match the JV: SYSTEM → MIDI → Device ID (17–32, default 17). |
+| **SysEx gap (ms)** | Time between messages to the JV (default 10). Raise it if the JV shows "MIDI buffer full". |
+| **Send on load** | Sends the device's settings to the JV 1 s after the set loads. |
+| **Expansion boards A–H** | The SR-JV80 board in each slot (see SYSTEM → Info on the JV). Adds its waves to the Wave group menu and its patches to the bank menu. See [Expansion boards](#expansion-boards). |
+| **Get on program change** | Loads the new patch from the JV after a program change. Needs MIDI From to include the JV. |
+| **Follow JV patch changes** | Picking a patch on the JV's panel updates the device too. |
+| **Model** | JV-2080, JV-1080 or XP-50/80. Sets the bank list and the patch size for Get. JV-1080 and XP are experimental. |
 
 ## Global controls (cutoff, resonance, attack, release)
 

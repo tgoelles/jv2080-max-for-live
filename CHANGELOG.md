@@ -5,14 +5,19 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Added
-- **JV-1080 and XP-50/80 (experimental)**: Setup → *Model*. Picks the right bank list (no PR-E, GM bank as PR-D, PCM
-  card on the JV-1080, expansion slots A–D) and the right patch size for **Get**. Sound parameters are identical to
-  the JV-2080. Not yet tested on real hardware. (#9)
+## [0.4.0] - 2026-10-17
 
 ### Added
+- **JV-1080 and XP-50/80 (experimental)**: Setup → *Model*. Picks the right bank list and the right patch size for
+  **Get**: no PR-E, the GM bank shown as PR-D, the PCM card on the JV-1080, and expansion slots A–D. Sound
+  parameters are identical to the JV-2080. Not yet tested on real hardware. (#9)
 - **Wave names** under each tone's Wave dial, for wave groups whose names were imported with
   `tools/import_wave_names.py`: INT-A, INT-B and SR-JV80 boards 01–11. (#30)
+- README: how to control cutoff, resonance, attack and release for the whole patch with the JV's CCs (#31), and a
+  description of the Setup page.
+
+### Changed
+- The Setup page's text is easier to read: light labels and hints on the dark panel.
 
 ## [0.3.0] - 2026-10-17
 
@@ -106,7 +111,8 @@ include the JV (see *MIDI setup* in the README).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.1.1...v0.1.2
