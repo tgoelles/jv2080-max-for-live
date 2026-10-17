@@ -83,7 +83,9 @@ Click **Setup** below the Tone tabs to open it, and click a Tone tab to go back.
 Click **LFO** (below the Tone tabs) to swap the selected tone's sections for its two LFOs, and click it again to go
 back. The Tone tabs keep working on the LFO page.
 
-- **LFO 1 / LFO 2**: wave, sync, rate, delay, fade time, fade mode, offset and key trigger.
+- **LFO 1 / LFO 2**: wave, sync, rate, delay, fade time, fade mode, offset and key trigger. A small preview draws the
+  LFO's shape from key on, with delay, fade and offset; for the OFF fade modes the dashed line marks key off. It's an
+  illustration: the JV doesn't document rate and times in seconds.
 - **LFO depth**: how much each LFO moves the tone's pitch, filter, amp level and pan (−63 … +63, 0 = off).
 
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
