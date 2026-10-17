@@ -1,94 +1,54 @@
-// EFX page helper: labels the 12 EFX parameter dials for the selected EFX type and tells the routing graphic
-// the type's name. One instance, in JV_FX.maxpat.
+// EFX page helper (one instance, in JV_FX.maxpat): labels the 12 EFX parameter dials for the selected EFX type,
+// converts between dial (0-127, the stored Live parameter) and the JV's raw value, shows the value under each
+// dial, and names the type for the routing graphic. The table is jv2080_efx.js.
 //
-// inlet 0: int EFX type 0-39 (from the EFX Type menu)
-// outlets 0-11: per dial: "_parameter_shortname <label>" and "active 0/1" (unused slots are greyed out)
-// outlet 12: "efxname <name>" for the routing graphic
-//
-// Parameter order per type follows the EFX parameter list (owner's manual pp.168-172), which is the order of
-// EFX Parameter 1-12 in the address map. Values are shown raw (0-127): the manual doesn't document how the
-// raw values map to Hz, ms or dB.
+// inlet 0: int EFX type 0-39 (from the EFX Type menu); "dial <0-11> <value>" from the parameter dials
+// outlets 0-11:  to dial n: "_parameter_shortname <label>", "active 0/1"
+// outlets 12-23: to the value comment under dial n: "set <text>"
+// outlets 24-35: raw value for EFX Parameter n's sender (js jvparam.js 3 0 0 13+n)
+// outlet 36:     "efxname <name>" for the routing graphic
 
 autowatch = 1;
 inlets = 1;
-outlets = 13;
-setinletassist(0, "EFX type 0-39");
-setoutletassist(12, "efxname for the routing graphic");
+outlets = 37;
+setinletassist(0, "EFX type 0-39; dial n value");
+setoutletassist(36, "efxname for the routing graphic");
+include("jv2080_efx.js");
 
-var OD = ["Drive", "Amp Type", "Low Gain", "High Gain", "Pan", "Level"];
-var CHO_DLY = ["Cho PreDly", "Cho Rate", "Cho Depth", "Cho Bal", "Dly Time", "Dly Fbk", "Dly HF", "Dly Bal", "Level"];
-var FL_DLY = ["Fl PreDly", "Fl Rate", "Fl Depth", "Fl Fbk", "Fl Bal", "Dly Time", "Dly Fbk", "Dly HF", "Dly Bal", "Level"];
-var CHO_FL = ["Cho PreDly", "Cho Rate", "Cho Depth", "Cho Bal", "Fl PreDly", "Fl Rate", "Fl Depth", "Fl Fbk", "Fl Bal", "Level"];
-
-var TYPES = [
-	["STEREO-EQ", ["Low Freq", "Low Gain", "P1 Freq", "P1 Gain", "P1 Q", "High Freq", "High Gain", "P2 Freq", "P2 Gain", "P2 Q", "Level"]],
-	["OVERDRIVE", OD],
-	["DISTORTION", OD],
-	["PHASER", ["Manual", "Rate", "Depth", "Resonance", "Mix", "Pan", "Level"]],
-	["SPECTRUM", ["Band 1", "Band 2", "Band 3", "Band 4", "Band 5", "Band 6", "Band 7", "Band 8", "Q", "Pan", "Level"]],
-	["ENHANCER", ["Sens", "Mix", "Low Gain", "High Gain", "Level"]],
-	["AUTO-WAH", ["Filter", "Sens", "Manual", "Peak", "Rate", "Depth", "Level"]],
-	["ROTARY", ["Lo Slow", "Lo Fast", "Lo Accel", "Lo Level", "Speed", "Hi Slow", "Hi Fast", "Hi Accel", "Hi Level", "Separation", "Level"]],
-	["COMPRESSOR", ["Attack", "Sustain", "Post Gain", "Low Gain", "High Gain", "Pan", "Level"]],
-	["LIMITER", ["Threshold", "Ratio", "Release", "Post Gain", "Low Gain", "High Gain", "Pan", "Level"]],
-	["HEXA-CHORUS", ["Pre Delay", "Rate", "Depth", "PreDly Dev", "Depth Dev", "Pan Dev", "Balance", "Level"]],
-	["TREMOLO-CHORUS", ["Pre Delay", "Cho Rate", "Cho Depth", "Trem Phase", "Trem Rate", "Trem Sep", "Balance", "Level"]],
-	["SPACE-D", ["Pre Delay", "Rate", "Depth", "Phase", "Low Gain", "High Gain", "Balance", "Level"]],
-	["STEREO-CHORUS", ["Pre Delay", "Rate", "Depth", "Phase", "Filter", "Cutoff", "Low Gain", "High Gain", "Balance", "Level"]],
-	["STEREO-FLANGER", ["Pre Delay", "Rate", "Depth", "Feedback", "Phase", "Filter", "Cutoff", "Low Gain", "High Gain", "Balance", "Level"]],
-	["STEP-FLANGER", ["Pre Delay", "Rate", "Depth", "Feedback", "Phase", "Step Rate", "Low Gain", "High Gain", "Balance", "Level"]],
-	["STEREO-DELAY", ["Delay L", "Delay R", "Phase L", "Phase R", "Feedback", "Fbk Mode", "HF Damp", "Low Gain", "High Gain", "Balance", "Level"]],
-	["MODULATION-DELAY", ["Delay L", "Delay R", "Feedback", "Fbk Mode", "Rate", "Depth", "Phase", "HF Damp", "Low Gain", "High Gain", "Balance", "Level"]],
-	["TRIPLE-TAP-DELAY", ["Delay C", "Delay L", "Delay R", "Level C", "Level L", "Level R", "Feedback", "HF Damp", "Low Gain", "High Gain", "Balance", "Level"]],
-	["QUADRUPLE-TAP-DELAY", ["Delay 1", "Delay 2", "Delay 3", "Delay 4", "Feedback", "HF Damp", "Level 1", "Level 2", "Level 3", "Level 4", "Balance", "Level"]],
-	["TIME-CONTROL-DELAY", ["Delay", "Accel", "Feedback", "HF Damp", "Pan", "Low Gain", "High Gain", "Balance", "Level"]],
-	["2VOICE-PITCH-SHIFTER", ["Coarse A", "Fine A", "Pan A", "PreDly A", "Lvl Bal", "Mode", "Coarse B", "Fine B", "Pan B", "PreDly B", "Balance", "Level"]],
-	["FBK-PITCH-SHIFTER", ["Coarse", "Fine", "Pan", "Pre Delay", "Mode", "Feedback", "Low Gain", "High Gain", "Balance", "Level"]],
-	["REVERB", ["Type", "Pre Delay", "Time", "HF Damp", "Low Gain", "High Gain", "Balance", "Level"]],
-	["GATE-REVERB", ["Type", "Pre Delay", "Gate Time", "Low Gain", "High Gain", "Balance", "Level"]],
-	["OVERDRIVE>CHORUS", ["OD Drive", "OD Pan", "Cho PreDly", "Cho Rate", "Cho Depth", "Cho Bal", "Level"]],
-	["OVERDRIVE>FLANGER", ["OD Drive", "OD Pan", "Fl PreDly", "Fl Rate", "Fl Depth", "Fl Fbk", "Fl Bal", "Level"]],
-	["OVERDRIVE>DELAY", ["OD Drive", "OD Pan", "Dly Time", "Dly Fbk", "Dly HF", "Dly Bal", "Level"]],
-	["DISTORTION>CHORUS", ["Dist Drive", "Dist Pan", "Cho PreDly", "Cho Rate", "Cho Depth", "Cho Bal", "Level"]],
-	["DISTORTION>FLANGER", ["Dist Drive", "Dist Pan", "Fl PreDly", "Fl Rate", "Fl Depth", "Fl Fbk", "Fl Bal", "Level"]],
-	["DISTORTION>DELAY", ["Dist Drive", "Dist Pan", "Dly Time", "Dly Fbk", "Dly HF", "Dly Bal", "Level"]],
-	["ENHANCER>CHORUS", ["Enh Sens", "Enh Mix", "Cho PreDly", "Cho Rate", "Cho Depth", "Cho Bal", "Level"]],
-	["ENHANCER>FLANGER", ["Enh Sens", "Enh Mix", "Fl PreDly", "Fl Rate", "Fl Depth", "Fl Fbk", "Fl Bal", "Level"]],
-	["ENHANCER>DELAY", ["Enh Sens", "Enh Mix", "Dly Time", "Dly Fbk", "Dly HF", "Dly Bal", "Level"]],
-	["CHORUS>DELAY", CHO_DLY],
-	["FLANGER>DELAY", FL_DLY],
-	["CHORUS>FLANGER", CHO_FL],
-	["CHORUS/DELAY", CHO_DLY],
-	["FLANGER/DELAY", FL_DLY],
-	["CHORUS/FLANGER", CHO_FL]
-];
-
-var current = -1;
+var type = -1;
+var dials = [64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64];
 
 function msg_int(t) {
-	if (t < 0 || t >= TYPES.length) {
+	if (t < 0 || t >= JV2080_EFX.TYPES.length) {
 		return;
 	}
-	current = t;
-	var names = TYPES[t][1];
+	type = t;
+	var ps = JV2080_EFX.TYPES[t][1];
 	for (var i = 0; i < 12; i++) {
-		var used = i < names.length;
-		outlet(i, "_parameter_shortname", used ? names[i] : "-");
+		var used = i < ps.length;
+		outlet(i, "_parameter_shortname", used ? ps[i][0] : "-");
 		outlet(i, "active", used ? 1 : 0);
+		show(i);
+		outlet(24 + i, JV2080_EFX.toRaw(type, i, dials[i]));   // the new type's parameters follow the dials
 	}
-	outlet(12, "efxname", (t + 1) + " " + TYPES[t][0]);
+	outlet(36, "efxname", (t + 1) + " " + JV2080_EFX.TYPES[t][0]);
 }
 
 function msg_float(t) {
 	msg_int(Math.round(t));
 }
 
-function bang() {
-	if (current >= 0) {
-		msg_int(current);
+function dial(i, v) {
+	if (i < 0 || i > 11) {
+		return;
+	}
+	dials[i] = Math.round(v);
+	show(i);
+	if (type >= 0) {
+		outlet(24 + i, JV2080_EFX.toRaw(type, i, dials[i]));
 	}
 }
 
-if (typeof module !== "undefined") {
-	module.exports = TYPES;
+function show(i) {
+	outlet(12 + i, "set", type < 0 ? "" : JV2080_EFX.format(type, i, JV2080_EFX.toRaw(type, i, dials[i])));
 }

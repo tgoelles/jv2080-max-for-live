@@ -123,6 +123,12 @@ def build():
         if not m:
             continue
         a3, a4 = int(m.group(1)), int(m.group(2))
+        if a3 == 0 and 13 <= a4 <= 24:
+            # EFX Parameter 1-12: the dial feeds jvfx.js, which converts per EFX type (jv2080_efx.js)
+            n = a4 - 12
+            bindings.append({"block": "common", "id": "efx_param_%d" % n, "section": "FX", "path": ["FX"],
+                             "varname": "EFXParam%d" % n, "ops": [["efx", n - 1]], "range": [0, 127], "tones": []})
+            continue
         got = trace(pat, b["box"]["id"])
         if got is None:
             problems.append(f"FX: can't trace sender {b['box']['text']}")

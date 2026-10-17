@@ -12,7 +12,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 - **FX page** (button **FX** below the Tone tabs): the patch's effects with a routing graphic like the JV's Effects
   page. Per-tone output assign and mix/EFX, chorus and reverb sends; EFX type and its 12 parameters, labelled per
-  type; EFX output and sends; chorus and reverb. 44 new automatable parameters. Read back by **Get**. (#8)
+  type with the value shown as the JV does (dB, Hz, pan, choices); EFX output and sends; chorus and reverb. 44 new automatable parameters. Read back by **Get**. The Effects On/Off buttons follow the JV's
+  EFX / CHORUS / REVERB buttons. (#8)
 
 ### Upgrading
 - Sets saved with an older version have no LFO or effect values yet, so the device starts with LFO depths at 0 and default

@@ -97,14 +97,16 @@ Click **FX** (below the Tone tabs) for the patch's effects, as on the JV's PATCH
 - **Routing**: where each tone goes (**Output** MIX / EFX / DIR1 / DIR2) and its mix/EFX, chorus and reverb send
   levels. The graphic next to it is redrawn from these settings: amber lines are outputs, blue lines are chorus and
   reverb sends, brighter means louder, and blocks nothing reaches are greyed out. A unit switched off with the
-  *Effects On/Off* buttons is drawn dashed, like on the JV.
+  *Effects On/Off* buttons is drawn dashed, like on the JV. Those buttons also follow the JV's own EFX / CHORUS /
+  REVERB buttons.
 - **EFX**: the type (40 types) and its 12 parameters. The dials are labelled for the selected type; unused slots are
   greyed out. Below them are the EFX output, level, and chorus and reverb sends.
 - **Chorus** and **Reverb**: level, rate, depth, pre-delay, feedback and output; reverb type, level, time, HF damp
   and delay feedback.
 
-The EFX parameters show the JV's raw values (0–127), because the manual doesn't say how they map to Hz, ms or dB.
-The JV's display shows the real value while you turn a dial. The **EFX / Chorus / Reverb** buttons under *Effects
+Under each EFX dial is the value as the JV shows it (dB, Hz, pan, the type's choices). Each dial's full travel covers
+the parameter's range. Rates, times, feedback, phase and balance show the JV's raw number in brackets, e.g. "(80)",
+until their encoding is measured: the manual doesn't document it. The **EFX / Chorus / Reverb** buttons under *Effects
 On/Off* still switch the whole unit's effects on and off.
 
 ## Global controls (cutoff, resonance, attack, release)
