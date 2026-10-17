@@ -6,6 +6,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Live follow of the JV's panel**: knob moves on the JV (e.g. Cutoff) are broadcast by the JV and now move the
+  matching control in the device, without echoing back.
 - **Expansion board patches**: the bank menu lists **XP-A1 / XP-A2** (patches 1–128 / 129–255) for every slot set up
   on the Setup page, plus **CARD**. With *Follow JV patch changes*, the bank now follows the JV too.
 - **Read-back from the JV**: **get** loads the JV's current patch into the device, with every control on all four tones

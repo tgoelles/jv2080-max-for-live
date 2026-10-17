@@ -50,7 +50,8 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
-   patches on the **JV's own panel**, turn on **Setup → Follow JV patch changes**.
+   patches on the **JV's own panel**, keep **Setup → Follow JV patch changes** on (default). Edits made on the JV's
+   panel, such as turning Cutoff, also show up in the device live.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
 
