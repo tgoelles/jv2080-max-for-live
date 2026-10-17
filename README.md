@@ -88,9 +88,6 @@ back. The Tone tabs keep working on the LFO page.
   illustration: the JV doesn't document rate and times in seconds.
 - **LFO depth**: how much each LFO moves the tone's pitch, filter, amp level and pan (−63 … +63, 0 = off).
 
-When an LFO depth isn't 0, a blue ring around the modulated dial (Coarse tune, Cutoff, Amp Level, Pan) shows the
-range the LFOs sweep, like Live shows modulation. Like the preview, it's an illustration of the amount.
-
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
 
 ## Global controls (cutoff, resonance, attack, release)
