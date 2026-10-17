@@ -102,6 +102,22 @@ sets keep working if you move a board to another slot. A patch that uses a board
 | SR-05 World | SR-10 Bass & Drum | SR-15 Special FX | |
 
 
+## Wave names
+
+Each tone's Wave section shows the selected wave's **name** under the Wave dial, e.g. *TB Dst Saw*, when the device
+knows the names for that wave group. The names for the internal waves (INT-A / INT-B) and SR-JV80 boards 01–11 are included. They're generated from the boards' documentation with:
+
+    python3 -I tools/import_wave_names.py
+
+The script downloads the SR-JV80 board documents from planet-groove.com and writes `device/jv2080_names.js`. It finds wave
+lists for boards **01–11**; the documents for 12–19 only list patches. If the site refuses a download (it sometimes
+answers 403), run the script again. Internal waves
+(INT-A / INT-B) come from `docs/int_waves.txt`; `--keep` merges them into the existing file without downloading again:
+
+    python3 -I tools/import_wave_names.py --internal docs/int_waves.txt --keep
+
+For wave groups without names, the device shows only the wave number.
+
 ## Development
 
 The source files are in `device/`: an unfrozen `.amxd`, its `.maxpat` abstractions and two `.js` scripts. Open the
