@@ -1,6 +1,7 @@
 // The 40 EFX types: parameter labels and value formats for EFX Parameter 1-12 (owner's manual pp.168-172;
 // the list order is the parameter order). Shared by jvfx.js (labels, display, dial <-> raw) and jvreceive.js
-// (raw -> dial for Get), and the Node tests.
+// (raw -> dial for Get), and the Node tests. The manual's list order is mostly the wire order, but not always:
+// STEREO-EQ was measured to differ, so orders not marked as measured may need fixing.
 //
 // The JV sends each parameter as an index into its value list, e.g. Low Gain -15..+15 dB = 0..30 and
 // Low Freq 200/400 Hz = 0/1 (measured on a JV-2080). Kinds whose step sizes the manual doesn't give
@@ -58,8 +59,9 @@ var JV2080_EFX = (function () {
 	var BAL_LVL = [p("Balance", R), p("Level", "lvl")];
 
 	var TYPES = [
-		["STEREO-EQ", [p("Low Freq", "lowf"), p("Low Gain", "db"), p("P1 Freq", "freq"), p("P1 Gain", "db"), p("P1 Q", "q"),
-			p("High Freq", "highf"), p("High Gain", "db"), p("P2 Freq", "freq"), p("P2 Gain", "db"), p("P2 Q", "q"), p("Level", "lvl")]],
+		// order measured on a JV-2080; the manual lists P1 before High and Gain before Q
+		["STEREO-EQ", [p("Low Freq", "lowf"), p("Low Gain", "db"), p("High Freq", "highf"), p("High Gain", "db"), p("P1 Freq", "freq"),
+			p("P1 Q", "q"), p("P1 Gain", "db"), p("P2 Freq", "freq"), p("P2 Q", "q"), p("P2 Gain", "db"), p("Level", "lvl")]],
 		["OVERDRIVE", OD],
 		["DISTORTION", OD],
 		["PHASER", [p("Manual", R), p("Rate", R), p("Depth", "lvl"), p("Resonance", "lvl"), p("Mix", "lvl"), p("Pan", "pan"), p("Level", "lvl")]],

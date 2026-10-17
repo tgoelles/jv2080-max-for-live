@@ -22,6 +22,8 @@ E.TYPES.forEach(([name, ps], i) => {
 });
 // measured on a JV-2080: Stereo-EQ Low Freq 400 Hz = raw 1, Low Gain +15 dB = raw 30
 assert.strictEqual(E.format(0, 0, 1), '400 Hz');
+// STEREO-EQ wire order (measured): Low Freq, Low Gain, High Freq, High Gain, P1 Freq, P1 Q, P1 Gain, P2 Freq, P2 Q, P2 Gain, Level
+assert.deepStrictEqual(E.TYPES[0][1].map(x => x[0]).join(','), 'Low Freq,Low Gain,High Freq,High Gain,P1 Freq,P1 Q,P1 Gain,P2 Freq,P2 Q,P2 Gain,Level');
 assert.strictEqual(E.format(0, 1, 30), '+15 dB');
 assert.strictEqual(E.format(0, 1, 15), '0 dB');
 assert.strictEqual(E.format(0, 1, 0), '-15 dB');
