@@ -63,6 +63,12 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
 
+> **The "\*" on the JV's display** means the JV's edit buffer has received changes since the patch was selected. The
+> JV sets it on *any* write, even when the values are the same, so Send, Send on load, or moving any control in the
+> device shows it, also right after a Get. It doesn't mean something changed: the Max console reports how many bytes
+> a Send actually changes ("0 of 452 bytes differ"). The edits only live in the JV's edit buffer: to keep them in the
+> JV itself, save the patch with **Write** on the JV, or keep them in your Live set.
+
 ### Setup page
 
 ![The Setup page](docs/setup.webp)
