@@ -1,8 +1,9 @@
 // Read the JV's temporary patch back into the device (#6).
 //
 // inlet 0: MIDI bytes from midiin (only complete SysEx messages are used); "get" requests the patch;
+//          "send" writes the device's whole patch to the JV (Send button, on-load push);
 //          "model 0/1/2" (JV-2080, JV-1080, XP-50/80) sets the patch common size to request
-// outlet 0: SysEx bytes (RQ1 requests) for jv_sysex_queue.js inlet 1
+// outlet 0: SysEx bytes (RQ1 requests, DT1 blocks for "send") for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "set <patch name>" for a comment showing the name
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05)
@@ -57,6 +58,94 @@ var pending = [];       // requests still to send
 var waiting = null;     // the request we're waiting for: its 4 address bytes
 var nextTask = new Task(sendNext, this);
 var timeoutTask = new Task(onTimeout, this);
+var SEND_GAP_MS = 60;   // between the DT1 blocks of "send": a 129-byte message takes ~45 ms on the MIDI cable
+var outbox = [];        // DT1 blocks still to send
+var sendTask = new Task(sendBlock, this);
+
+// Send: every bound control's value, read back from the controls and converted to raw values (the reverse of
+// a read), as one DT1 per run of consecutive addresses: patch common and the 4 tones in a few messages instead
+// of one message per parameter. Parameters the device doesn't edit are left out, so the JV keeps its own values.
+function send() {
+	outbox = patchBlocks(0x10);   // the queue sets the real device ID
+	sendTask.cancel();
+	sendBlock();
+}
+
+function sendBlock() {
+	if (!outbox.length) {
+		return;
+	}
+	var m = outbox.shift();
+	for (var i = 0; i < m.length; i++) {
+		outlet(0, m[i]);
+	}
+	if (outbox.length) {
+		sendTask.schedule(SEND_GAP_MS);
+	}
+}
+
+// The DT1 messages for the device's patch: [block, tone] -> runs of consecutive bytes
+function patchBlocks(dev) {
+	var bytes = { common: {} };
+	for (var t = 1; t <= 4; t++) {
+		bytes["tone" + t] = {};
+	}
+	for (var i = 0; i < JV2080_BINDINGS.length; i++) {
+		var b = JV2080_BINDINGS[i];
+		var tones = b.tones.length ? b.tones : [null];
+		for (var k = 0; k < tones.length; k++) {
+			var obj = find(b.path[0].replace("{n}", tones[k]), b.varname);
+			if (obj) {
+				place(bytes[b.block === "common" ? "common" : "tone" + tones[k]], b, controlValue(obj));
+			}
+		}
+	}
+	var out = [];
+	runs(bytes.common, commonSize, JVSysEx.patchAddress("common"), dev, out);
+	for (t = 1; t <= 4; t++) {
+		runs(bytes["tone" + t], 0x81, JVSysEx.patchAddress("tone", t), dev, out);
+	}
+	return out;
+}
+
+function controlValue(obj) {
+	var v = obj.getvalueof();
+	return Math.round(v instanceof Array ? v[0] : v) || 0;
+}
+
+// a binding's control value as raw bytes at their offsets
+function place(block, b, value) {
+	var op = b.ops.length ? b.ops[0][0] : null;
+	if (op === "wave_group") {
+		var g = JVSysEx.waveGroupFromMenu(value);
+		block[JVSysEx.find("tone", "wave_group_type").off] = g.type;
+		block[JVSysEx.find("tone", "wave_group_id").off] = g.id;
+		return;
+	}
+	var raw = op === "efx" ? JV2080_EFX.toRaw(currentEfxType(), b.ops[0][1], value) : JVSysEx.fromControl(b, value);
+	var param = JVSysEx.find(b.block, b.id);
+	var data = JVSysEx.encodeValue(param, raw);
+	for (var i = 0; i < data.length; i++) {
+		block[param.off + i] = data[i];
+	}
+}
+
+// one DT1 per run of consecutive offsets below size
+function runs(block, size, base, dev, out) {
+	var start = -1, data = [];
+	for (var off = 0; off <= size; off++) {
+		if (off < size && block[off] !== undefined) {
+			if (start < 0) {
+				start = off;
+			}
+			data.push(block[off]);
+		} else if (start >= 0) {
+			out.push(JVSysEx.dt1(dev, JVSysEx.addOffset(base, start), data));
+			start = -1;
+			data = [];
+		}
+	}
+}
 
 function get() {
 	pending = JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
@@ -209,6 +298,8 @@ function currentEfxType() {
 }
 
 function notifydeleted() {
+	sendTask.cancel();
+	sendTask.freepeer();
 	nextTask.cancel();
 	nextTask.freepeer();
 	timeoutTask.cancel();

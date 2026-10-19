@@ -12,6 +12,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   parameters. Read back by **Get**. (#8)
 
 ### Changed
+- **Send is much faster:** the device writes the patch as about 11 SysEx blocks instead of one message per
+  parameter (453 with all pages), so it takes well under a second instead of ~4.5 s. The same applies to the push
+  when a set loads. Settings the device doesn't edit yet are left out, so the JV keeps them.
 - The Tone tabs moved to the top of their column; the page buttons **LFO**, **FX** and **Patch** sit below them, with **Setup** at the bottom and room for more pages.
 - FX page: the hint under the EFX dials now reads "(n) = raw value"; most EFX values are shown as real values since 0.5.0.
 
