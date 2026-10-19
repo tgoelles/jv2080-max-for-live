@@ -15,7 +15,11 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Send is much faster:** the device writes the patch as about 11 SysEx blocks instead of one message per
   parameter (453 with all pages), so it takes well under a second instead of ~4.5 s. The same applies to the push
   when a set loads. Settings the device doesn't edit yet are left out, so the JV keeps them.
-- The Tone tabs moved to the top of their column; the page buttons **LFO**, **FX** and **Patch** sit below them, with **Setup** at the bottom and room for more pages.
+- The Tone tabs moved to the top of their column, with **LFO** and **FX** below them, and **Patch** just above **Setup**
+  at the bottom (patch-wide, like Setup).
+
+### Fixed
+- A new device opened on Tone 2 instead of Tone 1.
 - FX page: the hint under the EFX dials now reads "(n) = raw value"; most EFX values are shown as real values since 0.5.0.
 
 ## [0.5.0] - 2026-10-17
