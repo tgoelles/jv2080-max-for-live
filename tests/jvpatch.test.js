@@ -20,12 +20,14 @@ TYPES.forEach((t, i) => {
 	assert.ok(ends.every(k => /^TVA/.test(t.blocks[k][0])), `type ${i + 1}: every output is a TVA`);
 	assert.strictEqual(t.blocks.filter(b => b[0] === 'B').length > 0, i === 2 || i === 3, `type ${i + 1}: booster only in 3 and 4`);
 });
-// as on the JV (photos, corrected by the maintainer): R drawn filled in Types 6, 7, 8 and 10; Type 8 also has
-// WG2 going straight to TVF2, below the R block
-[4, 8].forEach(i => assert.ok(TYPES[i].blocks.some(b => b[0] === 'R'), `type ${i + 1}: plain R`));
-[5, 6, 7, 9].forEach(i => assert.ok(TYPES[i].blocks.some(b => b[0] === 'R+'), `type ${i + 1}: filled R`));
+// as on the JV (photos, corrected by the maintainer): R drawn filled in Types 6-10; Types 8 and 10 also send
+// Tone 2 past the R block (WG2 -> TVF2, TVF2 -> TVA2)
+assert.ok(TYPES[4].blocks.some(b => b[0] === 'R'), 'type 5: plain R');
+[5, 6, 7, 8, 9].forEach(i => assert.ok(TYPES[i].blocks.some(b => b[0] === 'R+'), `type ${i + 1}: filled R`));
 const t8 = TYPES[7], wg2 = t8.blocks.findIndex(b => b[0] === 'WG2'), tvf2 = t8.blocks.findIndex(b => b[0] === 'TVF2');
 assert.ok(t8.links.some(l => l[0] === wg2 && l[1] === tvf2) && !TYPES[6].links.some(l => l[0] === wg2 && l[1] === tvf2), 'type 8 bypass');
+const t10 = TYPES[9], f2 = t10.blocks.findIndex(b => b[0] === 'TVF2'), a2 = t10.blocks.findIndex(b => b[0] === 'TVA2');
+assert.ok(t10.links.some(l => l[0] === f2 && l[1] === a2) && !TYPES[8].links.some(l => l[0] === f2 && l[1] === a2), 'type 10 bypass');
 // the filters run TVF1 -> TVF2 when both are in one chain (Types 2-6)
 [1, 2, 3, 4, 5].forEach(i => {
 	const k1 = TYPES[i].blocks.findIndex(b => b[0] === 'TVF1'), k2 = TYPES[i].blocks.findIndex(b => b[0] === 'TVF2');

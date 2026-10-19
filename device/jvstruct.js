@@ -24,7 +24,7 @@ var BOOST = ["0", "+6", "+12", "+18"];
 // Each type: blocks [label, column, lane] (lanes 0 = first tone, 1 = second tone, 0.5 = between) and
 // links [from block, to block]. Labels with "1"/"2" get the pair's tone numbers. Copied from the JV-2080's
 // Struct page (photos of all 10 types, 2026-10-19): the second tone joins after TVA1, the filters then run
-// TVF1 -> TVF2. "R+" is an R block the JV draws filled (Types 6, 7, 8, 10).
+// TVF1 -> TVF2. "R+" is an R block the JV draws filled (Types 6-10).
 function ring(tvf, plus) {   // WG1-TVA1 and WG2 into a B/R block, then TVF1 -> TVF2 -> TVA2 (Types 4-6)
 	return {
 		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], [tvf, 2, 0.5], ["TVF1", 3, 0], ["TVF2", 4, 1], ["TVA2", 5, 1]],
@@ -41,10 +41,14 @@ function ring7(mix) {        // WG1-TVF1-TVA1 and WG2 into R, then TVF2 -> TVA2 
 		links: links
 	};
 }
-function ring9(label) {      // WG1-TVF1-TVA1 and WG2-TVF2 into R, then TVA2 (Types 9, 10)
+function ring9(mix) {        // WG1-TVF1-TVA1 and WG2-TVF2 into R, then TVA2 (Types 9, 10); mix: TVF2 also goes
+	var links = [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [5, 6]];   // straight to TVA2, below the R block
+	if (mix) {
+		links.push([4, 6]);
+	}
 	return {
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], [label, 3, 0.5], ["TVA2", 4, 1]],
-		links: [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [5, 6]]
+		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], ["R+", 3, 0.5], ["TVA2", 4, 1]],
+		links: links
 	};
 }
 var TYPES = [
@@ -65,8 +69,8 @@ var TYPES = [
 	ring("R+"),      // 6: ring modulator with Tone 2 mixed in, then the two filters
 	ring7(false),    // 7
 	ring7(true),     // 8: Tone 2 also mixed in, the line below R
-	ring9("R"),      // 9
-	ring9("R+")      // 10
+	ring9(false),    // 9
+	ring9(true)      // 10: Tone 2 also mixed in, the line below R
 ];
 
 if (typeof mgraphics !== "undefined") {
