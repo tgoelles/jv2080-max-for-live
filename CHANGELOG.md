@@ -5,10 +5,12 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-19
+
 ### Added
-- **Patch page** (button **Patch** below the Tone tabs): patch level, pan, octave, bend range, analog feel, stretch
-  tune, key assign, legato, voice priority, tempo, clock source, category, portamento; Structure Types 1&2 / 3&4 and
-  booster with a diagram; per-tone key and velocity ranges and cross fade with a zone graphic. 43 new automatable
+- **Patch page** (button **Patch** above Setup): patch level, pan, octave, bend range, analog feel, stretch tune, key
+  assign, legato, voice priority, tempo ("---" with clock source SYSTEM, like the JV), clock source, category,
+  portamento; Structure Types 1&2 / 3&4 and booster with the JV's structure diagrams; per-tone key and velocity ranges and cross fade with a zone graphic. 43 new automatable
   parameters. Read back by **Get**. (#8)
 
 ### Changed
@@ -20,6 +22,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 - A new device opened on Tone 2 instead of Tone 1.
+- "typedmess: int: corrupt object" errors in the Max console after a section was rebuilt.
+- A Send while a Get was running made the JV miss a request ("no reply from the JV"); they now take turns.
 - FX page: the hint under the EFX dials now reads "(n) = raw value"; most EFX values are shown as real values since 0.5.0.
 
 ## [0.5.0] - 2026-10-17
@@ -144,7 +148,8 @@ include the JV (see *MIDI setup* in the README).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.2.0...v0.3.0
