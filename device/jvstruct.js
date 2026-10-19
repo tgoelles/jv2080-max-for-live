@@ -8,7 +8,7 @@
 //
 // The diagrams are copied from the JV-2080's own Struct page.
 // "1"/"2" stand for the pair's first/second tone (3/4 for the second pair). B = booster, R = ring modulator,
-// R+ = ring modulator with the second tone mixed in.
+// R+ = ring modulator drawn filled, as the JV does for some types.
 
 autowatch = 1;
 inlets = 1;
@@ -24,17 +24,21 @@ var BOOST = ["0", "+6", "+12", "+18"];
 // Each type: blocks [label, column, lane] (lanes 0 = first tone, 1 = second tone, 0.5 = between) and
 // links [from block, to block]. Labels with "1"/"2" get the pair's tone numbers. Copied from the JV-2080's
 // Struct page (photos of all 10 types, 2026-10-19): the second tone joins after TVA1, the filters then run
-// TVF1 -> TVF2, and "R+" (drawn inverted on the JV) is the ring modulator with Tone 2 mixed in.
+// TVF1 -> TVF2. "R+" is an R block the JV draws filled (Types 6, 7, 8, 10).
 function ring(tvf, plus) {   // WG1-TVA1 and WG2 into a B/R block, then TVF1 -> TVF2 -> TVA2 (Types 4-6)
 	return {
 		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], [tvf, 2, 0.5], ["TVF1", 3, 0], ["TVF2", 4, 1], ["TVA2", 5, 1]],
 		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5], [5, 6]]
 	};
 }
-function ring7(label) {      // WG1-TVF1-TVA1 and WG2 into R, then TVF2 -> TVA2 (Types 7, 8)
+function ring7(mix) {        // WG1-TVF1-TVA1 and WG2 into R, then TVF2 -> TVA2 (Types 7, 8); mix: WG2 also goes
+	var links = [[0, 1], [1, 2], [2, 4], [3, 4], [4, 5], [5, 6]];   // straight to TVF2, below the R block
+	if (mix) {
+		links.push([3, 5]);
+	}
 	return {
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], [label, 3, 0.5], ["TVF2", 4, 1], ["TVA2", 5, 1]],
-		links: [[0, 1], [1, 2], [2, 4], [3, 4], [4, 5], [5, 6]]
+		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["R+", 3, 0.5], ["TVF2", 4, 1], ["TVA2", 5, 1]],
+		links: links
 	};
 }
 function ring9(label) {      // WG1-TVF1-TVA1 and WG2-TVF2 into R, then TVA2 (Types 9, 10)
@@ -59,8 +63,8 @@ var TYPES = [
 	ring("B"),       // 4: booster, then the two filters
 	ring("R"),       // 5: ring modulator, then the two filters
 	ring("R+"),      // 6: ring modulator with Tone 2 mixed in, then the two filters
-	ring7("R"),      // 7
-	ring7("R+"),     // 8
+	ring7(false),    // 7
+	ring7(true),     // 8: Tone 2 also mixed in, the line below R
 	ring9("R"),      // 9
 	ring9("R+")      // 10
 ];
