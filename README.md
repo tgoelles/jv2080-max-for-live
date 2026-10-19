@@ -125,6 +125,8 @@ On/Off* still switch the whole unit's effects on and off.
 
 ### Patch page
 
+![The Patch page](docs/patch.webp)
+
 Click **Patch** (below the Tone tabs) for the settings of the whole patch:
 
 - **Patch / Mode / Portamento**: level, pan, octave shift, bend range up/down, analog feel, stretch tune; key assign
