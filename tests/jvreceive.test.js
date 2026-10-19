@@ -84,7 +84,8 @@ assert.ok(Number.isInteger(set["FX/EFXType"]) && Number.isInteger(set["FX/T4RevS
 
 // Send writes the patch back as a few DT1 blocks; after a Get of the real dump, every bound byte matches the dump
 {
-	out.length = 0; ctx.send(); run();
+	posts.length = 0; out.length = 0; ctx.send(); run();
+	assert.ok(/send: \d+ blocks, 0 of \d+ bytes differ/.test(posts.pop()), "Get -> Send changes nothing");
 	const msgs = []; let cur = null;
 	for (const o of out.filter(o => o[0] === 0)) {
 		if (o[1] === 0xF0) cur = [];

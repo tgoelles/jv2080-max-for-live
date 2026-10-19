@@ -67,8 +67,34 @@ var sendTask = new Task(sendBlock, this);
 // of one message per parameter. Parameters the device doesn't edit are left out, so the JV keeps its own values.
 function send() {
 	outbox = patchBlocks(0x10);   // the queue sets the real device ID
+	report(outbox);
 	sendTask.cancel();
 	sendBlock();
+}
+
+// What the JV last told us, by address (Get replies and panel edits): Send reports how many bytes it changes
+// compared to that, so a "*" on the JV after Get -> Send can be told apart from a real difference.
+var lastRead = {};
+
+function report(messages) {
+	var known = 0, changed = [];
+	for (var i = 0; i < messages.length; i++) {
+		var m = messages[i];
+		var addr = JVSysEx.toNumber(m.slice(5, 9));
+		for (var k = 9; k < m.length - 2; k++) {
+			var a = addr + k - 9;
+			if (lastRead[a] !== undefined) {
+				known++;
+				if (lastRead[a] !== m[k]) {
+					changed.push(JVSysEx.toAddress(a).join(" ") + ": " + lastRead[a] + " -> " + m[k]);
+				}
+			}
+		}
+	}
+	if (known) {
+		post("jvreceive: send: " + messages.length + " blocks, " + changed.length + " of " + known +
+			" bytes differ from the JV's last values" + (changed.length ? " (" + changed.slice(0, 8).join(", ") + ")" : "") + "\n");
+	}
 }
 
 function sendBlock() {
@@ -222,6 +248,10 @@ function receive(bytes) {
 	var where = JVSysEx.locate(msg.addr);
 	if (!where || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
+	}
+	var base = JVSysEx.toNumber(msg.addr);
+	for (var i = 0; i < msg.data.length; i++) {
+		lastRead[base + i] = msg.data[i];
 	}
 	apply(JVSysEx.decode(msg));
 	answered(msg.addr);
