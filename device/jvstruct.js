@@ -6,9 +6,9 @@
 //   booster <0-3>   Booster gain 0 / +6 / +12 / +18 dB (shown in the B block)
 // outlet 0: "active 0/1" for the Booster menu: the booster only works in Types 3 and 4 (manual p.75)
 //
-// The diagrams follow the manual's descriptions (pp.74-75): which blocks are combined and in what order.
+// The diagrams are copied from the JV-2080's own Struct page.
 // "1"/"2" stand for the pair's first/second tone (3/4 for the second pair). B = booster, R = ring modulator,
-// + = mixer.
+// R+ = ring modulator with the second tone mixed in.
 
 autowatch = 1;
 inlets = 1;
@@ -22,48 +22,47 @@ var boost = 0;
 var BOOST = ["0", "+6", "+12", "+18"];
 
 // Each type: blocks [label, column, lane] (lanes 0 = first tone, 1 = second tone, 0.5 = between) and
-// links [from block, to block]. Labels with "1"/"2" get the pair's tone numbers.
+// links [from block, to block]. Labels with "1"/"2" get the pair's tone numbers. Copied from the JV-2080's
+// Struct page (photos of all 10 types, 2026-10-19): the second tone joins after TVA1, the filters then run
+// TVF1 -> TVF2, and "R+" (drawn inverted on the JV) is the ring modulator with Tone 2 mixed in.
+function ring(tvf, plus) {   // WG1-TVA1 and WG2 into a B/R block, then TVF1 -> TVF2 -> TVA2 (Types 4-6)
+	return {
+		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], [tvf, 2, 0.5], ["TVF1", 3, 0], ["TVF2", 4, 1], ["TVA2", 5, 1]],
+		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5], [5, 6]]
+	};
+}
+function ring7(label) {      // WG1-TVF1-TVA1 and WG2 into R, then TVF2 -> TVA2 (Types 7, 8)
+	return {
+		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], [label, 3, 0.5], ["TVF2", 4, 1], ["TVA2", 5, 1]],
+		links: [[0, 1], [1, 2], [2, 4], [3, 4], [4, 5], [5, 6]]
+	};
+}
+function ring9(label) {      // WG1-TVF1-TVA1 and WG2-TVF2 into R, then TVA2 (Types 9, 10)
+	return {
+		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], [label, 3, 0.5], ["TVA2", 4, 1]],
+		links: [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [5, 6]]
+	};
+}
 var TYPES = [
 	{ // 1: independent tones
 		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], ["TVA2", 2, 1]],
 		links: [[0, 1], [1, 2], [3, 4], [4, 5]]
 	},
-	{ // 2: the two filters stacked; TVA1 sets the balance
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["+", 3, 0.5], ["TVF2", 4, 0.5], ["TVA2", 5, 0.5]],
-		links: [[0, 1], [1, 2], [2, 4], [3, 4], [4, 5], [5, 6]]
+	{ // 2: WG1-TVA1 and WG2 mixed, then the two filters stacked
+		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["TVF1", 2, 0], ["TVF2", 3, 1], ["TVA2", 4, 1]],
+		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5]]
 	},
-	{ // 3: tones mixed, filtered, then the booster
-		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["+", 2, 0.5], ["TVF", 3, 0.5], ["B", 4, 0.5], ["TVA2", 5, 0.5]],
+	{ // 3: mixed, TVF1, booster, TVF2
+		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["TVF1", 2, 0], ["B", 3, 0.5], ["TVF2", 4, 1], ["TVA2", 5, 1]],
 		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5], [5, 6]]
 	},
-	{ // 4: booster, then the two filters stacked; TVA1 sets the booster's effect
-		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["B", 2, 0.5], ["TVF1", 3, 0.5], ["TVF2", 4, 0.5], ["TVA2", 5, 0.5]],
-		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5], [5, 6]]
-	},
-	{ // 5: ring modulator, then the two filters stacked; TVA1 sets the ring depth
-		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["R", 2, 0.5], ["TVF1", 3, 0.5], ["TVF2", 4, 0.5], ["TVA2", 5, 0.5]],
-		links: [[0, 1], [1, 3], [2, 3], [3, 4], [4, 5], [5, 6]]
-	},
-	{ // 6: ring modulator mixed with Tone 2, then the two filters stacked
-		blocks: [["WG1", 0, 0], ["TVA1", 1, 0], ["WG2", 0, 1], ["R", 2, 0.5], ["+", 3, 0.5], ["TVF1", 4, 0.5], ["TVF2", 5, 0.5], ["TVA2", 6, 0.5]],
-		links: [[0, 1], [1, 3], [2, 3], [2, 4], [3, 4], [4, 5], [5, 6], [6, 7]]
-	},
-	{ // 7: filtered Tone 1 and Tone 2 into the ring modulator
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], ["R", 3, 0.5], ["TVA2", 4, 0.5]],
-		links: [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [5, 6]]
-	},
-	{ // 8: filtered tones into the ring modulator, mixed with Tone 2, then filtered
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["R", 3, 0.5], ["+", 4, 0.5], ["TVF2", 5, 0.5], ["TVA2", 6, 0.5]],
-		links: [[0, 1], [1, 2], [2, 4], [3, 4], [3, 5], [4, 5], [5, 6], [6, 7]]
-	},
-	{ // 9: each tone filtered, then the ring modulator; TVA1 sets the ring depth
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], ["R", 3, 0.5], ["TVA2", 4, 0.5]],
-		links: [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [5, 6]]
-	},
-	{ // 10: each tone filtered, ring modulator mixed with Tone 2
-		blocks: [["WG1", 0, 0], ["TVF1", 1, 0], ["TVA1", 2, 0], ["WG2", 0, 1], ["TVF2", 1, 1], ["R", 3, 0.5], ["+", 4, 0.5], ["TVA2", 5, 0.5]],
-		links: [[0, 1], [1, 2], [2, 5], [3, 4], [4, 5], [4, 6], [5, 6], [6, 7]]
-	}
+	ring("B"),       // 4: booster, then the two filters
+	ring("R"),       // 5: ring modulator, then the two filters
+	ring("R+"),      // 6: ring modulator with Tone 2 mixed in, then the two filters
+	ring7("R"),      // 7
+	ring7("R+"),     // 8
+	ring9("R"),      // 9
+	ring9("R+")      // 10
 ];
 
 if (typeof mgraphics !== "undefined") {
@@ -133,16 +132,22 @@ function paint() {
 	for (i = 0; i < t.blocks.length; i++) {
 		var r = pos(t.blocks[i]);
 		var name = t.blocks[i][0];
-		var special = name === "B" || name === "R" || name === "+";
-		mgraphics.set_source_rgba(0.12, 0.12, 0.12, 1);
+		var special = name === "B" || name === "R" || name === "R+";
+		var inverted = name === "R+";   // the JV draws this block inverted
+		if (inverted) {
+			mgraphics.set_source_rgba(1.0, 0.71, 0.2, 1);
+		} else {
+			mgraphics.set_source_rgba(0.12, 0.12, 0.12, 1);
+		}
 		mgraphics.rectangle(r[0], r[1], r[2], r[3]);
 		mgraphics.fill();
 		mgraphics.set_source_rgba(special ? 1.0 : 0.65, special ? 0.71 : 0.65, special ? 0.2 : 0.65, 1);
 		mgraphics.rectangle(r[0] + 0.5, r[1] + 0.5, r[2] - 1, r[3] - 1);
 		mgraphics.stroke();
-		var text = name === "B" ? "B" + BOOST[boost] : label(name);
+		var text = name === "B" ? "B" + BOOST[boost] : (name === "R+" ? "R" : label(name));
 		var m = mgraphics.text_measure(text);
-		mgraphics.set_source_rgba(0.9, 0.9, 0.9, 1);
+		var c = inverted ? 0.12 : 0.9;
+		mgraphics.set_source_rgba(c, c, c, 1);
 		mgraphics.move_to(r[0] + (r[2] - m[0]) / 2, r[1] + r[3] / 2 + 3);
 		mgraphics.show_text(text);
 	}

@@ -20,6 +20,13 @@ TYPES.forEach((t, i) => {
 	assert.ok(ends.every(k => /^TVA/.test(t.blocks[k][0])), `type ${i + 1}: every output is a TVA`);
 	assert.strictEqual(t.blocks.filter(b => b[0] === 'B').length > 0, i === 2 || i === 3, `type ${i + 1}: booster only in 3 and 4`);
 });
+// as on the JV: Types 6, 8, 10 are 5, 7, 9 with the ring modulator mixing in the second tone
+[5, 7, 9].forEach(i => assert.ok(TYPES[i].blocks.some(b => b[0] === 'R+') && TYPES[i - 1].blocks.some(b => b[0] === 'R'), `type ${i + 1}`));
+// the filters run TVF1 -> TVF2 when both are in one chain (Types 2-6)
+[1, 2, 3, 4, 5].forEach(i => {
+	const k1 = TYPES[i].blocks.findIndex(b => b[0] === 'TVF1'), k2 = TYPES[i].blocks.findIndex(b => b[0] === 'TVF2');
+	assert.ok(TYPES[i].links.some(l => l[0] === k1) && k1 < k2, `type ${i + 1}: TVF1 before TVF2`);
+});
 // the Booster menu is active only for Types 3 and 4; labels use the pair's tone numbers
 for (let v = 0; v < 10; v++) {
 	out.length = 0; s.type(v);
