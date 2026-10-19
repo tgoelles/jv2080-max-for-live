@@ -12,7 +12,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
   parameters. Read back by **Get**. (#8)
 
 ### Changed
-- The **LFO** and **FX** buttons share a row below the Tone tabs, to make room for **Patch**.
+- The Tone tabs moved to the top of their column; the page buttons **LFO**, **FX** and **Patch** sit below them, with **Setup** at the bottom and room for more pages.
 - FX page: the hint under the EFX dials now reads "(n) = raw value"; most EFX values are shown as real values since 0.5.0.
 
 ## [0.5.0] - 2026-10-17
