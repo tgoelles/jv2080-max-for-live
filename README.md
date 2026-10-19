@@ -9,7 +9,7 @@ The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelope
 velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
 (JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
 choose which tone you're editing. Below them, **LFO** opens the selected tone's [LFO page](#lfo-page), **FX** the
-patch's [effects](#fx-page), and **Setup** the [Setup page](#setup-page).
+patch's [effects](#fx-page), **Patch** the [patch-wide settings](#patch-page), and **Setup** the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -116,6 +116,19 @@ brackets, e.g. "(80)", until their value tables are measured
 The order and ranges of all 40 EFX types were measured on a JV-2080, since the manual's parameter lists aren't in the
 order the JV uses. The **EFX / Chorus / Reverb** buttons under *Effects
 On/Off* still switch the whole unit's effects on and off.
+
+### Patch page
+
+Click **Patch** (below the Tone tabs) for the settings of the whole patch:
+
+- **Patch / Mode / Portamento**: level, pan, octave shift, bend range up/down, analog feel, stretch tune; key assign
+  POLY/SOLO, solo legato, voice priority, patch tempo (shows "---" when the clock source is SYSTEM, like the JV),
+  clock source and category; portamento on/off, time, mode,
+  type and start.
+- **Structure**: how Tones 1&2 and 3&4 are combined (Types 1–10, with booster and ring modulator), with a diagram
+  like the JV's Struct page. The **boost** menu only matters for Types 3 and 4 and is greyed out otherwise.
+- **Key / velocity zones**: per tone the keyboard range (C-1 … G9), velocity range and velocity cross fade, for
+  splits and layers. The graphic shows each tone's zone. Velocity ranges only apply when **velocity ranges** is on.
 
 ## Global controls (cutoff, resonance, attack, release)
 
