@@ -122,7 +122,8 @@ On/Off* still switch the whole unit's effects on and off.
 Click **Patch** (below the Tone tabs) for the settings of the whole patch:
 
 - **Patch / Mode / Portamento**: level, pan, octave shift, bend range up/down, analog feel, stretch tune; key assign
-  POLY/SOLO, solo legato, voice priority, patch tempo, clock source and category; portamento on/off, time, mode,
+  POLY/SOLO, solo legato, voice priority, patch tempo (shows "---" when the clock source is SYSTEM, like the JV),
+  clock source and category; portamento on/off, time, mode,
   type and start.
 - **Structure**: how Tones 1&2 and 3&4 are combined (Types 1–10, with booster and ring modulator), with a diagram
   like the JV's Struct page. The **boost** menu only matters for Types 3 and 4 and is greyed out otherwise.
