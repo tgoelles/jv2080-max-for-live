@@ -82,6 +82,46 @@ for (const b of B) {
 assert.ok(B.some(b => b.block === "common" && b.id === "efx_type"), "EFX type is bound");
 assert.ok(Number.isInteger(set["FX/EFXType"]) && Number.isInteger(set["FX/T4RevSend"]));
 
+// Send writes the patch back as a few DT1 blocks; after a Get of the real dump, every bound byte matches the dump
+{
+	posts.length = 0; out.length = 0; ctx.send(); run();
+	assert.ok(/send: \d+ blocks, 0 of \d+ bytes differ/.test(posts.pop()), "Get -> Send changes nothing");
+	const msgs = []; let cur = null;
+	for (const o of out.filter(o => o[0] === 0)) {
+		if (o[1] === 0xF0) cur = [];
+		cur.push(o[1]);
+		if (o[1] === 0xF7) msgs.push(cur);
+	}
+	assert.ok(msgs.length >= 5 && msgs.length <= 40, `send: ${msgs.length} messages`);
+	const J = require("../device/jvsysex.js");
+	const sent = {};   // "a1 a2 a3 a4" + offset -> byte
+	for (const m of msgs) {
+		assert.strictEqual(m[4], 0x12, "DT1");
+		const body = m.slice(5, m.length - 2);
+		assert.strictEqual((body.reduce((a, b) => a + b, 0) + m[m.length - 2]) % 128, 0, "checksum");
+		const addr = J.toNumber(body.slice(0, 4));
+		body.slice(4).forEach((v, i) => { sent[addr + i] = v; });
+	}
+	let compared = 0;
+	for (const m of dump.map(asTemp)) {
+		const body = m.slice(5, m.length - 2), addr = J.toNumber(body.slice(0, 4));
+		body.slice(4).forEach((v, i) => { if (sent[addr + i] !== undefined) { compared++; assert.strictEqual(sent[addr + i], v, `byte at ${(addr + i).toString(16)}`); } });
+	}
+	assert.ok(compared > 400, `${compared} bytes compared`);
+	if (process.env.VERBOSE) console.log("send:", msgs.length, "messages,", compared, "bytes match the dump");
+}
+
+// Get and Send take turns: a Send while a Get is still waiting for replies goes out when the Get is done
+{
+	out.length = 0; ctx.get(); ctx.send();
+	const dt1s = () => out.filter(o => o[0] === 0 && o[1] === 0x12).length;
+	assert.strictEqual(dt1s(), 0, "send waits for the get");
+	for (const m of dump.map(asTemp)) { feed(m); run(now + 30); }
+	run();
+	assert.ok(dt1s() >= 5, "send went out after the get");
+	posts.length = 0;
+}
+
 // a lost reply doesn't stall the read: after the timeout the next request goes out
 out.length = 0; ctx.get();
 const t0 = now;

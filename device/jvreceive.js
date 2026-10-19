@@ -1,8 +1,9 @@
 // Read the JV's temporary patch back into the device (#6).
 //
 // inlet 0: MIDI bytes from midiin (only complete SysEx messages are used); "get" requests the patch;
+//          "send" writes the device's whole patch to the JV (Send button, on-load push);
 //          "model 0/1/2" (JV-2080, JV-1080, XP-50/80) sets the patch common size to request
-// outlet 0: SysEx bytes (RQ1 requests) for jv_sysex_queue.js inlet 1
+// outlet 0: SysEx bytes (RQ1 requests, DT1 blocks for "send") for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "set <patch name>" for a comment showing the name
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05)
@@ -57,8 +58,138 @@ var pending = [];       // requests still to send
 var waiting = null;     // the request we're waiting for: its 4 address bytes
 var nextTask = new Task(sendNext, this);
 var timeoutTask = new Task(onTimeout, this);
+var SEND_GAP_MS = 60;   // between the DT1 blocks of "send": a 129-byte message takes ~45 ms on the MIDI cable
+var outbox = [];        // DT1 blocks still to send
+var sendTask = new Task(sendBlock, this);
+
+// Send: every bound control's value, read back from the controls and converted to raw values (the reverse of
+// a read), as one DT1 per run of consecutive addresses: patch common and the 4 tones in a few messages instead
+// of one message per parameter. Parameters the device doesn't edit are left out, so the JV keeps its own values.
+var sendAfterGet = false;
+var getAfterSend = false;
+
+function send() {
+	if (pending.length || waiting) {
+		sendAfterGet = true;   // a Get is still running: send when it's done
+		return;
+	}
+	cache = {};
+	outbox = patchBlocks(0x10);   // the queue sets the real device ID
+	report(outbox);
+	sendTask.cancel();
+	sendBlock();
+}
+
+// What the JV last told us, by address (Get replies and panel edits): Send reports how many bytes it changes
+// compared to that, so a "*" on the JV after Get -> Send can be told apart from a real difference.
+var lastRead = {};
+
+function report(messages) {
+	var known = 0, changed = [];
+	for (var i = 0; i < messages.length; i++) {
+		var m = messages[i];
+		var addr = JVSysEx.toNumber(m.slice(5, 9));
+		for (var k = 9; k < m.length - 2; k++) {
+			var a = addr + k - 9;
+			if (lastRead[a] !== undefined) {
+				known++;
+				if (lastRead[a] !== m[k]) {
+					changed.push(JVSysEx.toAddress(a).join(" ") + ": " + lastRead[a] + " -> " + m[k]);
+				}
+			}
+		}
+	}
+	if (known) {
+		post("jvreceive: send: " + messages.length + " blocks, " + changed.length + " of " + known +
+			" bytes differ from the JV's last values" + (changed.length ? " (" + changed.slice(0, 8).join(", ") + ")" : "") + "\n");
+	}
+}
+
+function sendBlock() {
+	if (!outbox.length) {
+		return;
+	}
+	var m = outbox.shift();
+	for (var i = 0; i < m.length; i++) {
+		outlet(0, m[i]);
+	}
+	if (outbox.length) {
+		sendTask.schedule(SEND_GAP_MS);
+	} else if (getAfterSend) {
+		getAfterSend = false;
+		get();
+	}
+}
+
+// The DT1 messages for the device's patch: [block, tone] -> runs of consecutive bytes
+function patchBlocks(dev) {
+	var bytes = { common: {} };
+	for (var t = 1; t <= 4; t++) {
+		bytes["tone" + t] = {};
+	}
+	for (var i = 0; i < JV2080_BINDINGS.length; i++) {
+		var b = JV2080_BINDINGS[i];
+		var tones = b.tones.length ? b.tones : [null];
+		for (var k = 0; k < tones.length; k++) {
+			var obj = find(b.path[0].replace("{n}", tones[k]), b.varname);
+			if (obj) {
+				place(bytes[b.block === "common" ? "common" : "tone" + tones[k]], b, controlValue(obj));
+			}
+		}
+	}
+	var out = [];
+	runs(bytes.common, commonSize, JVSysEx.patchAddress("common"), dev, out);
+	for (t = 1; t <= 4; t++) {
+		runs(bytes["tone" + t], 0x81, JVSysEx.patchAddress("tone", t), dev, out);
+	}
+	return out;
+}
+
+function controlValue(obj) {
+	var v = obj.getvalueof();
+	return Math.round(v instanceof Array ? v[0] : v) || 0;
+}
+
+// a binding's control value as raw bytes at their offsets
+function place(block, b, value) {
+	var op = b.ops.length ? b.ops[0][0] : null;
+	if (op === "wave_group") {
+		var g = JVSysEx.waveGroupFromMenu(value);
+		block[JVSysEx.find("tone", "wave_group_type").off] = g.type;
+		block[JVSysEx.find("tone", "wave_group_id").off] = g.id;
+		return;
+	}
+	var raw = op === "efx" ? JV2080_EFX.toRaw(currentEfxType(), b.ops[0][1], value) : JVSysEx.fromControl(b, value);
+	var param = JVSysEx.find(b.block, b.id);
+	var data = JVSysEx.encodeValue(param, raw);
+	for (var i = 0; i < data.length; i++) {
+		block[param.off + i] = data[i];
+	}
+}
+
+// one DT1 per run of consecutive offsets below size
+function runs(block, size, base, dev, out) {
+	var start = -1, data = [];
+	for (var off = 0; off <= size; off++) {
+		if (off < size && block[off] !== undefined) {
+			if (start < 0) {
+				start = off;
+			}
+			data.push(block[off]);
+		} else if (start >= 0) {
+			out.push(JVSysEx.dt1(dev, JVSysEx.addOffset(base, start), data));
+			start = -1;
+			data = [];
+		}
+	}
+}
 
 function get() {
+	if (outbox.length) {
+		getAfterSend = true;   // a Send is still going out: read when it's done
+		return;
+	}
+	cache = {};
 	pending = JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
 	waiting = null;
 	timeoutTask.cancel();
@@ -68,6 +199,10 @@ function get() {
 function sendNext() {
 	if (!pending.length) {
 		waiting = null;
+		if (sendAfterGet) {
+			sendAfterGet = false;
+			send();
+		}
 		return;
 	}
 	var req = pending.shift();
@@ -133,6 +268,10 @@ function receive(bytes) {
 	var where = JVSysEx.locate(msg.addr);
 	if (!where || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
+	}
+	var base = JVSysEx.toNumber(msg.addr);
+	for (var i = 0; i < msg.data.length; i++) {
+		lastRead[base + i] = msg.data[i];
 	}
 	apply(JVSysEx.decode(msg));
 	answered(msg.addr);
@@ -209,6 +348,8 @@ function currentEfxType() {
 }
 
 function notifydeleted() {
+	sendTask.cancel();
+	sendTask.freepeer();
 	nextTask.cancel();
 	nextTask.freepeer();
 	timeoutTask.cancel();
@@ -217,9 +358,11 @@ function notifydeleted() {
 
 var cache = {};
 
+// Controls are looked up once per Get/Send (cache cleared in get() and send()): a cached object can be freed
+// when Max rebuilds a bpatcher, and messages to it fail with "corrupt object".
 function find(path, varname) {
 	var key = path + "/" + varname;
-	if (cache[key]) {
+	if (cache[key] && cache[key].valid !== false) {
 		return cache[key];
 	}
 	var box = jsthis.patcher.getnamed(path);
