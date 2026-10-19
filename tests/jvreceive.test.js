@@ -111,6 +111,17 @@ assert.ok(Number.isInteger(set["FX/EFXType"]) && Number.isInteger(set["FX/T4RevS
 	if (process.env.VERBOSE) console.log("send:", msgs.length, "messages,", compared, "bytes match the dump");
 }
 
+// Get and Send take turns: a Send while a Get is still waiting for replies goes out when the Get is done
+{
+	out.length = 0; ctx.get(); ctx.send();
+	const dt1s = () => out.filter(o => o[0] === 0 && o[1] === 0x12).length;
+	assert.strictEqual(dt1s(), 0, "send waits for the get");
+	for (const m of dump.map(asTemp)) { feed(m); run(now + 30); }
+	run();
+	assert.ok(dt1s() >= 5, "send went out after the get");
+	posts.length = 0;
+}
+
 // a lost reply doesn't stall the read: after the timeout the next request goes out
 out.length = 0; ctx.get();
 const t0 = now;

@@ -65,7 +65,15 @@ var sendTask = new Task(sendBlock, this);
 // Send: every bound control's value, read back from the controls and converted to raw values (the reverse of
 // a read), as one DT1 per run of consecutive addresses: patch common and the 4 tones in a few messages instead
 // of one message per parameter. Parameters the device doesn't edit are left out, so the JV keeps its own values.
+var sendAfterGet = false;
+var getAfterSend = false;
+
 function send() {
+	if (pending.length || waiting) {
+		sendAfterGet = true;   // a Get is still running: send when it's done
+		return;
+	}
+	cache = {};
 	outbox = patchBlocks(0x10);   // the queue sets the real device ID
 	report(outbox);
 	sendTask.cancel();
@@ -107,6 +115,9 @@ function sendBlock() {
 	}
 	if (outbox.length) {
 		sendTask.schedule(SEND_GAP_MS);
+	} else if (getAfterSend) {
+		getAfterSend = false;
+		get();
 	}
 }
 
@@ -174,6 +185,11 @@ function runs(block, size, base, dev, out) {
 }
 
 function get() {
+	if (outbox.length) {
+		getAfterSend = true;   // a Send is still going out: read when it's done
+		return;
+	}
+	cache = {};
 	pending = JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
 	waiting = null;
 	timeoutTask.cancel();
@@ -183,6 +199,10 @@ function get() {
 function sendNext() {
 	if (!pending.length) {
 		waiting = null;
+		if (sendAfterGet) {
+			sendAfterGet = false;
+			send();
+		}
 		return;
 	}
 	var req = pending.shift();
@@ -338,9 +358,11 @@ function notifydeleted() {
 
 var cache = {};
 
+// Controls are looked up once per Get/Send (cache cleared in get() and send()): a cached object can be freed
+// when Max rebuilds a bpatcher, and messages to it fail with "corrupt object".
 function find(path, varname) {
 	var key = path + "/" + varname;
-	if (cache[key]) {
+	if (cache[key] && cache[key].valid !== false) {
 		return cache[key];
 	}
 	var box = jsthis.patcher.getnamed(path);
