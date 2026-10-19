@@ -5,7 +5,14 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Patch page** (button **Patch** below the Tone tabs): patch level, pan, octave, bend range, analog feel, stretch
+  tune, key assign, legato, voice priority, tempo, clock source, category, portamento; Structure Types 1&2 / 3&4 and
+  booster with a diagram; per-tone key and velocity ranges and cross fade with a zone graphic. 43 new automatable
+  parameters. Read back by **Get**. (#8)
+
 ### Changed
+- The **LFO** and **FX** buttons share a row below the Tone tabs, to make room for **Patch**.
 - FX page: the hint under the EFX dials now reads "(n) = raw value"; most EFX values are shown as real values since 0.5.0.
 
 ## [0.5.0] - 2026-10-17
