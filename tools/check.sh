@@ -4,6 +4,7 @@ set -e
 cd "$(dirname "$0")/.."
 python3 -I tools/validate.py device/*.maxpat "device/JV 2080 Control.amxd" "diagnostics/JV SysEx Monitor.amxd"
 python3 -I tools/bindings.py --check
+python3 -I tools/perffx.py --check
 for f in tests/*.test.js; do
 	node "$f"
 done
