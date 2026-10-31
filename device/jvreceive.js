@@ -7,7 +7,14 @@
 // outlet 0: SysEx bytes (RQ1 requests, DT1 blocks for "send") for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
 // outlet 2: "fromjv <patch name>" for the name field (jvname.js): after a read or a name edit on the JV
-// outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05)
+// outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05);
+//           "jvperf n" for its performance number (System Common 01); "perfselect" (Send in Perform mode)
+//
+// Perform mode ("mode 1", from the device's Patch / Perform switch): Get reads the temporary performance (common
+// + 16 parts, 01 00 ..) and shows its name ("perfname ..." on outlet 2). The JV's Sound Mode (System Common 00)
+// moves the switch, like the Effects On/Off toggles. After every mode change (except while the set loads) the
+// device asks the JV for System Common 00-05: its mode, performance number and patch, which the program block
+// follows.
 //
 // The 5 requests (common + 4 tones) go out one at a time: the next only after the previous reply has
 // arrived (or after a timeout). The JV needs ~45 ms to send a tone; a request arriving while it is still
@@ -37,13 +44,19 @@ setoutletassist(3, "jvpatch type id number");
 
 var jsthis = this;
 var nameChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // the JV's patch name, ASCII
+var perfChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // its performance name
+var perform = false;
+var loadedAt = new Date().getTime();
+var LOAD_MS = 1500;     // mode changes this soon after load come from the saved set: don't ask the JV
+var askTask = new Task(askWhere, this);
 // System Common 08-0A: EFX, Chorus and Reverb switch -> the toggles in the Effects On/Off bpatcher
 var SWITCHES = { 8: "live.toggle[3]", 9: "live.toggle[2]", 10: "live.toggle[1]" };
 var buf = null;
 var BY_ID = {};
 for (var i = 0; i < JV2080_BINDINGS.length; i++) {
 	var b = JV2080_BINDINGS[i];
-	(BY_ID[b.id] = BY_ID[b.id] || []).push(b);
+	var key = (b.block === "tone" ? "tone" : "common") + ":" + b.id;   // patch common and tone ids can repeat
+	(BY_ID[key] = BY_ID[key] || []).push(b);
 }
 
 var COMMON_SIZE = [0x4A, 0x48, 0x49];   // per model: JV-2080, JV-1080, XP-50/80 (#9)
@@ -52,6 +65,29 @@ var commonSize = COMMON_SIZE[0];
 // "model 0/1/2" from the Setup page
 function model(m) {
 	commonSize = COMMON_SIZE[m] || COMMON_SIZE[0];
+}
+
+// "mode 0/1" from the Patch / Perform switch (s ---mode)
+function mode(m) {
+	var p = Math.round(m) === 1;
+	if (p === perform) {
+		return;
+	}
+	perform = p;
+	if (new Date().getTime() - loadedAt > LOAD_MS) {
+		askTask.schedule(150);   // give the JV time to switch, then ask where it is
+	}
+}
+
+// RQ1 System Common 00-05: Sound Mode, Performance Number, Patch Group Type / ID / Number
+function askWhere() {
+	if (libraryBusy) {
+		return;
+	}
+	var req = JVSysEx.rq1(0x10, [0, 0, 0, 0], 6);
+	for (var i = 0; i < req.length; i++) {
+		outlet(0, req[i]);
+	}
 }
 
 var GAP_MS = 30;        // pause after a reply before the next request
@@ -85,6 +121,12 @@ function send() {
 		return;
 	}
 	cache = {};
+	if (perform) {
+		// the set's performance: selected on the JV (the program block sends it). The performance settings
+		// follow with the Parts page.
+		outlet(3, "perfselect");
+		return;
+	}
 	outbox = patchBlocks(0x10);   // the queue sets the real device ID
 	report(outbox);
 	sendTask.cancel();
@@ -205,7 +247,7 @@ function get() {
 		return;
 	}
 	cache = {};
-	pending = JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
+	pending = perform ? JVSysEx.requestPerformance(0x10) : JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
 	waiting = null;
 	timeoutTask.cancel();
 	sendNext();
@@ -270,18 +312,16 @@ function receive(bytes) {
 	if (!msg || msg.command !== "DT1" || !msg.valid) {
 		return;
 	}
-	// System Common 02-05: Patch Group Type, Group ID, Patch Number (2 nibbles). The JV-2080 sends this
-	// when a patch is picked on its panel.
-	if (msg.addr.join(" ") === "0 0 0 2" && msg.data.length >= 4) {
-		outlet(3, "jvpatch", msg.data[0], msg.data[1], (msg.data[2] << 4) | msg.data[3]);
-		return;
-	}
 	if (msg.addr[0] === 0 && msg.addr[1] === 0 && msg.addr[2] === 0) {
-		switches(msg.addr[3], msg.data);
+		system(msg.addr[3], msg.data);
 		return;
 	}
 	var where = JVSysEx.locate(msg.addr);
-	if (!where || where.patch[0] !== 0x03) {
+	if (where && where.perf && where.perf[0] === 0x01) {
+		performance(msg);   // the temporary performance
+		return;
+	}
+	if (!where || !where.patch || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
 	}
 	var base = JVSysEx.toNumber(msg.addr);
@@ -292,7 +332,71 @@ function receive(bytes) {
 	answered(msg.addr);
 }
 
+// System Common: 00 Sound Mode, 01 Performance Number, 02-05 Patch Group Type, Group ID, Patch Number (2 nibbles;
+// the JV-2080 sends these when a patch is picked on its panel), 08-0A the EFX / Chorus / Reverb switches
+function system(start, data) {
+	var at = function (off) {
+		return off >= start && off < start + data.length ? data[off - start] : undefined;
+	};
+	if (at(0) !== undefined) {
+		followMode(at(0));
+	}
+	if (at(1) !== undefined) {
+		outlet(3, "jvperf", at(1));
+	}
+	if (at(2) !== undefined && at(5) !== undefined) {
+		outlet(3, "jvpatch", at(2), at(3), (at(4) << 4) | at(5));
+	}
+	switches(start, data);
+	answered([0, 0, 0, start]);
+}
+
+// The JV's Sound Mode (0 PERFORM, 1 PATCH, 2 GM) -> the Patch / Perform switch (0 Patch, 1 Perform)
+function followMode(v) {
+	if (v === 2) {
+		post("jvreceive: the JV is in GM mode, which the device doesn't edit\n");
+		return;
+	}
+	var m = v === 0 ? 1 : 0;
+	if ((m === 1) === perform) {
+		return;
+	}
+	var obj = jsthis.patcher.getnamed("ModeSwitch");
+	if (obj) {
+		outlet(1, "mute", 1);
+		try {
+			obj.message("int", m);   // its output tells everyone, including mode() here
+		} finally {
+			outlet(1, "mute", 0);
+		}
+	}
+}
+
+// A reply or panel edit for the temporary performance. For now only its name is used.
+function performance(msg) {
+	var base = JVSysEx.toNumber(msg.addr);
+	for (var i = 0; i < msg.data.length; i++) {
+		lastRead[base + i] = msg.data[i];
+	}
+	var values = JVSysEx.decode(msg), named = false;
+	for (i = 0; i < values.length; i++) {
+		var m = values[i].block === "perf" ? /^name_(\d+)$/.exec(values[i].id) : null;
+		if (m) {
+			perfChars[m[1] - 1] = values[i].raw;
+			named = true;
+		}
+	}
+	if (named) {
+		var s = String.fromCharCode.apply(null, perfChars).replace(/\s+$/, "");
+		outlet(2, ["perfname"].concat(s.length ? s.split(" ") : []));
+	}
+	answered(msg.addr);
+}
+
 function switches(start, data) {
+	if (start + data.length <= 8 || start > 10) {
+		return;   // none of the switches
+	}
 	outlet(1, "mute", 1);
 	try {
 		for (var i = 0; i < data.length; i++) {
@@ -314,12 +418,12 @@ function apply(values) {
 		for (var i = 0; i < values.length; i++) {
 			var v = values[i];
 			raw[v.id] = v.raw;
-			setControls(v.id, v.tone, v.raw);
+			setControls(v.block + ":" + v.id, v.tone, v.raw);
 		}
 		if (raw.wave_group_type !== undefined && raw.wave_group_id !== undefined) {
 			var menu = JVSysEx.waveGroupToMenu(raw.wave_group_type, raw.wave_group_id);
 			if (menu !== null) {
-				setControls("wave_group", values[0].tone, menu, true);
+				setControls("tone:wave_group", values[0].tone, menu, true);
 			}
 		}
 	} finally {
@@ -343,7 +447,7 @@ function apply(values) {
 	}
 }
 
-// Write a raw value to every control bound to this parameter and tone.
+// Write a raw value to every control bound to this parameter ("block:id") and tone.
 // isControlValue: the value is already a control value (wave group menu index).
 function setControls(id, tone, value, isControlValue) {
 	var list = BY_ID[id];
@@ -382,6 +486,8 @@ function notifydeleted() {
 	nextTask.freepeer();
 	timeoutTask.cancel();
 	timeoutTask.freepeer();
+	askTask.cancel();
+	askTask.freepeer();
 }
 
 var cache = {};
