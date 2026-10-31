@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-31
+
 ### Added
 - **Ctrl page** per tone (button **Ctrl** below LFO): the controller matrix (3 controllers × 4 destinations and
   depths) and the control switches (volume, hold-1, bender, redamper, pan), plus the patch-wide controller sources,
@@ -165,7 +167,8 @@ include the JV (see *MIDI setup* in the README).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.3.0...v0.4.0
