@@ -272,12 +272,15 @@ answers 403), run the script again. Internal waves
 For wave groups without names, the device shows only the wave number.
 
 **Patch names** for the Parts page come the same way, from the patch lists in the same board documents and, for the
-JV's preset banks PR-A–PR-E, from a local text file (`=== PR-A ===` headings, then `1 Name` lines):
+JV's preset banks PR-A–PR-E, from Roland's patch listing:
 
 ```
 python3 -I tools/import_patch_names.py
-python3 -I tools/import_patch_names.py --internal my_preset_list.txt --keep
+python3 -I tools/import_patch_names.py --pdf docs/JV2080pat.pdf --keep
 ```
+
+`docs/JV2080pat.pdf` is Roland's *JV-2080 Patch Listing* (Faxback 10454; not in the repo, like the manual). USER
+names aren't imported: they're yours, and the device reads them from the JV.
 
 ## Development
 
