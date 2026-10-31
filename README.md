@@ -18,7 +18,8 @@ patch to it (**Send**), and follows edits made on the JV's own panel live.
   - **LFO** and **Ctrl**, per tone: the [LFO page](#lfo-page) and the [controller page](#ctrl-page).
   - **FX**, **Patch** and **Setup**, patch-wide: [effects with routing](#fx-page), [patch settings, structure and
     key/velocity zones](#patch-page), and the [Setup page](#setup-page).
-  - **Library**: [backup and restore](#library-page) of the JV's whole user memory.
+  - **Library** and **Setup**: the box and gear icons at the top left: [backup and restore](#library-page) of the
+    JV's whole user memory, and the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -85,7 +86,7 @@ The device picks performances with SysEx, so the device track's channel doesn't 
 1. Put the device on the MIDI track set up as above.
 2. Choose **Patch** or **Perform** with the switch at the top left; the JV follows (and the switch follows the JV's
    own PATCH / PERFORM buttons). Perform mode selects performances and shows their 16 parts ([Parts page](#parts-page-perform-mode)). If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
-   (below the Tone tabs) and set **Device ID** to the same number.
+   (the gear icon, top left) and set **Device ID** to the same number.
 3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
    patches on the **JV's own panel**, keep **Setup → Follow JV patch changes** on (default). Edits made on the JV's
@@ -106,7 +107,7 @@ The device picks performances with SysEx, so the device track's channel doesn't 
 
 ![The Setup page](docs/setup.webp)
 
-Click **Setup** below the Tone tabs to open it, and click a Tone tab to go back. You usually set these once.
+Click **Setup** (the gear icon at the top left) to open it, and click it again or a Tone tab to go back. You usually set these once.
 
 | Setting | What it does |
 |---|---|
@@ -224,7 +225,7 @@ chorus and reverb send**, **coarse** and **fine tune**, and whether the part **r
 
 ### Library page
 
-Click **Library** (above Setup) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
+Click **Library** (the box icon at the top left, above the gear) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
 user performances, the 2 user rhythm sets and the system settings.
 
 - **Backup...**: choose a file name, then the device reads everything from the JV into one `.syx` file (about a
