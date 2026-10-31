@@ -27,6 +27,8 @@ OUT = ROOT / "device" / "jv2080_patchnames.js"
 PATCH_HEADING = re.compile(r"patch\s*list|^\s*patches\s*:?\s*$", re.I)
 END_HEADING = re.compile(r"wave\s*form|wave\s+list|rhythm|performance|copyright|^\s*\*{1,3}\s", re.I)
 BANKS = ["PR-A", "PR-B", "PR-C", "PR-D", "PR-E"]
+# documents whose patch list is wrong at the source
+SKIP = {13: "its PATCH LIST holds the Vocal board's waveforms, not patches"}
 
 
 def parse_patches(text):
@@ -107,6 +109,9 @@ def main():
         groups = existing
     else:
         for n in range(1, 20):
+            if n in SKIP:
+                print(f"  SR-JV80-{n:02d}: skipped ({SKIP[n]})")
+                continue
             names = parse_patches(fetch(n, a.local))
             print(f"  SR-JV80-{n:02d}: {len(names)} patches" + ("" if names else " (no patch list)"))
             if names:
