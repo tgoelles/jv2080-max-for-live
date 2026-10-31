@@ -48,7 +48,7 @@ assert.deepStrictEqual(buttons(), { setup: 0 });
 // Perform mode: the tone pages, their buttons and the tone switches go; the performance page shows
 send('page', 'lfo', 1);
 send('mode', 1);
-assert.deepStrictEqual(shows(), ['KeysButton', 'PartButton'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
+assert.deepStrictEqual(shows(), ['KeysButton', 'PartButton', 'VoicesRest'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
 for (const name of ['LFO_2', 'ToneTabs', 'LFOButton', 'CtrlButton', 'FXButton', 'PatchButton', 'ToneMix']) {
 	assert.ok(hides().includes(name), name + ' hidden');
 }
