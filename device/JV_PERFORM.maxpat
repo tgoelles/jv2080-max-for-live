@@ -39,15 +39,23 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 20.0, 60.0, 15.0, 15.0 ],
+					"text" : "1",
+					"texton" : "1",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 20.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 4.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P1On",
 					"hint" : "Part 1 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -77,7 +85,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 50.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 22.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 30.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P1Channel",
 					"hint" : "Part 1 MIDI channel",
@@ -90,7 +98,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 1 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -109,7 +118,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 180.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 4.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P1BankView",
 					"hint" : "Part 1 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -138,7 +147,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 120.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 4.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P1Patch",
 					"hint" : "Part 1 patch number (1-128; expansion boards up to 255)",
@@ -170,7 +179,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 20.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 3.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 3.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -206,7 +215,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 80.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 25.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 25.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P1Pan",
@@ -231,15 +240,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 280.0, 60.0, 15.0, 15.0 ],
+					"text" : "2",
+					"texton" : "2",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 280.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 65.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 65.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P2On",
 					"hint" : "Part 2 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -269,7 +286,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 310.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 83.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 91.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P2Channel",
 					"hint" : "Part 2 MIDI channel",
@@ -282,7 +299,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 2 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -301,7 +319,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 440.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 65.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 65.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P2BankView",
 					"hint" : "Part 2 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -330,7 +348,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 380.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 65.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 65.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P2Patch",
 					"hint" : "Part 2 patch number (1-128; expansion boards up to 255)",
@@ -362,7 +380,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 280.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 64.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 64.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -398,7 +416,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 340.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 86.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 86.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P2Pan",
@@ -423,15 +441,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 540.0, 60.0, 15.0, 15.0 ],
+					"text" : "3",
+					"texton" : "3",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 540.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 126.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 126.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P3On",
 					"hint" : "Part 3 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -461,7 +487,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 570.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 144.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 152.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P3Channel",
 					"hint" : "Part 3 MIDI channel",
@@ -474,7 +500,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 3 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -493,7 +520,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 700.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 126.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 126.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P3BankView",
 					"hint" : "Part 3 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -522,7 +549,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 640.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 126.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 126.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P3Patch",
 					"hint" : "Part 3 patch number (1-128; expansion boards up to 255)",
@@ -554,7 +581,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 540.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 125.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 125.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -590,7 +617,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 600.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 147.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 147.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P3Pan",
@@ -615,15 +642,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 800.0, 60.0, 15.0, 15.0 ],
+					"text" : "4",
+					"texton" : "4",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 800.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 187.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 187.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P4On",
 					"hint" : "Part 4 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -653,7 +688,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 830.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 205.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 213.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P4Channel",
 					"hint" : "Part 4 MIDI channel",
@@ -666,7 +701,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 4 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -685,7 +721,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 960.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 187.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 187.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P4BankView",
 					"hint" : "Part 4 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -714,7 +750,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 900.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 187.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 187.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P4Patch",
 					"hint" : "Part 4 patch number (1-128; expansion boards up to 255)",
@@ -746,7 +782,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 800.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 186.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 186.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -782,7 +818,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 860.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 208.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 208.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P4Pan",
@@ -807,15 +843,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 1060.0, 60.0, 15.0, 15.0 ],
+					"text" : "5",
+					"texton" : "5",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 1060.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 248.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 248.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P5On",
 					"hint" : "Part 5 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -845,7 +889,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1090.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 266.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 274.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P5Channel",
 					"hint" : "Part 5 MIDI channel",
@@ -858,7 +902,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 5 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -877,7 +922,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1220.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 248.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 248.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P5BankView",
 					"hint" : "Part 5 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -906,7 +951,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1160.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 248.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 248.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P5Patch",
 					"hint" : "Part 5 patch number (1-128; expansion boards up to 255)",
@@ -938,7 +983,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1060.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 247.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 247.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -974,7 +1019,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1120.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 269.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 269.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P5Pan",
@@ -999,15 +1044,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 1320.0, 60.0, 15.0, 15.0 ],
+					"text" : "6",
+					"texton" : "6",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 1320.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 309.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 309.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P6On",
 					"hint" : "Part 6 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1037,7 +1090,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1350.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 327.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 335.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P6Channel",
 					"hint" : "Part 6 MIDI channel",
@@ -1050,7 +1103,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 6 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -1069,7 +1123,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1480.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 309.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 309.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P6BankView",
 					"hint" : "Part 6 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -1098,7 +1152,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1420.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 309.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 309.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P6Patch",
 					"hint" : "Part 6 patch number (1-128; expansion boards up to 255)",
@@ -1130,7 +1184,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1320.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 308.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 308.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -1166,7 +1220,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1380.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 330.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 330.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P6Pan",
@@ -1191,15 +1245,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 1580.0, 60.0, 15.0, 15.0 ],
+					"text" : "7",
+					"texton" : "7",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 1580.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 370.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 370.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P7On",
 					"hint" : "Part 7 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1229,7 +1291,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1610.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 388.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 396.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P7Channel",
 					"hint" : "Part 7 MIDI channel",
@@ -1242,7 +1304,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 7 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -1261,7 +1324,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1740.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 370.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 370.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P7BankView",
 					"hint" : "Part 7 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -1290,7 +1353,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1680.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 370.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 370.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P7Patch",
 					"hint" : "Part 7 patch number (1-128; expansion boards up to 255)",
@@ -1322,7 +1385,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1580.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 369.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 369.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -1358,7 +1421,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1640.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 391.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 391.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P7Pan",
@@ -1383,15 +1446,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 1840.0, 60.0, 15.0, 15.0 ],
+					"text" : "8",
+					"texton" : "8",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 1840.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 431.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 431.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P8On",
 					"hint" : "Part 8 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1421,7 +1492,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1870.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 449.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 457.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P8Channel",
 					"hint" : "Part 8 MIDI channel",
@@ -1434,7 +1505,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 8 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -1453,7 +1525,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2000.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 431.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 431.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P8BankView",
 					"hint" : "Part 8 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -1482,7 +1554,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1940.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 431.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 431.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P8Patch",
 					"hint" : "Part 8 patch number (1-128; expansion boards up to 255)",
@@ -1514,7 +1586,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1840.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 430.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 430.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -1550,7 +1622,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1900.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 452.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 452.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P8Pan",
@@ -1575,15 +1647,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 2100.0, 60.0, 15.0, 15.0 ],
+					"text" : "9",
+					"texton" : "9",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 2100.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 492.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 492.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P9On",
 					"hint" : "Part 9 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1613,7 +1693,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2130.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 510.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 518.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P9Channel",
 					"hint" : "Part 9 MIDI channel",
@@ -1626,7 +1706,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 9 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -1645,7 +1726,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2260.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 492.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 492.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P9BankView",
 					"hint" : "Part 9 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -1674,7 +1755,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2200.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 492.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 492.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P9Patch",
 					"hint" : "Part 9 patch number (1-128; expansion boards up to 255)",
@@ -1706,7 +1787,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2100.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 491.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 491.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -1742,7 +1823,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2160.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 513.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 513.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P9Pan",
@@ -1767,15 +1848,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 2360.0, 60.0, 15.0, 15.0 ],
+					"text" : "10",
+					"texton" : "10",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 2360.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 553.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 553.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P10On",
 					"hint" : "Part 10 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1805,7 +1894,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2390.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 571.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 579.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P10Channel",
 					"hint" : "Part 10 MIDI channel",
@@ -1818,7 +1907,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 10 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -1837,7 +1927,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2520.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 553.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 553.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P10BankView",
 					"hint" : "Part 10 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -1866,7 +1956,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2460.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 553.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 553.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P10Patch",
 					"hint" : "Part 10 patch number (1-128; expansion boards up to 255)",
@@ -1898,7 +1988,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2360.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 552.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 552.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -1934,7 +2024,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2420.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 574.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 574.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P10Pan",
@@ -1959,15 +2049,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 2620.0, 60.0, 15.0, 15.0 ],
+					"text" : "11",
+					"texton" : "11",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 2620.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 614.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 614.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P11On",
 					"hint" : "Part 11 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -1997,7 +2095,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2650.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 632.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 640.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P11Channel",
 					"hint" : "Part 11 MIDI channel",
@@ -2010,7 +2108,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 11 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2029,7 +2128,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2780.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 614.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 614.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P11BankView",
 					"hint" : "Part 11 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -2058,7 +2157,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2720.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 614.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 614.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P11Patch",
 					"hint" : "Part 11 patch number (1-128; expansion boards up to 255)",
@@ -2090,7 +2189,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2620.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 613.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 613.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -2126,7 +2225,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2680.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 635.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 635.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P11Pan",
@@ -2151,15 +2250,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 2880.0, 60.0, 15.0, 15.0 ],
+					"text" : "12",
+					"texton" : "12",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 2880.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 675.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 675.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P12On",
 					"hint" : "Part 12 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -2189,7 +2296,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2910.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 693.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 701.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P12Channel",
 					"hint" : "Part 12 MIDI channel",
@@ -2202,7 +2309,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 12 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2221,7 +2329,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3040.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 675.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 675.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P12BankView",
 					"hint" : "Part 12 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -2250,7 +2358,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2980.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 675.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 675.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P12Patch",
 					"hint" : "Part 12 patch number (1-128; expansion boards up to 255)",
@@ -2282,7 +2390,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2880.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 674.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 674.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -2318,7 +2426,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 2940.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 696.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 696.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P12Pan",
@@ -2343,15 +2451,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 3140.0, 60.0, 15.0, 15.0 ],
+					"text" : "13",
+					"texton" : "13",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 3140.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 736.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 736.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P13On",
 					"hint" : "Part 13 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -2381,7 +2497,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3170.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 754.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 762.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P13Channel",
 					"hint" : "Part 13 MIDI channel",
@@ -2394,7 +2510,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 13 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2413,7 +2530,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3300.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 736.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 736.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P13BankView",
 					"hint" : "Part 13 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -2442,7 +2559,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3240.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 736.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 736.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P13Patch",
 					"hint" : "Part 13 patch number (1-128; expansion boards up to 255)",
@@ -2474,7 +2591,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3140.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 735.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 735.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -2510,7 +2627,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3200.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 757.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 757.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P13Pan",
@@ -2535,15 +2652,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 3400.0, 60.0, 15.0, 15.0 ],
+					"text" : "14",
+					"texton" : "14",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 3400.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 797.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 797.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P14On",
 					"hint" : "Part 14 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -2573,7 +2698,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3430.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 815.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 823.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P14Channel",
 					"hint" : "Part 14 MIDI channel",
@@ -2586,7 +2711,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 14 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2605,7 +2731,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3560.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 797.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 797.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P14BankView",
 					"hint" : "Part 14 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -2634,7 +2760,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3500.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 797.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 797.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P14Patch",
 					"hint" : "Part 14 patch number (1-128; expansion boards up to 255)",
@@ -2666,7 +2792,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3400.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 796.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 796.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -2702,7 +2828,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3460.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 818.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 818.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P14Pan",
@@ -2727,15 +2853,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 3660.0, 60.0, 15.0, 15.0 ],
+					"text" : "15",
+					"texton" : "15",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 3660.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 858.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 858.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P15On",
 					"hint" : "Part 15 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -2765,7 +2899,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3690.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 876.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 884.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P15Channel",
 					"hint" : "Part 15 MIDI channel",
@@ -2778,7 +2912,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 15 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2797,7 +2932,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3820.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 858.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 858.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P15BankView",
 					"hint" : "Part 15 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -2826,7 +2961,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3760.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 858.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 858.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P15Patch",
 					"hint" : "Part 15 patch number (1-128; expansion boards up to 255)",
@@ -2858,7 +2993,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3660.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 857.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 857.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -2894,7 +3029,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3720.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 879.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 879.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P15Pan",
@@ -2919,15 +3054,23 @@
 			}
 , 			{
 				"box" : 				{
-					"appearance" : 1,
-					"maxclass" : "live.toggle",
+					"maxclass" : "live.text",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 3920.0, 60.0, 15.0, 15.0 ],
+					"text" : "16",
+					"texton" : "16",
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.0, 0.0, 0.0, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"bgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"activebgoncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"patching_rect" : [ 3920.0, 60.0, 24.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 919.0, 19.0, 15.0, 15.0 ],
+					"presentation_rect" : [ 919.0, 2.0, 24.0, 15.0 ],
 					"varname" : "P16On",
 					"hint" : "Part 16 on/off (Receive Switch)",
 					"saved_attribute_attributes" : 					{
@@ -2957,7 +3100,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3950.0, 60.0, 36.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 937.0, 19.0, 36.0, 15.0 ],
+					"presentation_rect" : [ 945.0, 2.0, 29.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P16Channel",
 					"hint" : "Part 16 MIDI channel",
@@ -2970,7 +3113,8 @@
 							"parameter_mmax" : 16.0,
 							"parameter_initial" : [ 16 ],
 							"parameter_initial_enable" : 1,
-							"parameter_unitstyle" : 0
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "ch %d"
 						}
 
 					}
@@ -2989,7 +3133,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 4080.0, 100.0, 60.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 919.0, 37.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 919.0, 20.0, 55.0, 15.0 ],
 					"varname" : "P16BankView",
 					"hint" : "Part 16 patch bank",
 					"saved_attribute_attributes" : 					{
@@ -3018,7 +3162,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 4020.0, 100.0, 44.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 919.0, 55.0, 54.0, 15.0 ],
+					"presentation_rect" : [ 919.0, 38.0, 55.0, 15.0 ],
 					"textjustification" : 0,
 					"varname" : "P16Patch",
 					"hint" : "Part 16 patch number (1-128; expansion boards up to 255)",
@@ -3050,7 +3194,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3920.0, 140.0, 22.0, 90.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 918.0, 87.0, 22.0, 75.0 ],
+					"presentation_rect" : [ 918.0, 70.0, 22.0, 92.0 ],
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
@@ -3086,7 +3230,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 3980.0, 140.0, 36.0, 48.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 940.0, 87.0, 36.0, 48.0 ],
+					"presentation_rect" : [ 940.0, 72.0, 36.0, 48.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "P16Pan",
@@ -3114,45 +3258,15 @@
 					"maxclass" : "live.comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 20.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 2.0, 0.0, 58.0, 18.0 ],
-					"text" : "1",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-377"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
 					"patching_rect" : [ 20.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 0.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 0.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P1Name",
-					"id" : "obj-378"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 280.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 63.0, 0.0, 58.0, 18.0 ],
-					"text" : "2",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-379"
+					"id" : "obj-377"
 				}
 
 			}
@@ -3163,28 +3277,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 280.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 61.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 61.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P2Name",
-					"id" : "obj-380"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 540.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 124.0, 0.0, 58.0, 18.0 ],
-					"text" : "3",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-381"
+					"id" : "obj-378"
 				}
 
 			}
@@ -3195,28 +3294,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 540.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 122.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 122.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P3Name",
-					"id" : "obj-382"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 800.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 185.0, 0.0, 58.0, 18.0 ],
-					"text" : "4",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-383"
+					"id" : "obj-379"
 				}
 
 			}
@@ -3227,28 +3311,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 800.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 183.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 183.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P4Name",
-					"id" : "obj-384"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1060.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 246.0, 0.0, 58.0, 18.0 ],
-					"text" : "5",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-385"
+					"id" : "obj-380"
 				}
 
 			}
@@ -3259,28 +3328,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1060.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 244.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 244.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P5Name",
-					"id" : "obj-386"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1320.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 307.0, 0.0, 58.0, 18.0 ],
-					"text" : "6",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-387"
+					"id" : "obj-381"
 				}
 
 			}
@@ -3291,28 +3345,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1320.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 305.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 305.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P6Name",
-					"id" : "obj-388"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1580.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 368.0, 0.0, 58.0, 18.0 ],
-					"text" : "7",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-389"
+					"id" : "obj-382"
 				}
 
 			}
@@ -3323,28 +3362,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1580.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 366.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 366.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P7Name",
-					"id" : "obj-390"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1840.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 429.0, 0.0, 58.0, 18.0 ],
-					"text" : "8",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-391"
+					"id" : "obj-383"
 				}
 
 			}
@@ -3355,28 +3379,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1840.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 427.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 427.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P8Name",
-					"id" : "obj-392"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 2100.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 490.0, 0.0, 58.0, 18.0 ],
-					"text" : "9",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-393"
+					"id" : "obj-384"
 				}
 
 			}
@@ -3387,28 +3396,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2100.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 488.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 488.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P9Name",
-					"id" : "obj-394"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 2360.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 551.0, 0.0, 58.0, 18.0 ],
-					"text" : "10",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-395"
+					"id" : "obj-385"
 				}
 
 			}
@@ -3419,28 +3413,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2360.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 549.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 549.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P10Name",
-					"id" : "obj-396"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 2620.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 612.0, 0.0, 58.0, 18.0 ],
-					"text" : "11",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-397"
+					"id" : "obj-386"
 				}
 
 			}
@@ -3451,28 +3430,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2620.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 610.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 610.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P11Name",
-					"id" : "obj-398"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 2880.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 673.0, 0.0, 58.0, 18.0 ],
-					"text" : "12",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-399"
+					"id" : "obj-387"
 				}
 
 			}
@@ -3483,28 +3447,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2880.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 671.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 671.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P12Name",
-					"id" : "obj-400"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 3140.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 734.0, 0.0, 58.0, 18.0 ],
-					"text" : "13",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-401"
+					"id" : "obj-388"
 				}
 
 			}
@@ -3515,28 +3464,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 3140.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 732.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 732.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P13Name",
-					"id" : "obj-402"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 3400.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 795.0, 0.0, 58.0, 18.0 ],
-					"text" : "14",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-403"
+					"id" : "obj-389"
 				}
 
 			}
@@ -3547,28 +3481,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 3400.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 793.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 793.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P14Name",
-					"id" : "obj-404"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 3660.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 856.0, 0.0, 58.0, 18.0 ],
-					"text" : "15",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-405"
+					"id" : "obj-390"
 				}
 
 			}
@@ -3579,28 +3498,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 3660.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 854.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 854.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P15Name",
-					"id" : "obj-406"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 3920.0, 20.0, 40.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 917.0, 0.0, 58.0, 18.0 ],
-					"text" : "16",
-					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
-					"textjustification" : 1,
-					"id" : "obj-407"
+					"id" : "obj-391"
 				}
 
 			}
@@ -3611,13 +3515,13 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 3920.0, 240.0, 58.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 915.5, 70.0, 61.0, 15.0 ],
+					"presentation_rect" : [ 915.5, 53.0, 61.0, 15.0 ],
 					"text" : "",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 8.0,
 					"textjustification" : 1,
 					"varname" : "P16Name",
-					"id" : "obj-408"
+					"id" : "obj-392"
 				}
 
 			}
@@ -7800,7 +7704,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 0.0, 0.0, 986.0, 163.0 ],
 					"proportion" : 0.5,
-					"id" : "obj-409"
+					"id" : "obj-393"
 				}
 
 			}

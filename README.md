@@ -187,8 +187,7 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
 
 ### Parts page (Perform mode)
 
-In **Perform** mode the device shows the JV's 16 parts side by side. Per part: **on/off** (the part's receive
-switch), **MIDI channel**, **patch bank** (USER, PR-A–PR-E, CARD, EXP-01–19 = the SR-JV80 board's number) and
+In **Perform** mode the device shows the JV's 16 parts side by side. Per part: the **part number** button (lit = on, the part's receive switch), **MIDI channel**, **patch bank** (USER, PR-A–PR-E, CARD, EXP-01–19 = the SR-JV80 board's number) and
 **patch number**, **level** (fader) and **pan**. The bank menu lists the banks your model has and the expansion
 boards set up on the **Setup** page (as XP-A, XP-B, …). Under the number is the patch's name: USER patches are read
 from the JV; preset and board names appear once they're imported (see [Wave names](#wave-names)). **Get** reads them from the JV, changes on the JV's panel show up
