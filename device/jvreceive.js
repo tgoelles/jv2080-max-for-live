@@ -48,6 +48,8 @@ var perfChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // its perfo
 var perform = false;
 var loadedAt = new Date().getTime();
 var LOAD_MS = 1500;     // mode changes this soon after load come from the saved set: don't ask the JV
+var ASK_MS = 500;       // after a mode change: the JV answers a request during the switch with "Data error"
+var askRetry = false;
 var askTask = new Task(askWhere, this);
 // System Common 08-0A: EFX, Chorus and Reverb switch -> the toggles in the Effects On/Off bpatcher
 var SWITCHES = { 8: "live.toggle[3]", 9: "live.toggle[2]", 10: "live.toggle[1]" };
@@ -75,19 +77,27 @@ function mode(m) {
 	}
 	perform = p;
 	if (new Date().getTime() - loadedAt > LOAD_MS) {
-		askTask.schedule(150);   // give the JV time to switch, then ask where it is
+		askTask.schedule(ASK_MS);   // give the JV time to switch, then ask where it is
 	}
 }
 
 // RQ1 System Common 00-05: Sound Mode, Performance Number, Patch Group Type / ID / Number
+// Goes through the same one-at-a-time request queue as Get (reply, timeout), and is asked once more if lost.
 function askWhere() {
 	if (libraryBusy) {
 		return;
 	}
-	var req = JVSysEx.rq1(0x10, [0, 0, 0, 0], 6);
-	for (var i = 0; i < req.length; i++) {
-		outlet(0, req[i]);
+	if (pending.length || waiting || outbox.length) {
+		askTask.schedule(ASK_MS);   // a Get or Send is running: ask after it
+		return;
 	}
+	askRetry = true;
+	pending = [whereRequest()];
+	sendNext();
+}
+
+function whereRequest() {
+	return JVSysEx.rq1(0x10, [0, 0, 0, 0], 6);
 }
 
 var GAP_MS = 30;        // pause after a reply before the next request
@@ -271,6 +281,10 @@ function sendNext() {
 }
 
 function onTimeout() {
+	if (waiting.join(" ") === "0 0 0 0" && askRetry) {
+		askRetry = false;
+		pending.unshift(whereRequest());   // lost (e.g. the JV was still switching modes): ask once more
+	}
 	post("jvreceive: no reply from the JV for " + waiting.join(" ") + "\n");
 	sendNext();
 }

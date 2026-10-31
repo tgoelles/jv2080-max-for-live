@@ -192,8 +192,16 @@ for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {
 // Perform mode (#10): a mode change asks the JV where it is (System Common 00-05), unless the set is still loading
 out.length = 0; ctx.mode(1); run();
 assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no question while the set loads");
-ctx.mode(0); ctx.loadedAt = 0; ctx.mode(1); run();
-assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), [0xF0, 0x41, 0x10, 0x6A, 0x11, 0, 0, 0, 0, 0, 0, 0, 6, 0x7A, 0xF7]);
+ctx.mode(0); ctx.loadedAt = 0; out.length = 0; ctx.mode(1);
+const t1 = now;
+run(t1 + 499);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "not while the JV is still switching");
+run(t1 + 500);
+const where = [0xF0, 0x41, 0x10, 0x6A, 0x11, 0, 0, 0, 0, 0, 0, 0, 6, 0x7A, 0xF7];
+assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where);
+// no answer (the JV said "Data error"): asked once more after the timeout
+run(now + 500);
+assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where.concat(where));
 out.length = 0;
 feed(dt1([0, 0, 0, 0], [0, 38, 0, 1, 0, 3]));   // PERFORM, CARD 07, USER 004
 assert.deepStrictEqual(out.filter(o => o[0] === 3), [[3, "jvperf", 38], [3, "jvpatch", 0, 1, 3]]);
