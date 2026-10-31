@@ -5,6 +5,16 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Ctrl page** per tone (button **Ctrl** below LFO): the controller matrix (3 controllers × 4 destinations and
+  depths) and the control switches (volume, hold-1, bender, redamper, pan), plus the patch-wide controller sources,
+  Hold/Peak and EFX control. 126 new automatable parameters. Read back by **Get**. With this, every patch parameter
+  of the JV-2080 can be edited from the device. (#8)
+
+### Upgrading
+- Sets saved with an older version have no controller values yet; the device starts with the JV's defaults (no
+  destinations) and **Send on load** sends them. Click **Get** once and save the set to keep a patch's controller setup.
+
 ## [0.6.0] - 2026-10-19
 
 ### Added

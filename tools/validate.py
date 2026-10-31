@@ -24,6 +24,11 @@ def check(p, path, errors):
             errors.append(f"{path}: {s} has no outlet {so}")
         if di >= boxes[d].get("numinlets", 0):
             errors.append(f"{path}: {d} has no inlet {di}")
+        # a "set ..." message box wired into another message box replaces that box's content (a Max gotcha that broke
+        # the LFO button once): wire the trigger to both message boxes instead
+        if boxes[s].get("maxclass") == "message" and boxes[d].get("maxclass") == "message" and \
+                boxes[s].get("text", "").startswith("set"):
+            errors.append(f"{path}: message '{boxes[s]['text']}' ({s}) is wired into message box {d}, which it would overwrite")
     for b in boxes.values():
         if "patcher" in b:
             check(b["patcher"], f"{path}/{b['id']}", errors)

@@ -8,7 +8,8 @@ The JV-1080 and XP-50/80 are supported experimentally (Setup → Model).
 The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
 velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
 (JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
-choose which tone you're editing. Below them, **LFO** opens the selected tone's [LFO page](#lfo-page), **FX** the
+choose which tone you're editing. Below them, **LFO** and **Ctrl** open the selected tone's [LFO page](#lfo-page) and
+[controller page](#ctrl-page), **FX** the
 patch's [effects](#fx-page), **Patch** the [patch-wide settings](#patch-page), and **Setup** the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
@@ -98,6 +99,19 @@ back. The Tone tabs keep working on the LFO page.
 - **LFO depth**: how much each LFO moves the tone's pitch, filter, amp level and pan (−63 … +63, 0 = off).
 
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
+
+### Ctrl page
+
+Click **Ctrl** (below LFO) for how MIDI controllers change the selected tone, like the JV's controller matrix:
+
+- **Controllers**: for each of the three patch controllers, four destinations with a depth (−63…+63) each: pitch,
+  cutoff, resonance, level, pan, mix, chorus and reverb send, the LFO depths and the LFO rates. Controller 1 is the
+  modulation wheel; the sources of Controllers 2 and 3 are set on the right.
+- **Switches**: whether the tone reacts to volume, hold-1 (sustain), the pitch bender and redamper, and how it follows
+  pan (OFF, CONTINUOUS, KEY-ON).
+- **Patch-wide** (right column, the same for all tones): the sources of Controllers 2 and 3 (e.g. AFTERTOUCH, FOOT,
+  VELOCITY), Hold/Peak for each controller, and the EFX control: two sources with depths that move the EFX's realtime
+  parameters (the ones marked # in the manual).
 
 ### FX page
 
