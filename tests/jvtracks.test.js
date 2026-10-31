@@ -34,11 +34,14 @@ ctx.start();
 assert.strictEqual(ui.P2Track, 'Keystep 2+A', 'channel 2: Keystep 2 + Arp, cut to 11 characters');
 assert.strictEqual(ui.P3Track, 'Keystep 2+A', 'part 3 listens on channel 2 too');
 assert.deepStrictEqual(colors.P2TrackBg, [0, 0, 0, 0], 'not lit: transparent');
-assert.strictEqual(ui.P1Track, '', 'the device\'s own track and the one routed into it are not counted');
+assert.strictEqual(ui.P1Track, 'JV 2080 Mid', 'the device\'s own track plays its channel too; the one routed into it doesn\'t count');
 assert.ok(posts[0].includes('Testing -> JV 2080 Midi / Track In'), 'what Live reports goes to the console');
 // activity: the KeyStep track plays -> parts 2 and 3 light up; stops -> back to grey
 tracks[1].meter = 0.6; tick();
 assert.deepStrictEqual([lit.P2Track, lit.P3Track, lit.P1Track], [1, 1, 0]);
+tracks[0].meter = 0.5; tick();
+assert.strictEqual(lit.P1Track, 1, 'the device\'s own track lights its part');
+tracks[0].meter = 0; tick();
 assert.deepStrictEqual(colors.P2TrackBg, [1, 128 / 255, 0, 1], 'lit in the first track\'s Live colour');
 assert.ok(posts.some(p => p.includes('Keystep 2 plays')), 'first activity posted once');
 tracks[1].meter = 0; tick();

@@ -1,7 +1,8 @@
 // Parts from Live tracks (Parts page, one instance): which Live tracks play which JV part, and when.
 //
-// The device's own track sends to the JV's port (MIDI To). Every other MIDI track whose MIDI To is the same port, on a
-// channel, plays the parts listening on that channel. (A track routed to the device's track instead plays on that
+// The device's own track sends to the JV's port (MIDI To). Every MIDI track whose MIDI To is the same port, on a
+// channel, plays the parts listening on that channel; the device's own track too (what it plays goes out on its
+// MIDI To channel). (A track routed to the device's track instead plays on that
 // track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track,
 // a label below the Parts page's black area; the panel behind it, P<n>TrackBg, lights in the track's Live colour while such a track plays (its MIDI
 // meter, output_meter_level, read 10 times a second). Read every 2 s, so renamed, re-coloured or re-routed tracks and changed part channels
@@ -61,7 +62,7 @@ function str(v) {
 	return (v instanceof Array ? v.join(" ") : String(v)).replace(/^"|"$/g, "");
 }
 
-// the tracks sending to the JV (not the device's own track): [{id, index, name, channel}]
+// the tracks sending to the JV, the device's own track included: [{id, index, name, channel, color}]
 function jvTracks() {
 	var own = new LiveAPI("this_device canonical_parent");
 	var port = routing(own).port;
@@ -73,7 +74,7 @@ function jvTracks() {
 	var n = set.getcount("tracks");
 	for (var i = 0; i < n; i++) {
 		var t = new LiveAPI("live_set tracks " + i);
-		if (t.id === own.id || +str(t.get("has_midi_output")) !== 1) {
+		if (+str(t.get("has_midi_output")) !== 1) {
 			continue;
 		}
 		var r = routing(t);
