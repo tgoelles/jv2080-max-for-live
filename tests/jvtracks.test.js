@@ -10,17 +10,17 @@ const tracks = [
 	{ id: '3', name: 'Testing', out: 'JV 2080 Midi', ch: 'Track In', midi: 1 },
 	{ id: '4', name: 'Arp', out: 'UltraLite mk3 Hybrid', ch: 'Ch. 2', midi: 1 },
 	{ id: '5', name: 'Audio', out: 'Master', ch: '', midi: 0 }];
-const observers = [];
 function LiveAPI(a, b) {
 	const cb = typeof a === 'function' ? a : null, p = cb ? b : a;
 	const t = p === 'this_device canonical_parent' ? tracks[0] : p === 'live_set' ? null : tracks[+p.split(' ')[2]];
 	this.id = t ? t.id : '0';
 	this.getcount = () => tracks.length;
-	this.get = k => k === 'name' ? [t.name] : k === 'has_midi_output' ? [t.midi] : k === 'color' ? [t.color || 0] :
+	this.get = k => k === 'output_meter_level' ? [t.meter || 0] : k === 'name' ? [t.name] : k === 'has_midi_output' ? [t.midi] : k === 'color' ? [t.color || 0] :
 		k === 'output_routing_type' ? [port(t.out)] : [chan(t.ch)];
-	if (cb) { this.cb = cb; this.track = t; observers.push(this); }
 }
-function Task(fn) { this.repeat = () => {}; this.cancel = () => {}; this.freepeer = () => {}; }
+const tasks = [];
+function Task(fn) { this.fn = fn; tasks.push(this); this.repeat = () => {}; this.cancel = () => {}; this.freepeer = () => {}; }
+const tick = () => tasks.forEach(t => t.fn.name === 'readMeters' && t.fn());
 const ui = {}, colors = {}, posts = [];
 const channels = { 3: 2 };   // part 3 also listens on channel 2
 const patcher = { getnamed: v => ({ getvalueof: () => { const m = /^P(\d+)Channel$/.exec(v); return channels[m[1]] || +m[1]; },
@@ -37,11 +37,10 @@ assert.deepStrictEqual(Array.from(colors.P2Track), [1, 128 / 255, 0, 1], 'the fi
 assert.strictEqual(ui.P1Track, '', 'the device\'s own track and the one routed into it are not counted');
 assert.ok(posts[0].includes('Testing -> JV 2080 Midi / Track In'), 'what Live reports goes to the console');
 // activity: the KeyStep track plays -> parts 2 and 3 light up; stops -> back to grey
-const keystep = observers.find(o => o.track.name === 'Keystep 2');
-assert.strictEqual(keystep.property, 'output_meter_level');
-keystep.cb(['output_meter_level', 0.6]);
+tracks[1].meter = 0.6; tick();
 assert.deepStrictEqual([lit.P2Track, lit.P3Track, lit.P1Track], [1, 1, undefined]);
-keystep.cb(['output_meter_level', 0]);
+assert.ok(posts.some(p => p.includes('Keystep 2 plays')), 'first activity posted once');
+tracks[1].meter = 0; tick();
 assert.strictEqual(lit.P2Track, 0);
 // re-routed: Arp moves to channel 5 -> part 5 shows it, and a second scan doesn't post again unless something changed
 tracks[3].ch = 'Ch. 5'; ctx.scan();

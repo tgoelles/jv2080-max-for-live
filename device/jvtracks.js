@@ -4,7 +4,7 @@
 // channel, plays the parts listening on that channel. (A track routed to the device's track instead plays on that
 // track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track,
 // a live.text below the Parts page's black area), lit in the track's Live colour while such a track plays (its MIDI
-// meter, output_meter_level). Read every 2 s, so renamed, re-coloured or re-routed tracks and changed part channels
+// meter, output_meter_level, read 10 times a second). Read every 2 s, so renamed, re-coloured or re-routed tracks and changed part channels
 // follow by themselves.
 //
 // inlet 0: "start" (once Live's API is ready, after load), "scan" (read again now)
@@ -21,6 +21,9 @@ var POLL_MS = 2000;
 
 var poll = new Task(scan, this);
 poll.interval = POLL_MS;
+var METER_MS = 100;  // how often the playing tracks' meters are read
+var meterTask = new Task(readMeters, this);
+meterTask.interval = METER_MS;
 var meters = {};     // track id -> {api, parts: [part numbers], on}
 var labels = {};     // part -> text shown
 var lit = {};        // part -> lit
@@ -29,6 +32,7 @@ var described = "";  // the routing last posted to the Max console
 function start() {
 	scan();
 	poll.repeat();
+	meterTask.repeat();
 }
 
 // the port and channel a track sends to: {port, channel 1-16 or 0 (all / none / a track)}
@@ -125,7 +129,7 @@ function scan() {
 			}
 		}
 	}
-	// a meter observer per track that plays a part
+	// the meter of each track that plays a part (readMeters)
 	var keep = {};
 	for (i = 0; i < tracks.length; i++) {
 		var t = tracks[i], parts = [];
@@ -136,33 +140,38 @@ function scan() {
 		}
 		keep[t.id] = true;
 		if (!meters[t.id]) {
-			meters[t.id] = { parts: parts, on: false, api: observe(t) };
+			meters[t.id] = { parts: parts, on: false, name: t.name, seen: false, api: new LiveAPI("live_set tracks " + t.index) };
 		}
 		meters[t.id].parts = parts;
 	}
 	for (var id in meters) {
 		if (!keep[id]) {
-			meters[id].api.property = "";
 			delete meters[id];
 		}
 	}
 	light();
 }
 
-function observe(t) {
-	var api = new LiveAPI(function (args) {
-		var m = meters[t.id];
-		var a = Array.isArray(args) ? args : [args];
-		if (m && a[0] === "output_meter_level") {
-			var on = +a[1] > 0.001;
-			if (on !== m.on) {
-				m.on = on;
-				light();
-			}
+// the MIDI meter of each track that plays a part (read, not observed: Live's change notifications for meters
+// didn't light anything on hardware)
+function readMeters() {
+	var changed = false;
+	for (var id in meters) {
+		var m = meters[id];
+		var level = +str(m.api.get("output_meter_level")) || 0;
+		var on = level > 0.001;
+		if (on && !m.seen) {
+			m.seen = true;
+			post("jvtracks: " + m.name + " plays (meter " + level.toFixed(2) + ")\n");
 		}
-	}, "live_set tracks " + t.index);
-	api.property = "output_meter_level";
-	return api;
+		if (on !== m.on) {
+			m.on = on;
+			changed = true;
+		}
+	}
+	if (changed) {
+		light();
+	}
 }
 
 // a part's label is lit (in its track's colour) while any track playing it plays
@@ -189,9 +198,8 @@ function light() {
 function notifydeleted() {
 	poll.cancel();
 	poll.freepeer();
-	for (var id in meters) {
-		meters[id].api.property = "";
-	}
+	meterTask.cancel();
+	meterTask.freepeer();
 }
 
 if (typeof module !== "undefined") {
