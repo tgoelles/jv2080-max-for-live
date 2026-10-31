@@ -24,7 +24,7 @@ var PATCH_PAGES = { lfo: 1, ctrl: 1, patch: 1 };   // fx: both modes (patch FX /
 var PERFORM_PAGES = { part: 1, keys: 1 };
 // controls that only exist in Patch mode: the tone tabs, the patch page buttons and the tone switches / levels
 var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "PatchButton", "ToneMix", "FXButton"];
-var PERFORM_CONTROLS = ["PartButton", "KeysButton", "TracksButton", "VoicesRest", "FXButton"];
+var PERFORM_CONTROLS = ["PartButton", "KeysButton", "VoicesRest", "FXButton"];
 for (var pb = 1; pb <= 16; pb++) {
 	PERFORM_CONTROLS.push("PartSel" + pb);
 }

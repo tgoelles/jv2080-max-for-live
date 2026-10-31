@@ -83,17 +83,15 @@ def sender(src, a3, off, nibbles=False, x=0.0, y=0.0):
 controls = []   # visible boxes, added before the panel so they're drawn on top
 partkeys = obj("s ---partkeys", 20.0, 1080.0, 1, 0)
 vjs = obj("js jvvoices.js", 300.0, 900.0, 1, 1, {"filename": "jvvoices.js", "parameter_enable": 0})
-# Live tracks playing each part: names at load (once Live's API is ready), when a channel changes, and on the Tracks button
+# Live tracks playing each part (names, lit while playing): started once Live's API is ready, then read every 2 s
 tjs = obj("js jvtracks.js", 600.0, 900.0, 1, 0, {"filename": "jvtracks.js", "parameter_enable": 0})
 tdev = obj("live.thisdevice", 600.0, 780.0, 1, 3)
 tdel = obj("delay 2000", 600.0, 820.0, 2, 1)
 tmsg = add({"maxclass": "message", "numinlets": 2, "numoutlets": 1, "outlettype": [""], "patching_rect": [600.0, 860.0, 50.0, 22.0],
-            "text": "scan 0"})
+            "text": "start"})
 line(tdev, tdel)
 line(tdel, tmsg)
 line(tmsg, tjs)
-tscan = obj("r ---scantracks", 760.0, 860.0, 0, 1)
-line(tscan, tjs)
 vrest = obj("s ---voicesrest", 300.0, 940.0, 1, 0)
 line(vjs, vrest)
 # bank menus and patch names: one jvparts.js (board setup from the Setup page, USER names from the JV)
@@ -131,9 +129,6 @@ for p in range(1, 17):
     param(ch, "Part %d Channel" % p, "ch")
     m1 = obj("- 1", px + 30.0, 360.0, 2, 1)
     line(ch, m1)
-    pch = obj("prepend ch %d" % p, px + 30.0, 320.0)
-    line(ch, pch)
-    line(pch, tjs)
     sender(m1, a3, 1, x=px + 30.0, y=440.0)
     view = add({"appearance": 1, "maxclass": "live.menu", "numinlets": 1, "numoutlets": 3, "outlettype": ["", "", "float"],
                 "parameter_enable": 1, "patching_rect": [px + 160.0, 100.0, 60.0, 15.0], "presentation": 1,

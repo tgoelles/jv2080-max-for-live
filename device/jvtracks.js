@@ -1,28 +1,43 @@
-// Parts from Live tracks (Parts page, one instance): which Live tracks play which JV part.
+// Parts from Live tracks (Parts page, one instance): which Live tracks play which JV part, and when.
 //
-// The device's own track sends to the JV's port (MIDI To). Every other track whose MIDI To is the same port plays the
-// parts listening on that track's channel. Each part shows the name of the track(s) playing it (P<n>Track); "scan 1"
-// (the Tracks button) also switches the parts on whose channel a track uses and the others off.
+// The device's own track sends to the JV's port (MIDI To). Every other MIDI track whose MIDI To is the same port, on a
+// channel, plays the parts listening on that channel. (A track routed to the device's track instead plays on that
+// track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track),
+// lit while such a track plays (its MIDI meter, output_meter_level). Read every 2 s, so renamed or re-routed tracks
+// and changed part channels follow by themselves.
 //
-// Track names are read again at "scan", and when a part's channel changes ("ch <part> <1-16>").
-//
-// inlet 0: "scan 0/1" (1 = also switch parts on/off), "ch <part> <channel>"
-// The controls are reached by varname: P<n>Channel (read), P<n>On (set, sends to the JV), P<n>Track (label).
+// inlet 0: "start" (once Live's API is ready, after load), "scan" (read again now)
+// The controls are reached by varname: P<n>Channel (read), P<n>Track (label).
 
 autowatch = 1;
 inlets = 1;
 outlets = 0;
-setinletassist(0, "scan 0/1, ch part channel");
+setinletassist(0, "start, scan");
 
 var jsthis = this;
 var LABEL = 8;   // characters that fit next to the fader
+var GREY = [0.647, 0.647, 0.647, 1.0];
+var LIT = [1.0, 0.71, 0.2, 1.0];
+var POLL_MS = 2000;
 
-// the port and channel a track sends to: {port, channel 1-16 or 0 (all / none)}
+var poll = new Task(scan, this);
+poll.interval = POLL_MS;
+var meters = {};     // track id -> {api, parts: [part numbers], on}
+var labels = {};     // part -> text shown
+var lit = {};        // part -> lit
+var described = "";  // the routing last posted to the Max console
+
+function start() {
+	scan();
+	poll.repeat();
+}
+
+// the port and channel a track sends to: {port, channel 1-16 or 0 (all / none / a track)}
 function routing(track) {
 	var type = dict(track.get("output_routing_type"), "output_routing_type");
 	var chan = dict(track.get("output_routing_channel"), "output_routing_channel");
-	var m = /(\d+)/.exec(chan.display_name || "");
-	return { port: type.display_name || "", channel: m ? +m[1] : 0 };
+	var m = /^\s*(?:ch\.?\s*)?(\d{1,2})\s*$/i.exec(chan.display_name || "");
+	return { port: type.display_name || "", channelName: chan.display_name || "", channel: m ? +m[1] : 0 };
 }
 
 // a Live API dict property comes as JSON text, possibly wrapped in {"<property>": {...}}
@@ -42,13 +57,13 @@ function str(v) {
 	return (v instanceof Array ? v.join(" ") : String(v)).replace(/^"|"$/g, "");
 }
 
-// channel -> track names, for the tracks sending to the JV (not the device's own track)
-function tracksByChannel() {
+// the tracks sending to the JV (not the device's own track): [{id, index, name, channel}]
+function jvTracks() {
 	var own = new LiveAPI("this_device canonical_parent");
 	var port = routing(own).port;
-	var byChannel = {};
+	var out = [], seen = [];
 	if (!port) {
-		return byChannel;
+		return out;
 	}
 	var set = new LiveAPI("live_set");
 	var n = set.getcount("tracks");
@@ -58,11 +73,18 @@ function tracksByChannel() {
 			continue;
 		}
 		var r = routing(t);
+		var name = str(t.get("name"));
+		seen.push(name + " -> " + r.port + " / " + r.channelName);
 		if (r.port === port && r.channel >= 1 && r.channel <= 16) {
-			(byChannel[r.channel] = byChannel[r.channel] || []).push(str(t.get("name")));
+			out.push({ id: t.id, index: i, name: name, channel: r.channel });
 		}
 	}
-	return byChannel;
+	var text = "jvtracks: device track -> " + port + "; " + seen.join(", ");
+	if (text !== described) {
+		described = text;
+		post(text + "\n");   // what Live reports, to check the routing
+	}
+	return out;
 }
 
 function control(name) {
@@ -74,28 +96,97 @@ function value(obj) {
 	return Math.round(v instanceof Array ? v[0] : v);
 }
 
-// "scan 1": names and on/off; "scan 0": names only
-function scan(switchParts) {
-	var byChannel = tracksByChannel();
+function scan() {
+	var tracks = jvTracks();
+	var channelOf = {};
 	for (var p = 1; p <= 16; p++) {
-		var chan = control("P" + p + "Channel");
-		var names = chan ? byChannel[value(chan)] : null;
-		var label = control("P" + p + "Track");
-		if (label) {
-			var text = names ? names.join("+") : "";
-			label.message("set", text.length > LABEL ? text.slice(0, LABEL) : text);
+		var c = control("P" + p + "Channel");
+		channelOf[p] = c ? value(c) : p;
+	}
+	for (p = 1; p <= 16; p++) {
+		var names = [];
+		for (var i = 0; i < tracks.length; i++) {
+			if (tracks[i].channel === channelOf[p]) {
+				names.push(tracks[i].name);
+			}
 		}
-		if (switchParts) {
-			var on = control("P" + p + "On");
-			if (on && value(on) !== (names ? 1 : 0)) {
-				on.message("int", names ? 1 : 0);   // sends it to the JV
+		var text = names.join("+");
+		text = text.length > LABEL ? text.slice(0, LABEL) : text;
+		if (labels[p] !== text) {
+			labels[p] = text;
+			var label = control("P" + p + "Track");
+			if (label) {
+				label.message("set", text);
+			}
+		}
+	}
+	// a meter observer per track that plays a part
+	var keep = {};
+	for (i = 0; i < tracks.length; i++) {
+		var t = tracks[i], parts = [];
+		for (p = 1; p <= 16; p++) {
+			if (channelOf[p] === t.channel) {
+				parts.push(p);
+			}
+		}
+		keep[t.id] = true;
+		if (!meters[t.id]) {
+			meters[t.id] = { parts: parts, on: false, api: observe(t) };
+		}
+		meters[t.id].parts = parts;
+	}
+	for (var id in meters) {
+		if (!keep[id]) {
+			meters[id].api.property = "";
+			delete meters[id];
+		}
+	}
+	light();
+}
+
+function observe(t) {
+	var api = new LiveAPI(function (args) {
+		var m = meters[t.id];
+		var a = Array.isArray(args) ? args : [args];
+		if (m && a[0] === "output_meter_level") {
+			var on = +a[1] > 0.001;
+			if (on !== m.on) {
+				m.on = on;
+				light();
+			}
+		}
+	}, "live_set tracks " + t.index);
+	api.property = "output_meter_level";
+	return api;
+}
+
+// a part's label is lit while any track playing it plays
+function light() {
+	var now = {};
+	for (var id in meters) {
+		if (meters[id].on) {
+			for (var k = 0; k < meters[id].parts.length; k++) {
+				now[meters[id].parts[k]] = true;
+			}
+		}
+	}
+	for (var p = 1; p <= 16; p++) {
+		if (!!now[p] !== !!lit[p]) {
+			lit[p] = !!now[p];
+			var label = control("P" + p + "Track");
+			if (label) {
+				label.message(["textcolor"].concat(lit[p] ? LIT : GREY));
 			}
 		}
 	}
 }
 
-function ch(part, channel) {
-	scan(0);
+function notifydeleted() {
+	poll.cancel();
+	poll.freepeer();
+	for (var id in meters) {
+		meters[id].api.property = "";
+	}
 }
 
 if (typeof module !== "undefined") {
