@@ -5,6 +5,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- The program number only went up to 127; it now reaches 128, the last patch of each bank.
+
 ## [0.7.0] - 2026-10-31
 
 ### Added
