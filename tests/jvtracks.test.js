@@ -24,7 +24,7 @@ const tick = () => tasks.forEach(t => t.fn.name === 'readMeters' && t.fn());
 const ui = {}, colors = {}, posts = [];
 const channels = { 3: 2 };   // part 3 also listens on channel 2
 const patcher = { getnamed: v => ({ getvalueof: () => { const m = /^P(\d+)Channel$/.exec(v); return channels[m[1]] || +m[1]; },
-	message: (...a) => { const m = Array.isArray(a[0]) ? a[0] : a; if (m[0] === 'text') ui[v] = m[1]; else if (m[0] === 'set') lit[v] = m[1]; else if (m[0] === 'bgoncolor') colors[v] = m.slice(1); } }) };
+	message: (...a) => { const m = Array.isArray(a[0]) ? a[0] : a; if (m[0] === 'set') ui[v] = m[1]; else if (m[0] === 'bgcolor') { colors[v] = Array.from(m.slice(1)); lit[v.replace('Bg', '')] = m[4] ? 1 : 0; } } }) };
 const lit = {};
 const ctx = { LiveAPI, Task, patcher, post: s => posts.push(s), setinletassist() {} };
 vm.createContext(ctx);
@@ -33,12 +33,13 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../device/jvtracks.js'), '
 ctx.start();
 assert.strictEqual(ui.P2Track, 'Keystep 2+A', 'channel 2: Keystep 2 + Arp, cut to 11 characters');
 assert.strictEqual(ui.P3Track, 'Keystep 2+A', 'part 3 listens on channel 2 too');
-assert.deepStrictEqual(Array.from(colors.P2Track), [1, 128 / 255, 0, 1], 'the first track\'s Live colour');
+assert.deepStrictEqual(colors.P2TrackBg, [0, 0, 0, 0], 'not lit: transparent');
 assert.strictEqual(ui.P1Track, '', 'the device\'s own track and the one routed into it are not counted');
 assert.ok(posts[0].includes('Testing -> JV 2080 Midi / Track In'), 'what Live reports goes to the console');
 // activity: the KeyStep track plays -> parts 2 and 3 light up; stops -> back to grey
 tracks[1].meter = 0.6; tick();
-assert.deepStrictEqual([lit.P2Track, lit.P3Track, lit.P1Track], [1, 1, undefined]);
+assert.deepStrictEqual([lit.P2Track, lit.P3Track, lit.P1Track], [1, 1, 0]);
+assert.deepStrictEqual(colors.P2TrackBg, [1, 128 / 255, 0, 1], 'lit in the first track\'s Live colour');
 assert.ok(posts.some(p => p.includes('Keystep 2 plays')), 'first activity posted once');
 tracks[1].meter = 0; tick();
 assert.strictEqual(lit.P2Track, 0);

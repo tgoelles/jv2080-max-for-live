@@ -190,14 +190,14 @@ for p in range(1, 17):
     p64 = obj("+ 64", px + 60.0, 360.0, 2, 1)
     line(pan, p64)
     sender(p64, a3, 7, x=px + 60.0, y=600.0)
-    # the Live track playing this part, below the black area: lit in the track's colour while it plays (jvtracks.js)
-    controls.append({"maxclass": "live.text", "numinlets": 1, "numoutlets": 2, "outlettype": ["", ""], "parameter_enable": 0,
-                     "ignoreclick": 1, "mode": 1, "text": "", "texton": "", "fontsize": 8.0, "rounded": 2.0,
-                     "bgcolor": [0.0, 0.0, 0.0, 0.0], "bgoncolor": GREY, "bordercolor": [0.0, 0.0, 0.0, 0.0],
-                     "activebgcolor": [0.0, 0.0, 0.0, 0.0], "activebgoncolor": GREY,
-                     "textcolor": [0.2, 0.2, 0.2, 1.0], "textoncolor": [0.1, 0.1, 0.1, 1.0], "activetextoncolor": [0.1, 0.1, 0.1, 1.0],
-                     "patching_rect": [px + 200.0, 240.0, 58.0, 14.0], "presentation": 1,
-                     "presentation_rect": [x0 + 0.5, 149.0, 59.0, 14.0], "varname": "P%dTrack" % p})
+    # the Live track playing this part, below the black area; the panel behind it lights in the track's colour while
+    # it plays (jvtracks.js)
+    controls.append({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [px + 200.0, 240.0, 58.0, 14.0],
+                     "presentation": 1, "presentation_rect": [x0 + 0.5, 148.0, 59.0, 15.0], "text": "", "fontsize": 8.0,
+                     "textcolor": [0.15, 0.15, 0.15, 1.0], "textjustification": 1, "varname": "P%dTrack" % p})
+    add({"angle": 270.0, "background": 0, "bgcolor": [0.0, 0.0, 0.0, 0.0], "ignoreclick": 1, "maxclass": "panel", "mode": 0,
+         "numinlets": 1, "numoutlets": 0, "patching_rect": [px + 200.0, 270.0, 58.0, 14.0], "presentation": 1,
+         "presentation_rect": [x0 + 0.5, 149.0, 59.0, 13.0], "proportion": 0.5, "rounded": 3, "varname": "P%dTrackBg" % p})
     # voice reserve: performance common 0x30-0x3F, under the pan knob
     vr = add({"appearance": 4, "maxclass": "live.numbox", "numinlets": 1, "numoutlets": 2, "outlettype": ["", "float"],
               "parameter_enable": 1, "patching_rect": [px + 160.0, 240.0, 40.0, 15.0], "presentation": 1,

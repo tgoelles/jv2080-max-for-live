@@ -3,7 +3,7 @@
 // The device's own track sends to the JV's port (MIDI To). Every other MIDI track whose MIDI To is the same port, on a
 // channel, plays the parts listening on that channel. (A track routed to the device's track instead plays on that
 // track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track,
-// a live.text below the Parts page's black area), lit in the track's Live colour while such a track plays (its MIDI
+// a label below the Parts page's black area; the panel behind it, P<n>TrackBg, lights in the track's Live colour while such a track plays (its MIDI
 // meter, output_meter_level, read 10 times a second). Read every 2 s, so renamed, re-coloured or re-routed tracks and changed part channels
 // follow by themselves.
 //
@@ -26,6 +26,7 @@ var meterTask = new Task(readMeters, this);
 meterTask.interval = METER_MS;
 var meters = {};     // track id -> {api, parts: [part numbers], on}
 var labels = {};     // part -> text shown
+var colors = {};     // part -> the track's colour as [r, g, b, 1]
 var lit = {};        // part -> lit
 var described = "";  // the routing last posted to the Max console
 
@@ -121,12 +122,10 @@ function scan() {
 			labels[p] = key;
 			var label = control("P" + p + "Track");
 			if (label) {
-				label.message("text", text);
-				label.message("texton", text);
-				var rgb = [((color >> 16) & 255) / 255, ((color >> 8) & 255) / 255, (color & 255) / 255, 1.0];
-				label.message(["bgoncolor"].concat(rgb));
-				label.message(["activebgoncolor"].concat(rgb));
+				label.message("set", text);
 			}
+			colors[p] = [((color >> 16) & 255) / 255, ((color >> 8) & 255) / 255, (color & 255) / 255, 1.0];
+			lit[p] = undefined;   // repaint the light in the new colour
 		}
 	}
 	// the meter of each track that plays a part (readMeters)
@@ -185,11 +184,11 @@ function light() {
 		}
 	}
 	for (var p = 1; p <= 16; p++) {
-		if (!!now[p] !== !!lit[p]) {
+		if (lit[p] === undefined || !!now[p] !== lit[p]) {
 			lit[p] = !!now[p];
-			var label = control("P" + p + "Track");
-			if (label) {
-				label.message("set", lit[p] ? 1 : 0);
+			var bg = control("P" + p + "TrackBg");
+			if (bg) {
+				bg.message(["bgcolor"].concat(lit[p] && colors[p] ? colors[p] : [0, 0, 0, 0]));
 			}
 		}
 	}
