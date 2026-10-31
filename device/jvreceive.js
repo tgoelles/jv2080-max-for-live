@@ -5,7 +5,7 @@
 //          "model 0/1/2" (JV-2080, JV-1080, XP-50/80) sets the patch common size to request
 // outlet 0: SysEx bytes (RQ1 requests, DT1 blocks for "send") for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
-// outlet 2: "set <patch name>" for a comment showing the name
+// outlet 2: "fromjv <patch name>" for the name field (jvname.js): after a read or a name edit on the JV
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05)
 //
 // The 5 requests (common + 4 tones) go out one at a time: the next only after the previous reply has
@@ -35,6 +35,7 @@ setoutletassist(2, "patch name (set ...)");
 setoutletassist(3, "jvpatch type id number");
 
 var jsthis = this;
+var nameChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // the JV's patch name, ASCII
 // System Common 08-0A: EFX, Chorus and Reverb switch -> the toggles in the Effects On/Off bpatcher
 var SWITCHES = { 8: "live.toggle[3]", 9: "live.toggle[2]", 10: "live.toggle[1]" };
 var buf = null;
@@ -310,8 +311,21 @@ function apply(values) {
 	} finally {
 		outlet(1, "mute", 0);
 	}
-	if (values.length && values[0].block === "common" && raw.name_1 !== undefined) {
-		outlet(2, "set", JVSysEx.patchName(values).replace(/\s+$/, ""));
+	// the patch name: a read carries all 12 characters, a panel edit on the JV just the changed ones
+	var named = false;
+	for (var n = 1; n <= 12; n++) {
+		if (raw["name_" + n] !== undefined) {
+			nameChars[n - 1] = raw["name_" + n];
+			named = true;
+		}
+	}
+	if (named) {
+		var s = "";
+		for (n = 0; n < 12; n++) {
+			s += String.fromCharCode(nameChars[n]);
+		}
+		s = s.replace(/\s+$/, "");
+		outlet(2, ["fromjv"].concat(s.length ? s.split(" ") : []));
 	}
 }
 

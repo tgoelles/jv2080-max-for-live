@@ -63,6 +63,9 @@ To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows
    panel, such as turning Cutoff, also show up in the device live.
 4. When the set loads, the device sends its saved settings to the JV, so the saved set always wins on load. To send
    them again, click **Send**, next to Get. You can turn off sending on load on the **Setup** page.
+5. To **rename** the patch, click the name above the bank menu, type (up to 12 characters) and press Return. The new
+   name goes to the JV right away and is saved with the set. Send and the on-load push never change the JV's patch
+   name: only typing a name does.
 
 > **The "\*" on the JV's display** means the JV's edit buffer has received changes since the patch was selected. The
 > JV sets it on *any* write, even when the values are the same, so Send, Send on load, or moving any control in the
