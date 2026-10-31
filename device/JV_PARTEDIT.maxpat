@@ -342,6 +342,29 @@
 			}
 , 			{
 				"box" : 				{
+					"maxclass" : "live.text",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"parameter_enable" : 0,
+					"mode" : 0,
+					"text" : "Edit patch",
+					"texton" : "Edit patch",
+					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"activetextoncolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"activebgcolor" : [ 0.0, 0.0, 0.0, 0.0 ],
+					"hint" : "Edit this part's patch with the Tone, LFO, Ctrl, FX and Patch pages (part 10: the rhythm set, not editable here)",
+					"patching_rect" : [ 600.0, 60.0, 80.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 272.0, 118.0, 100.0, 18.0 ],
+					"id" : "obj-28"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"maxclass" : "live.comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -351,7 +374,7 @@
 					"text" : "Receive",
 					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
 					"textjustification" : 1,
-					"id" : "obj-29"
+					"id" : "obj-34"
 				}
 
 			}
@@ -366,7 +389,7 @@
 					"text" : "program change",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textjustification" : 0,
-					"id" : "obj-30"
+					"id" : "obj-35"
 				}
 
 			}
@@ -395,7 +418,7 @@
 
 					}
 ,
-					"id" : "obj-31"
+					"id" : "obj-36"
 				}
 
 			}
@@ -410,7 +433,7 @@
 					"text" : "volume (CC 7)",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textjustification" : 0,
-					"id" : "obj-33"
+					"id" : "obj-38"
 				}
 
 			}
@@ -439,7 +462,7 @@
 
 					}
 ,
-					"id" : "obj-34"
+					"id" : "obj-39"
 				}
 
 			}
@@ -454,7 +477,7 @@
 					"text" : "hold-1 (CC 64)",
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textjustification" : 0,
-					"id" : "obj-36"
+					"id" : "obj-41"
 				}
 
 			}
@@ -483,7 +506,7 @@
 
 					}
 ,
-					"id" : "obj-37"
+					"id" : "obj-42"
 				}
 
 			}
@@ -717,6 +740,54 @@
 			}
 , 			{
 				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 600.0, 100.0, 48.0, 22.0 ],
+					"text" : "t b",
+					"id" : "obj-29"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 600.0, 140.0, 32.0, 22.0 ],
+					"text" : "i",
+					"id" : "obj-30"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 700.0, 100.0, 56.0, 22.0 ],
+					"text" : "- 15",
+					"id" : "obj-31"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"outlettype" : [  ],
+					"patching_rect" : [ 600.0, 180.0, 128.0, 22.0 ],
+					"text" : "s ---partedit",
+					"id" : "obj-32"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"angle" : 270.0,
 					"background" : 1,
 					"bgcolor" : [ 0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0 ],
@@ -729,7 +800,7 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 386.0, 0.0, 134.0, 163.0 ],
 					"proportion" : 0.5,
-					"id" : "obj-28"
+					"id" : "obj-33"
 				}
 
 			}
@@ -746,7 +817,7 @@
 						"parameter_enable" : 0
 					}
 ,
-					"id" : "obj-32"
+					"id" : "obj-37"
 				}
 
 			}
@@ -763,7 +834,7 @@
 						"parameter_enable" : 0
 					}
 ,
-					"id" : "obj-35"
+					"id" : "obj-40"
 				}
 
 			}
@@ -780,7 +851,7 @@
 						"parameter_enable" : 0
 					}
 ,
-					"id" : "obj-38"
+					"id" : "obj-43"
 				}
 
 			}
@@ -962,14 +1033,49 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-32", 0 ],
+					"destination" : [ "obj-29", 0 ],
+					"source" : [ "obj-28", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 0 ],
+					"source" : [ "obj-29", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 1 ],
 					"source" : [ "obj-31", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-32", 1 ],
+					"destination" : [ "obj-32", 0 ],
+					"source" : [ "obj-30", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-37", 0 ],
+					"source" : [ "obj-36", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-37", 1 ],
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -977,41 +1083,20 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-3", 1 ],
-					"source" : [ "obj-32", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-35", 0 ],
-					"source" : [ "obj-34", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-35", 1 ],
-					"source" : [ "obj-1", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-3", 1 ],
-					"source" : [ "obj-35", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-38", 0 ],
 					"source" : [ "obj-37", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-38", 1 ],
+					"destination" : [ "obj-40", 0 ],
+					"source" : [ "obj-39", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-40", 1 ],
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -1019,7 +1104,28 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-3", 1 ],
-					"source" : [ "obj-38", 0 ]
+					"source" : [ "obj-40", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-43", 0 ],
+					"source" : [ "obj-42", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-43", 1 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 1 ],
+					"source" : [ "obj-43", 0 ]
 				}
 
 			}
@@ -1032,9 +1138,9 @@
 			"obj-17" : [ "Part Reverb Send", "reverb", 0 ],
 			"obj-22" : [ "Part Coarse Tune", "coarse", 0 ],
 			"obj-25" : [ "Part Fine Tune", "fine", 0 ],
-			"obj-31" : [ "Part Rx Program Change", "rx pgm", 0 ],
-			"obj-34" : [ "Part Rx Volume", "rx vol", 0 ],
-			"obj-37" : [ "Part Rx Hold-1", "rx hold", 0 ],
+			"obj-36" : [ "Part Rx Program Change", "rx pgm", 0 ],
+			"obj-39" : [ "Part Rx Volume", "rx vol", 0 ],
+			"obj-42" : [ "Part Rx Hold-1", "rx hold", 0 ],
 			"parameterbanks" : 			{
 
 			}

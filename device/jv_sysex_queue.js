@@ -16,6 +16,9 @@
 // "deviceid <17-32>" sets the JV's Device ID as shown on its display (default 17),
 // "mute 1" / "mute 0" drops SysEx arriving on inlet 1 in between (used while the read-back
 // updates the controls, so the received values aren't sent back).
+// "patchbase a1 a2": where the patch pages' edits go. Default 03 00 (Patch mode's temporary patch); 02 <part-1>
+// while a performance part's patch is edited (Perform mode, Part page -> Edit patch). The senders always write
+// 03 00; DT1 and RQ1 addresses starting 03 00 are moved to the base, with the checksum recomputed.
 
 autowatch = 1;
 inlets = 2;
@@ -31,6 +34,7 @@ var current = null;
 var busy = false;
 var inSysex = false;   // passthrough is inside an incoming SysEx message
 var muted = false;
+var base = [3, 0];
 var task = new Task(next, this);
 
 function msg_int(b) {
@@ -76,6 +80,15 @@ function list() {
 function enqueue(m) {
 	if (m.length > 4 && m[1] === 0x41 && m[3] === 0x6A) {
 		m[2] = dev;
+		if (m.length > 10 && (m[4] === 0x12 || m[4] === 0x11) && m[5] === 3 && m[6] === 0 && (base[0] !== 3 || base[1] !== 0)) {
+			m[5] = base[0];
+			m[6] = base[1];
+			var sum = 0;
+			for (var k = 5; k < m.length - 2; k++) {
+				sum += m[k];
+			}
+			m[m.length - 2] = (128 - sum % 128) % 128;
+		}
 	}
 	// Roland DT1: F0 41 dev 6A 12 a1 a2 a3 a4 ... -> key on dev/model/address
 	var key = (m.length > 9 && m[1] === 0x41 && m[4] === 0x12) ? m.slice(2, 9).join(" ") : null;
@@ -118,6 +131,10 @@ function deviceid(id) {
 	} else {
 		post("jv_sysex_queue: device ID must be 17-32, got " + id + "\n");
 	}
+}
+
+function patchbase(a1, a2) {
+	base = [Math.round(a1), Math.round(a2)];
 }
 
 function mute(on) {

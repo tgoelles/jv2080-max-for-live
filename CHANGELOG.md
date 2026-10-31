@@ -34,6 +34,11 @@ and versions follow [Semantic Versioning](https://semver.org/).
   To is the JV's port, on the part's channel), shown below the parts and lit in the track's colour while it plays. Follows renamed and re-routed tracks by
   itself. (#10)
 
+- **Edit a part's patch** in Perform mode (Part page → **Edit patch**, like the JV's PERFORM + PATCH): the Tone,
+  LFO, Ctrl, FX and Patch pages edit that part's copy of its patch while the performance plays; **Parts** goes back.
+  Knob turns in the JV's own part-patch edit open the part on the device and follow live. The edits are temporary on
+  the JV until the patch is written to a USER slot. (#10)
+
 ### Changed
 - **Library** and **Setup** are now icon buttons (box and gear) in a column at the top left. The page column has the
   per-tone pages at the top (Tone 1–4, LFO, Ctrl) and the patch-wide ones at the bottom (FX, Patch).

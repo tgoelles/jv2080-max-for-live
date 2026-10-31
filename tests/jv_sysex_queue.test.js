@@ -53,4 +53,17 @@ assert.deepStrictEqual(out, []);
 send(dt1([3, 0, 16, 81], 10)); run();
 assert.strictEqual(messages().length, 1);
 
+
+// editing a performance part's patch: the patch pages' 03 00 addresses go to 02 <part-1>, checksum recomputed
+reset(); ctx.patchbase(2, 2);
+send(dt1([3, 0, 0x10, 0x51], 90));
+send(dt1([1, 0, 0x10, 6], 100));   // not a patch address: unchanged
+run();
+const moved = messages().map(([t, m]) => m);
+assert.deepStrictEqual(moved[0].slice(5, 10), [2, 2, 0x10, 0x51, 90]);
+assert.strictEqual(moved[0].slice(5, -1).reduce((a, b) => a + b, 0) % 128, 0, "checksum");
+assert.deepStrictEqual(moved[1].slice(5, 9), [1, 0, 0x10, 6]);
+ctx.patchbase(3, 0); reset();
+send(dt1([3, 0, 0x10, 0x51], 90)); run();
+assert.deepStrictEqual(messages()[0][1].slice(5, 7), [3, 0], "back to Patch mode's patch");
 console.log("jv_sysex_queue: all tests passed");

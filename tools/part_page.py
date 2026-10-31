@@ -145,6 +145,21 @@ panel(263.0, 120.0)
 comment("Tuning", [263.0, 0.0, 120.0, 18.0], DIM, 1)
 sender(dial("CoarseTune", "Coarse Tune", "coarse", [272.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
 sender(dial("FineTune", "Fine Tune", "fine", [328.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
+# edit this part's patch (Perform mode): the patch pages for it (jvpages.js, "partedit n" via s ---partedit)
+edit = add({"maxclass": "live.text", "numinlets": 1, "numoutlets": 2, "outlettype": ["", ""], "parameter_enable": 0, "mode": 0,
+            "text": "Edit patch", "texton": "Edit patch", "bordercolor": GREY, "textcolor": GREY, "activetextoncolor": GREY,
+            "bgcolor": [0.0, 0.0, 0.0, 0.0], "activebgcolor": [0.0, 0.0, 0.0, 0.0],
+            "hint": "Edit this part's patch with the Tone, LFO, Ctrl, FX and Patch pages (part 10: the rhythm set, not editable here)",
+            "patching_rect": [600.0, 60.0, 80.0, 18.0], "presentation": 1, "presentation_rect": [272.0, 118.0, 100.0, 18.0]}, ui=True)
+tb = obj("t b", 600.0, 100.0, 1, 1)
+pnum = obj("i", 600.0, 140.0, 2, 1)
+m15 = obj("- 15", 700.0, 100.0, 2, 1)
+sedit = obj("s ---partedit", 600.0, 180.0, 1, 0)
+line(edit, tb)
+line(tb, pnum)
+line(addr, m15)
+line(m15, pnum, 0, 1)
+line(pnum, sedit)
 # receive switches (0x0E-0x10)
 panel(386.0, 134.0)
 comment("Receive", [386.0, 0.0, 134.0, 18.0], DIM, 1)

@@ -98,4 +98,29 @@ assert.deepStrictEqual(shows(), ['KeysPage']);
 send('part', 2);
 assert.deepStrictEqual(shows(), ['PartEdit_3']);
 assert.deepStrictEqual(buttons(), { part: 1, keys: 0 });
+
+// editing part 3's patch from Perform mode: the patch pages for it, with the back button; the address moves to 02 02
+send('mode', 1);
+send('partedit', 3);
+assert.deepStrictEqual(out.filter(o => o[0] === 2).map(o => o.slice(1).join(' ')), ['patchbase 2 2']);
+assert.deepStrictEqual(out.filter(o => o[0] === 3).map(o => o.slice(1).join(' ')), ['set Part 3']);
+assert.ok(shows().some(n => n.startsWith('Pitch_')), 'a tone\'s sections');
+for (const name of ['ToneTabs', 'LFOButton', 'PatchButton', 'PartBack', 'PartEditLabel', 'ToneMix']) {
+	assert.ok(shows().includes(name), name + ' shown');
+}
+assert.ok(hides().includes('PartSel1') && hides().includes('KeysButton'));
+send('page', 'fx', 1);
+assert.deepStrictEqual(shows(), ['FX'], 'the patch\'s effects, not the performance\'s');
+send('page', 'keys', 1);
+assert.deepStrictEqual(shows(), [], 'no Perform pages while editing a patch');
+// part 10 is the rhythm set: no patch to edit
+send('partedit', 10);
+assert.deepStrictEqual(out, []);
+// back
+send('partedit', 0);
+assert.deepStrictEqual(out.filter(o => o[0] === 2).map(o => o.slice(1).join(' ')), ['patchbase 3 0']);
+assert.ok(shows().includes('PerformPage') && shows().includes('PartSel1'));
+// a mode change ends the edit too
+send('partedit', 2); send('mode', 0);
+assert.ok(out.some(o => o[0] === 2 && o[2] === 3), 'patchbase 3 0 on leaving Perform mode');
 console.log('jvpages: all tests passed');

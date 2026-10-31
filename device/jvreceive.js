@@ -10,6 +10,12 @@
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05);
 //           "jvperf n" for its performance number (System Common 01); "perfselect" (Send in Perform mode)
 // outlet 4: "username n <name>": the name of USER:n (asked with "askname n" by the Parts page, or seen in a backup)
+// outlet 5: part number 1-16 (s ---partedit): the JV's panel edits a performance part's patch (PERFORM + PATCH), so the
+//           device opens that part's patch too
+//
+// Editing a part's patch (Perform mode): "patchbase 2 <part-1>" from the page logic. Get, Send and the read-back then
+// use the part's patch copy (02 <part-1> ..) instead of Patch mode's temporary patch (03 00 ..); "patchbase 3 0"
+// goes back and reads Patch mode's patch into the controls again. Part 10's copy (02 09) is the rhythm set: ignored.
 //
 // Perform mode ("mode 1", from the device's Patch / Perform switch): Get reads the temporary performance (common
 // + 16 parts, 01 00 ..) and shows its name ("perfname ..." on outlet 2). The JV's Sound Mode (System Common 00)
@@ -36,13 +42,14 @@ include("jv2080_efx.js");
 
 autowatch = 1;
 inlets = 1;
-outlets = 5;
+outlets = 6;
 setinletassist(0, "MIDI bytes from midiin; get");
 setoutletassist(0, "RQ1 SysEx bytes to the queue");
 setoutletassist(1, "mute 1 / mute 0 to the queue");
 setoutletassist(2, "patch name (set ...)");
 setoutletassist(3, "jvpatch type id number");
 setoutletassist(4, "username n name");
+setoutletassist(5, "part whose patch the JV edits");
 
 var jsthis = this;
 var nameChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // the JV's patch name, ASCII
@@ -53,6 +60,42 @@ var LOAD_MS = 1500;     // mode changes this soon after load come from the saved
 var ASK_MS = 500;       // after a mode change: the JV answers a request during the switch with "Data error"
 var askRetry = false;
 var askTask = new Task(askWhere, this);
+var patchBase = [3, 0]; // the patch the patch pages edit: 03 00 (Patch mode) or 02 <part-1> (a performance part)
+var editing = false;    // a performance part's patch
+var pendingMode = null;
+var modeTask = new Task(applyMode, this);
+var MODE_SETTLE_MS = 300;   // PERFORM + PATCH on the JV reports PATCH, then PERFORM 110 ms later: wait for the last
+
+// "patchbase a1 a2" from the page logic: which patch the patch pages edit; reads it
+function patchbase(a1, a2) {
+	a1 = Math.round(a1);
+	a2 = Math.round(a2);
+	if (a1 === patchBase[0] && a2 === patchBase[1]) {
+		return;
+	}
+	patchBase = [a1, a2];
+	editing = a1 === 2;
+	cache = {};
+	get(1);
+}
+
+// a request or DT1 built for 03 00 .. moved to the patch being edited (checksum recomputed)
+function rebase(m) {
+	if (patchBase[0] === 3 && patchBase[1] === 0) {
+		return m;
+	}
+	var out = m.slice();
+	if (out[5] === 3 && out[6] === 0) {
+		out[5] = patchBase[0];
+		out[6] = patchBase[1];
+		var sum = 0;
+		for (var k = 5; k < out.length - 2; k++) {
+			sum += out[k];
+		}
+		out[out.length - 2] = (128 - sum % 128) % 128;
+	}
+	return out;
+}
 // System Common 08-0A: EFX, Chorus and Reverb switch -> the toggles in the Effects On/Off bpatcher
 var SWITCHES = { 8: "live.toggle[3]", 9: "live.toggle[2]", 10: "live.toggle[1]" };
 var buf = null;
@@ -172,7 +215,7 @@ function send() {
 		return;
 	}
 	cache = {};
-	if (perform) {
+	if (perform && !editing) {
 		// the set's performance: selected on the JV (the program block sends it), then, once the JV has loaded it,
 		// the device's part settings written over it
 		outlet(3, "perfselect");
@@ -181,7 +224,7 @@ function send() {
 		return;
 	}
 	sendGap = SEND_GAP_MS;
-	outbox = patchBlocks(0x10);   // the queue sets the real device ID
+	outbox = patchBlocks(0x10).map(rebase);   // the queue sets the real device ID
 	report(outbox);
 	sendTask.cancel();
 	sendBlock();
@@ -359,7 +402,8 @@ function runs(block, size, base, dev, out) {
 	}
 }
 
-function get() {
+// "get": the performance in Perform mode, else the patch being edited; get(1): the patch in any case
+function get(patch) {
 	if (libraryBusy) {
 		post("jvreceive: the Library is busy with the JV, Get skipped\n");
 		return;
@@ -369,7 +413,8 @@ function get() {
 		return;
 	}
 	cache = {};
-	pending = perform ? JVSysEx.requestPerformance(0x10) : JVSysEx.requestPatch(0x10, commonSize);   // the queue sets the real device ID
+	pending = perform && !editing && !patch ? JVSysEx.requestPerformance(0x10)
+		: JVSysEx.requestPatch(0x10, commonSize).map(rebase);   // the queue sets the real device ID
 	waiting = null;
 	timeoutTask.cancel();
 	sendNext();
@@ -454,8 +499,15 @@ function receive(bytes) {
 		answered(msg.addr);
 		return;
 	}
-	if (!where || !where.patch || where.patch[0] !== 0x03) {
-		return;   // only the temporary patch is what the device edits
+	if (where && where.patch && where.patch[0] === 0x02 && where.patch[1] === 9) {
+		return;   // part 10's copy is the rhythm set, not a patch
+	}
+	if (where && where.patch && where.patch[0] === 0x02 && perform && (where.patch[0] !== patchBase[0] || where.patch[1] !== patchBase[1])) {
+		outlet(5, where.patch[1] + 1);   // the JV edits a part's patch on its panel: open it here too (then read)
+		return;
+	}
+	if (!where || !where.patch || where.patch[0] !== patchBase[0] || where.patch[1] !== patchBase[1]) {
+		return;   // only the patch the device edits
 	}
 	var base = JVSysEx.toNumber(msg.addr);
 	for (var i = 0; i < msg.data.length; i++) {
@@ -484,8 +536,15 @@ function system(start, data) {
 	answered([0, 0, 0, start]);
 }
 
-// The JV's Sound Mode (0 PERFORM, 1 PATCH, 2 GM) -> the Patch / Perform switch (0 Patch, 1 Perform)
+// The JV's Sound Mode (0 PERFORM, 1 PATCH, 2 GM) -> the Patch / Perform switch (0 Patch, 1 Perform), once it has
+// settled (PERFORM + PATCH reports PATCH and right after PERFORM again)
 function followMode(v) {
+	pendingMode = v;
+	modeTask.schedule(MODE_SETTLE_MS);
+}
+
+function applyMode() {
+	var v = pendingMode;
 	if (v === 2) {
 		post("jvreceive: the JV is in GM mode, which the device doesn't edit\n");
 		return;
@@ -639,6 +698,8 @@ function notifydeleted() {
 	timeoutTask.freepeer();
 	askTask.cancel();
 	askTask.freepeer();
+	modeTask.cancel();
+	modeTask.freepeer();
 	perfSendTask.cancel();
 	perfSendTask.freepeer();
 	nameTask.cancel();

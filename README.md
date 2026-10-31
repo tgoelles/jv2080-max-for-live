@@ -206,6 +206,16 @@ labels as on the FX page, output and sends), chorus and reverb. **EFX sources**:
 EFX settings (**PERFORM**) or a part's patch EFX; EFX-B and EFX-C, the JV-2080's extra effects in Perform mode,
 always use a part's patch EFX. Also here: the performance's **clock source** and **tempo**.
 
+### Editing a part's patch (Perform mode)
+
+On the Part page, **Edit patch** opens the part's patch with the usual Tone, LFO, Ctrl, FX and Patch pages, as the JV
+does with PERFORM + PATCH: you edit the patch while the performance keeps playing. The page column shows which part,
+and **Parts** goes back. Edits on the JV's panel in its own part-patch edit show up here too (and open that part).
+
+The JV keeps these edits only in the performance's working copy: picking another patch for the part or another
+performance discards them. To keep them, write the patch to a USER slot on the JV (it marks edited parts with "\*"
+when you write the performance). Part 10 is the rhythm set and can't be edited here.
+
 ### Keys page (Perform mode)
 
 The **Keys** button (Perform mode) shows the 16 parts' **key ranges** as bars over the keyboard, for splits and

@@ -311,8 +311,40 @@ out.length = 0; ctx.send(); ctx.askname(5); run(now + 1000);
 assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no name request while the JV loads");
 run();
 
-// the JV switched to Patch mode on its panel: the switch follows, muted
-out.length = 0; feed(dt1([0, 0, 0, 0], [1]));
+// PERFORM + PATCH on the JV (captured): PATCH, then PERFORM 110 ms later -> the switch doesn't flip
+out.length = 0; feed(dt1([0, 0, 0, 0], [1])); run(now + 110); feed(dt1([0, 0, 0, 0], [0])); run(now + 400);
+assert.strictEqual(set["ModeSwitch"], undefined, "still Perform: nothing set");
+
+// a knob turned in the JV's part-patch edit (captured: part 1, tone 1 cutoff) opens that part's patch on the device
+out.length = 0; feed(hex("F0 41 10 6A 12 02 00 10 51 56 47 F7"));
+assert.deepStrictEqual(out.filter(o => o[0] === 5).map(o => o[1]), [1]);
+// the page logic answers with "patchbase 2 0": the part's patch is read from 02 00 ..
+out.length = 0; ctx.patchbase(2, 0);
+assert.deepStrictEqual(rq(), [2, 0, 0, 0, 0, 0, 0, 0x4A], "patch common of part 1's patch");
+for (const m of dump.map(asTemp)) {   // the real dump, as part 1's patch copy
+	const body = [2, 0, ...m.slice(7, m.length - 2)];
+	feed([0xF0, 0x41, 0x10, 0x6A, 0x12, ...body, (128 - body.reduce((a, b) => a + b, 0) % 128) % 128, 0xF7]);
+	run(now + 30);
+}
+run();
+assert.strictEqual(set["TVF_3/live.dial"], 70, "part 1's patch on the tone pages");
+assert.strictEqual(asked(), 5);
+// panel edits of this part's patch land on the controls; Patch mode's patch (03 00) and part 10 (rhythm) are ignored
+feed(hex("F0 41 10 6A 12 02 00 10 51 56 47 F7"));
+assert.strictEqual(set["TVF_1/live.dial"], 0x56);
+feed(dt1([3, 0, 0x10, 0x51], [10])); feed(dt1([2, 9, 0x10, 0x51], [11]));
+assert.strictEqual(set["TVF_1/live.dial"], 0x56);
+// Send writes the part's patch, not the performance
+out.length = 0; ctx.send(); run();
+assert.ok(!out.some(o => o[0] === 3 && o[1] === "perfselect"));
+assert.ok(out.filter(o => o[0] === 0).map(o => o[1]).join(" ").includes("106 18 2 0"), "DT1 to 02 00 ..");
+// back: Patch mode's patch is read into the controls again
+out.length = 0; ctx.patchbase(3, 0);
+assert.deepStrictEqual(rq(), [3, 0, 0, 0, 0, 0, 0, 0x4A]);
+run();
+
+// the JV switched to Patch mode on its panel: the switch follows (once settled), muted
+out.length = 0; feed(dt1([0, 0, 0, 0], [1])); run(now + 400);
 assert.strictEqual(set["ModeSwitch"], 0);
-assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0]);
+assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]).slice(-2), [1, 0]);
 console.log("jvreceive: all tests passed");
