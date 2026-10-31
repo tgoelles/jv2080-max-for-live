@@ -156,8 +156,8 @@ def build():
     # Perform mode: the Parts page (one instance), fixed addresses in the temporary performance. "tones" holds the
     # part number for block "part". The part's patch bank menu feeds Patch Group Type / ID (offsets 2/3) through two
     # exprs, like the wave group: special-cased as op "part_group".
-    pat = maxjson.load(DEVICE / "JV_PERFORM.maxpat")["patcher"]
-    for b in pat["boxes"]:
+    for b, pat, page in [(b, pat, page) for name, page in (("JV_PERFORM", "PerformPage"), ("JV_KEYS", "KeysPage"))
+                         for pat in [maxjson.load(DEVICE / f"{name}.maxpat")["patcher"]] for b in pat["boxes"]]:
         m = SX_PERF.match(b["box"].get("text", ""))
         if not m:
             continue
@@ -179,7 +179,7 @@ def build():
         if got is None:
             problems.append(f"Parts: can't trace sender {b['box']['text']}")
         else:
-            add(block, a4, "Parts", ["PerformPage"], got[0], got[1], tones)
+            add(block, a4, "Parts", [page], got[0], got[1], tones)
 
     # main patch: per-tone switches and levels live in the embedded Tone Switch bpatcher
     main = maxjson.load(DEVICE / "JV 2080 Control.amxd")["patcher"]

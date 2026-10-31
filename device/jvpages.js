@@ -2,7 +2,7 @@
 // Perform) feed this; it sends "script show/hide <varname>" to thispatcher and keeps the page buttons in step.
 //
 // Patch mode: the tone's four sections (Pitch, TVF, WG, VCA), or a page instead: LFO and Ctrl (per tone),
-// FX and Patch (patch-wide). Perform mode: the Parts page, or the Part page of the part chosen with the part
+// FX and Patch (patch-wide). Perform mode: the Parts page, the Keys page, or the Part page of the part chosen with the part
 // buttons (PartSel1-16, the selected one lit). Library and Setup work in both modes.
 // One page at a time: switching one on switches the others off; switching it off shows the mode's main view.
 // A tone tab click leaves LFO / Ctrl on (they follow the tone) and switches the other pages off.
@@ -18,13 +18,13 @@ setinletassist(0, "mode, tone, page <name> 0/1, refresh");
 setoutletassist(0, "script show/hide for thispatcher");
 setoutletassist(1, "<page> set 0/1 for the page buttons");
 
-var PAGES = ["lfo", "ctrl", "fx", "patch", "library", "setup", "part"];
+var PAGES = ["lfo", "ctrl", "fx", "patch", "library", "setup", "part", "keys"];
 var GLOBAL = { library: "LibraryPage", setup: "Settings" };    // in both modes
 var PATCH_PAGES = { lfo: 1, ctrl: 1, fx: 1, patch: 1 };
-var PERFORM_PAGES = { part: 1 };
+var PERFORM_PAGES = { part: 1, keys: 1 };
 // controls that only exist in Patch mode: the tone tabs, the patch page buttons and the tone switches / levels
 var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "FXButton", "PatchButton", "ToneMix"];
-var PERFORM_CONTROLS = ["PartButton"];
+var PERFORM_CONTROLS = ["PartButton", "KeysButton"];
 for (var pb = 1; pb <= 16; pb++) {
 	PERFORM_CONTROLS.push("PartSel" + pb);
 }
@@ -37,7 +37,7 @@ var shown = {};    // varname -> true / false as last sent
 var states = {};   // page -> button state as last sent
 
 function sections() {
-	var all = ["CtrlCommon", "FX", "PatchPage", "LibraryPage", "Settings", "PerformPage"];
+	var all = ["CtrlCommon", "FX", "PatchPage", "LibraryPage", "Settings", "PerformPage", "KeysPage"];
 	for (var t = 1; t <= 4; t++) {
 		all.push("Pitch_" + t, "TVF_" + t, "WG_" + t, "VCA_" + t, "LFO_" + t, "CTRL_" + t);
 	}
@@ -53,7 +53,7 @@ function visible() {
 	if (GLOBAL[page]) {
 		v.push(GLOBAL[page]);
 	} else if (mode === 1) {
-		v.push(page === "part" ? "PartEdit_" + (part + 1) : "PerformPage");
+		v.push(page === "part" ? "PartEdit_" + (part + 1) : page === "keys" ? "KeysPage" : "PerformPage");
 	} else if (page === "lfo") {
 		v.push("LFO_" + t);
 	} else if (page === "ctrl") {

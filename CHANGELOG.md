@@ -23,6 +23,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   (MIX / EFX / DIR1 / DIR2 / PATCH, EFX A/B/C), mix/EFX, chorus and reverb send, coarse and fine tune, and whether it
   receives program change, volume and hold. The **Part** button switches between it and the Parts page. (#10)
 
+- **Keys page** (Perform mode): the 16 parts' key ranges as bars over the keyboard, with draggable ends, and the
+  performance's key range switch. **Voice reserve** per part on the Parts page, under the pan knob. (#10)
+
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
