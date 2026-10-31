@@ -174,7 +174,7 @@ for p in range(1, 17):
     sender(m2, a3, 4, nibbles=True, x=px + 100.0, y=520.0)
     lev = add({"maxclass": "live.slider", "modulationcolor": ORANGE, "numinlets": 1, "numoutlets": 2, "outlettype": ["", "float"],
                "parameter_enable": 1, "patching_rect": [px, 140.0, 22.0, 90.0], "presentation": 1,
-               "presentation_rect": [x0 + 1.0, 70.0, 22.0, 92.0], "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE,
+               "presentation_rect": [x0 + 1.0, 70.0, 22.0, 76.0], "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE,
                "varname": "P%dLevel" % p, "hint": "Part %d level" % p,
                "saved_attribute_attributes": valueof("Part %d Level" % p, "level", 1, parameter_mmin=0.0, parameter_mmax=127.0,
                                                      parameter_initial=[100], parameter_initial_enable=1, parameter_unitstyle=0)})
@@ -190,13 +190,18 @@ for p in range(1, 17):
     p64 = obj("+ 64", px + 60.0, 360.0, 2, 1)
     line(pan, p64)
     sender(p64, a3, 7, x=px + 60.0, y=600.0)
-    controls.append({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [px + 200.0, 240.0, 40.0, 15.0],
-                     "presentation": 1, "presentation_rect": [x0 + 21.0, 124.0, 39.0, 15.0], "text": "", "textcolor": GREY,
-                     "fontsize": 8.0, "textjustification": 1, "varname": "P%dTrack" % p})
+    # the Live track playing this part, below the black area: lit in the track's colour while it plays (jvtracks.js)
+    controls.append({"maxclass": "live.text", "numinlets": 1, "numoutlets": 2, "outlettype": ["", ""], "parameter_enable": 0,
+                     "ignoreclick": 1, "mode": 1, "text": "", "texton": "", "fontsize": 8.0, "rounded": 2.0,
+                     "bgcolor": [0.0, 0.0, 0.0, 0.0], "bgoncolor": GREY, "bordercolor": [0.0, 0.0, 0.0, 0.0],
+                     "activebgcolor": [0.0, 0.0, 0.0, 0.0], "activebgoncolor": GREY,
+                     "textcolor": [0.2, 0.2, 0.2, 1.0], "textoncolor": [0.1, 0.1, 0.1, 1.0], "activetextoncolor": [0.1, 0.1, 0.1, 1.0],
+                     "patching_rect": [px + 200.0, 240.0, 58.0, 14.0], "presentation": 1,
+                     "presentation_rect": [x0 + 0.5, 149.0, 59.0, 14.0], "varname": "P%dTrack" % p})
     # voice reserve: performance common 0x30-0x3F, under the pan knob
     vr = add({"appearance": 4, "maxclass": "live.numbox", "numinlets": 1, "numoutlets": 2, "outlettype": ["", "float"],
               "parameter_enable": 1, "patching_rect": [px + 160.0, 240.0, 40.0, 15.0], "presentation": 1,
-              "presentation_rect": [x0 + 24.0, 144.0, 34.0, 15.0], "textjustification": 1, "varname": "P%dVoices" % p,
+              "presentation_rect": [x0 + 24.0, 127.0, 34.0, 15.0], "textjustification": 1, "varname": "P%dVoices" % p,
               "hint": "Part %d voice reserve: voices kept free for this part (all parts together at most 64)" % p,
               "saved_attribute_attributes": valueof("Part %d Voice Reserve" % p, "voices", 1, parameter_mmin=0.0, parameter_mmax=64.0,
                                                     parameter_initial=[0], parameter_initial_enable=1, parameter_unitstyle=9,
@@ -210,7 +215,7 @@ for p in range(1, 17):
 for c in controls:
     add(c)
 add({"angle": 270.0, "background": 1, "bgcolor": PANEL, "ignoreclick": 0, "maxclass": "panel", "mode": 0, "numinlets": 1,
-     "numoutlets": 0, "patching_rect": [20.0, 700.0, 986.0, 163.0], "presentation": 1, "presentation_rect": [0.0, 0.0, 986.0, 163.0],
+     "numoutlets": 0, "patching_rect": [20.0, 700.0, 986.0, 163.0], "presentation": 1, "presentation_rect": [0.0, 0.0, 986.0, 147.0],
      "proportion": 0.5})
 # earlier boxes are drawn on top: UI first, panel last
 ui = [b for b in boxes if b["box"].get("presentation") and b["box"]["maxclass"] != "panel"]

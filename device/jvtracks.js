@@ -2,9 +2,10 @@
 //
 // The device's own track sends to the JV's port (MIDI To). Every other MIDI track whose MIDI To is the same port, on a
 // channel, plays the parts listening on that channel. (A track routed to the device's track instead plays on that
-// track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track),
-// lit while such a track plays (its MIDI meter, output_meter_level). Read every 2 s, so renamed or re-routed tracks
-// and changed part channels follow by themselves.
+// track's channel, not its own, so it isn't counted.) Each part shows the name of the track(s) playing it (P<n>Track,
+// a live.text below the Parts page's black area), lit in the track's Live colour while such a track plays (its MIDI
+// meter, output_meter_level). Read every 2 s, so renamed, re-coloured or re-routed tracks and changed part channels
+// follow by themselves.
 //
 // inlet 0: "start" (once Live's API is ready, after load), "scan" (read again now)
 // The controls are reached by varname: P<n>Channel (read), P<n>Track (label).
@@ -15,9 +16,7 @@ outlets = 0;
 setinletassist(0, "start, scan");
 
 var jsthis = this;
-var LABEL = 8;   // characters that fit next to the fader
-var GREY = [0.647, 0.647, 0.647, 1.0];
-var LIT = [1.0, 0.71, 0.2, 1.0];
+var LABEL = 11;  // characters that fit in a strip
 var POLL_MS = 2000;
 
 var poll = new Task(scan, this);
@@ -76,7 +75,7 @@ function jvTracks() {
 		var name = str(t.get("name"));
 		seen.push(name + " -> " + r.port + " / " + r.channelName);
 		if (r.port === port && r.channel >= 1 && r.channel <= 16) {
-			out.push({ id: t.id, index: i, name: name, channel: r.channel });
+			out.push({ id: t.id, index: i, name: name, channel: r.channel, color: +str(t.get("color")) || 0 });
 		}
 	}
 	var text = "jvtracks: device track -> " + port + "; " + seen.join(", ");
@@ -104,19 +103,25 @@ function scan() {
 		channelOf[p] = c ? value(c) : p;
 	}
 	for (p = 1; p <= 16; p++) {
-		var names = [];
+		var names = [], color = 0;
 		for (var i = 0; i < tracks.length; i++) {
 			if (tracks[i].channel === channelOf[p]) {
 				names.push(tracks[i].name);
+				color = color || tracks[i].color;
 			}
 		}
 		var text = names.join("+");
 		text = text.length > LABEL ? text.slice(0, LABEL) : text;
-		if (labels[p] !== text) {
-			labels[p] = text;
+		var key = text + "|" + color;
+		if (labels[p] !== key) {
+			labels[p] = key;
 			var label = control("P" + p + "Track");
 			if (label) {
-				label.message("set", text);
+				label.message("text", text);
+				label.message("texton", text);
+				var rgb = [((color >> 16) & 255) / 255, ((color >> 8) & 255) / 255, (color & 255) / 255, 1.0];
+				label.message(["bgoncolor"].concat(rgb));
+				label.message(["activebgoncolor"].concat(rgb));
 			}
 		}
 	}
@@ -160,7 +165,7 @@ function observe(t) {
 	return api;
 }
 
-// a part's label is lit while any track playing it plays
+// a part's label is lit (in its track's colour) while any track playing it plays
 function light() {
 	var now = {};
 	for (var id in meters) {
@@ -175,7 +180,7 @@ function light() {
 			lit[p] = !!now[p];
 			var label = control("P" + p + "Track");
 			if (label) {
-				label.message(["textcolor"].concat(lit[p] ? LIT : GREY));
+				label.message("set", lit[p] ? 1 : 0);
 			}
 		}
 	}
