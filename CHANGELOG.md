@@ -13,6 +13,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   JV's own PATCH / PERFORM buttons. In Perform mode the program block selects performances (USER, PR-A, PR-B, CARD,
   1–32), the name field shows and renames the performance, and **Get** reads the performance. The Parts and
   performance effects pages follow. (#10)
+- **Parts page** (Perform mode's main view): all 16 parts side by side with on/off, MIDI channel, patch bank and
+  number, level and pan. Get reads them, edits on the JV's panel show up live, and Send (and the on-load push) selects
+  the set's performance and writes the parts over it, so a performance is stored in the Live set and in presets. (#10)
 
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
