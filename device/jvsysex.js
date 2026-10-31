@@ -253,7 +253,25 @@ var JVSysEx = (function () {
 		return index > 1 ? { type: 2, id: index - 1 } : { type: 0, id: index + 1 };
 	}
 
+	// A performance part's patch bank menu: 0 USER, 1-5 PR-A..PR-E (PR-D = GM), 6 CARD, 7..25 expansion board 1..19.
+	// Patch Group Type 0 (USER & PRESET) uses Group ID 1 USER, 2 CARD, 3-7 PR-A..PR-E; type 2 (EXP) the board number.
+	var PART_GROUP_IDS = [1, 3, 4, 5, 6, 7, 2];
+
+	function partGroupToMenu(type, id) {
+		if (type === 2) {
+			return id >= 1 && id <= 19 ? id + 6 : null;
+		}
+		var i = PART_GROUP_IDS.indexOf(id);
+		return type === 0 && i >= 0 ? i : null;
+	}
+
+	function partGroupFromMenu(index) {
+		return index >= 7 ? { type: 2, id: index - 6 } : { type: 0, id: PART_GROUP_IDS[index] };
+	}
+
 	return {
+		partGroupToMenu: partGroupToMenu,
+		partGroupFromMenu: partGroupFromMenu,
 		fromControl: fromControl,
 		toControl: toControl,
 		waveGroupToMenu: waveGroupToMenu,

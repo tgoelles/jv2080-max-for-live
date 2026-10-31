@@ -10,8 +10,8 @@ patch to it (**Send**), and follows edits made on the JV's own panel live.
 
 - **Tone view**: per tone Wave, Pitch, Filter and Amplifier (envelopes, keyfollow, velocity). Use the **Tone1–4**
   tabs to choose the tone.
-- **Patch / Perform** switch (top left): the JV's mode. Perform mode selects performances; its Parts page comes
-  next ([MIDI setup for several channels](#perform-mode-and-several-midi-channels)).
+- **Patch / Perform** switch (top left): the JV's mode. Perform mode selects performances and shows the
+  [Parts page](#parts-page-perform-mode) ([MIDI setup for several channels](#perform-mode-and-several-midi-channels)).
 - **Program block** (below it): the patch name (click to rename), bank/program select, **Send** (device → JV) and
   **Get** (JV → device). Below it the tone switches and levels, and Effects On/Off.
 - **Pages** (buttons below the Tone tabs):
@@ -80,8 +80,7 @@ The device picks performances with SysEx, so the device track's channel doesn't 
 
 1. Put the device on the MIDI track set up as above.
 2. Choose **Patch** or **Perform** with the switch at the top left; the JV follows (and the switch follows the JV's
-   own PATCH / PERFORM buttons). Perform mode is new: it selects performances and reads their name; the Parts page
-   comes next. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
+   own PATCH / PERFORM buttons). Perform mode selects performances and shows their 16 parts ([Parts page](#parts-page-perform-mode)). If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
@@ -186,6 +185,16 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
   strip or bar to change that range directly.
   Velocity ranges only apply when **velocity ranges** is on.
 
+### Parts page (Perform mode)
+
+In **Perform** mode the device shows the JV's 16 parts side by side. Per part: **on/off** (the part's receive
+switch), **MIDI channel**, **patch bank** (USER, PR-A–PR-E, CARD, EXP-01–19 = the SR-JV80 board's number) and
+**patch number**, **level** (fader) and **pan**. The bank menu lists the banks your model has and the expansion
+boards set up on the **Setup** page (as XP-A, XP-B, …). Under the number is the patch's name: USER patches are read
+from the JV; preset and board names appear once they're imported (see [Wave names](#wave-names)). **Get** reads them from the JV, changes on the JV's panel show up
+live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
+with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
+
 ### Library page
 
 Click **Library** (above Setup) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
@@ -261,6 +270,17 @@ answers 403), run the script again. Internal waves
     python3 -I tools/import_wave_names.py --internal docs/int_waves.txt --keep
 
 For wave groups without names, the device shows only the wave number.
+
+**Patch names** for the Parts page come the same way, from the patch lists in the same board documents and, for the
+JV's preset banks PR-A–PR-E, from Roland's patch listing:
+
+```
+python3 -I tools/import_patch_names.py
+python3 -I tools/import_patch_names.py --pdf docs/JV2080pat.pdf --keep
+```
+
+`docs/JV2080pat.pdf` is Roland's *JV-2080 Patch Listing* (Faxback 10454; not in the repo, like the manual). USER
+names aren't imported: they're yours, and the device reads them from the JV.
 
 ## Development
 

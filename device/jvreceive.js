@@ -9,6 +9,7 @@
 // outlet 2: "fromjv <patch name>" for the name field (jvname.js): after a read or a name edit on the JV
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05);
 //           "jvperf n" for its performance number (System Common 01); "perfselect" (Send in Perform mode)
+// outlet 4: "username n <name>": the name of USER:n (asked with "askname n" by the Parts page, or seen in a backup)
 //
 // Perform mode ("mode 1", from the device's Patch / Perform switch): Get reads the temporary performance (common
 // + 16 parts, 01 00 ..) and shows its name ("perfname ..." on outlet 2). The JV's Sound Mode (System Common 00)
@@ -35,12 +36,13 @@ include("jv2080_efx.js");
 
 autowatch = 1;
 inlets = 1;
-outlets = 4;
+outlets = 5;
 setinletassist(0, "MIDI bytes from midiin; get");
 setoutletassist(0, "RQ1 SysEx bytes to the queue");
 setoutletassist(1, "mute 1 / mute 0 to the queue");
 setoutletassist(2, "patch name (set ...)");
 setoutletassist(3, "jvpatch type id number");
+setoutletassist(4, "username n name");
 
 var jsthis = this;
 var nameChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // the JV's patch name, ASCII
@@ -57,7 +59,7 @@ var buf = null;
 var BY_ID = {};
 for (var i = 0; i < JV2080_BINDINGS.length; i++) {
 	var b = JV2080_BINDINGS[i];
-	var key = (b.block === "tone" ? "tone" : "common") + ":" + b.id;   // patch common and tone ids can repeat
+	var key = b.block + ":" + b.id;   // ids repeat between blocks (efx_type in patch common and performance)
 	(BY_ID[key] = BY_ID[key] || []).push(b);
 }
 
@@ -110,6 +112,42 @@ var waiting = null;     // the request we're waiting for: its 4 address bytes
 var nextTask = new Task(sendNext, this);
 var timeoutTask = new Task(onTimeout, this);
 var SEND_GAP_MS = 60;   // between the DT1 blocks of "send": a 129-byte message takes ~45 ms on the MIDI cable
+var PERF_SEND_GAP_MS = 150;   // Perform mode: a part block can make the JV load another patch
+var PERF_SELECT_MS = 1500;    // Send in Perform mode: select the performance, let the JV load it, then write the parts
+var sendGap = SEND_GAP_MS;
+var perfSendTask = new Task(sendPerfBlocks, this);
+var perfSending = false;   // between the performance select and writing the parts: the JV is loading
+
+// USER patch names for the Parts page: asked one at a time, only when nothing else talks to the JV (the JV answers
+// late while it loads a performance, and a request in between gets "Receive data error")
+var nameQueue = [];
+var nameTask = new Task(drainNames, this);
+var NAMES_AFTER_LOAD_MS = 3000;
+
+function askname(n) {
+	n = Math.round(n);
+	if (n >= 1 && n <= 128 && nameQueue.indexOf(n) < 0) {
+		nameQueue.push(n);
+	}
+	nameTask.schedule(200);
+}
+
+function drainNames() {
+	if (!nameQueue.length || !perform) {
+		return;
+	}
+	if (libraryBusy || perfSending || pending.length || waiting || outbox.length ||
+		new Date().getTime() - loadedAt < NAMES_AFTER_LOAD_MS) {
+		nameTask.schedule(300);
+		return;
+	}
+	var n = nameQueue.shift();
+	pending = [JVSysEx.rq1(0x10, [0x11, n - 1, 0, 0], 12)];
+	sendNext();
+	if (nameQueue.length) {
+		nameTask.schedule(100);
+	}
+}
 var outbox = [];        // DT1 blocks still to send
 var sendTask = new Task(sendBlock, this);
 
@@ -135,11 +173,14 @@ function send() {
 	}
 	cache = {};
 	if (perform) {
-		// the set's performance: selected on the JV (the program block sends it). The performance settings
-		// follow with the Parts page.
+		// the set's performance: selected on the JV (the program block sends it), then, once the JV has loaded it,
+		// the device's part settings written over it
 		outlet(3, "perfselect");
+		perfSending = true;
+		perfSendTask.schedule(PERF_SELECT_MS);
 		return;
 	}
+	sendGap = SEND_GAP_MS;
 	outbox = patchBlocks(0x10);   // the queue sets the real device ID
 	report(outbox);
 	sendTask.cancel();
@@ -171,6 +212,16 @@ function report(messages) {
 	}
 }
 
+function sendPerfBlocks() {
+	perfSending = false;
+	cache = {};
+	sendGap = PERF_SEND_GAP_MS;
+	outbox = perfBlocks(0x10);
+	report(outbox);
+	sendTask.cancel();
+	sendBlock();
+}
+
 function sendBlock() {
 	if (!outbox.length) {
 		return;
@@ -180,7 +231,7 @@ function sendBlock() {
 		outlet(0, m[i]);
 	}
 	if (outbox.length) {
-		sendTask.schedule(SEND_GAP_MS);
+		sendTask.schedule(sendGap);
 	} else if (getAfterSend) {
 		getAfterSend = false;
 		get();
@@ -195,6 +246,9 @@ function patchBlocks(dev) {
 	}
 	for (var i = 0; i < JV2080_BINDINGS.length; i++) {
 		var b = JV2080_BINDINGS[i];
+		if (b.block !== "common" && b.block !== "tone") {
+			continue;
+		}
 		var tones = b.tones.length ? b.tones : [null];
 		for (var k = 0; k < tones.length; k++) {
 			var obj = find(b.path[0].replace("{n}", tones[k]), b.varname);
@@ -216,9 +270,39 @@ function controlValue(obj) {
 	return Math.round(v instanceof Array ? v[0] : v) || 0;
 }
 
+// The DT1 messages for the device's performance: common + 16 parts -> runs of consecutive bytes
+function perfBlocks(dev) {
+	var bytes = { perf: {} };
+	for (var p = 1; p <= 16; p++) {
+		bytes["part" + p] = {};
+	}
+	for (var i = 0; i < JV2080_BINDINGS.length; i++) {
+		var b = JV2080_BINDINGS[i];
+		if (b.block !== "perf" && b.block !== "part") {
+			continue;
+		}
+		var obj = find(b.path[0], b.varname);
+		if (obj) {
+			place(bytes[b.block === "perf" ? "perf" : "part" + b.tones[0]], b, controlValue(obj));
+		}
+	}
+	var out = [];
+	runs(bytes.perf, JVSysEx.params.blocks.perf.size, JVSysEx.perfAddress("perf"), dev, out);
+	for (p = 1; p <= 16; p++) {
+		runs(bytes["part" + p], JVSysEx.params.blocks.part.size, JVSysEx.perfAddress("part", p), dev, out);
+	}
+	return out;
+}
+
 // a binding's control value as raw bytes at their offsets
 function place(block, b, value) {
 	var op = b.ops.length ? b.ops[0][0] : null;
+	if (op === "part_group") {
+		var pg = JVSysEx.partGroupFromMenu(value);
+		block[JVSysEx.find("part", "patch_group_type").off] = pg.type;
+		block[JVSysEx.find("part", "patch_group_id").off] = pg.id;
+		return;
+	}
 	if (op === "wave_group") {
 		var g = JVSysEx.waveGroupFromMenu(value);
 		block[JVSysEx.find("tone", "wave_group_type").off] = g.type;
@@ -338,6 +422,13 @@ function receive(bytes) {
 		performance(msg);   // the temporary performance
 		return;
 	}
+	if (where && where.patch && where.patch[0] === 0x11 && where.block === "common" && where.index === 0 && msg.data.length >= 12) {
+		// a USER patch's name (asked for the Parts page, or part of a backup)
+		var nm = String.fromCharCode.apply(null, msg.data.slice(0, 12)).replace(/\s+$/, "");
+		outlet(4, ["username", msg.addr[1] + 1].concat(nm.length ? nm.split(" ") : []));
+		answered(msg.addr);
+		return;
+	}
 	if (!where || !where.patch || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
 	}
@@ -389,13 +480,31 @@ function followMode(v) {
 	}
 }
 
-// A reply or panel edit for the temporary performance. For now only its name is used.
+// A reply or panel edit for the temporary performance: values onto the Parts page, the name to the name field
 function performance(msg) {
 	var base = JVSysEx.toNumber(msg.addr);
 	for (var i = 0; i < msg.data.length; i++) {
 		lastRead[base + i] = msg.data[i];
 	}
-	var values = JVSysEx.decode(msg), named = false;
+	var values = JVSysEx.decode(msg), named = false, group = {};
+	outlet(1, "mute", 1);
+	try {
+		for (i = 0; i < values.length; i++) {
+			var v = values[i];
+			setControls(v.block + ":" + v.id, v.block === "part" ? v.part : null, v.raw);
+			if (v.id === "patch_group_type" || v.id === "patch_group_id") {
+				group[v.id] = v.raw;
+			}
+		}
+		if (group.patch_group_type !== undefined && group.patch_group_id !== undefined) {
+			var menu = JVSysEx.partGroupToMenu(group.patch_group_type, group.patch_group_id);
+			if (menu !== null) {
+				setControls("part:part_group", values[0].part, menu, true);
+			}
+		}
+	} finally {
+		outlet(1, "mute", 0);
+	}
 	for (i = 0; i < values.length; i++) {
 		var m = values[i].block === "perf" ? /^name_(\d+)$/.exec(values[i].id) : null;
 		if (m) {
@@ -505,6 +614,10 @@ function notifydeleted() {
 	timeoutTask.freepeer();
 	askTask.cancel();
 	askTask.freepeer();
+	perfSendTask.cancel();
+	perfSendTask.freepeer();
+	nameTask.cancel();
+	nameTask.freepeer();
 }
 
 var cache = {};

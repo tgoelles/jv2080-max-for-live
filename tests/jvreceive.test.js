@@ -73,7 +73,7 @@ assert.strictEqual(set["ToneMix/live.numbox"], 127, "tone 1 level");
 
 // every bound control of every tone got a value
 const B = require("../device/jv2080_bindings.js");
-for (const b of B) {
+for (const b of B.filter(b => b.block === "common" || b.block === "tone")) {
 	for (const t of b.tones) {
 		assert.ok(b.path[0].replace("{n}", t) + "/" + b.varname in set, `${b.id} tone ${t} not set`);
 	}
@@ -193,6 +193,7 @@ for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {
 out.length = 0; ctx.mode(1); run();
 assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no question while the set loads");
 ctx.mode(0); ctx.loadedAt = 0; out.length = 0; ctx.mode(1);
+const J = require("../device/jvsysex.js");
 const t1 = now;
 run(t1 + 499);
 assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "not while the JV is still switching");
@@ -218,7 +219,8 @@ assert.strictEqual(out.filter(o => o[0] === 2).pop()[1].join(" "), "perfname Seq
 for (let p = 1; p <= 16; p++) {
 	run(now + 30);
 	assert.deepStrictEqual(rq(), [1, 0, 0x0F + p, 0, 0, 0, 0, 0x1A], "part " + p);
-	feed(dt1([1, 0, 0x0F + p, 0], Array(0x1A).fill(0)));
+	// a valid default part: on, channel p, USER 00p, level 100, centre
+	feed(dt1([1, 0, 0x0F + p, 0], [1, p - 1, 0, 1, 0, p - 1, 100, 64, 48, 50, 0, 127, 0, 0, 1, 1, 1, 0, 127, 3, 0, 0, 0, 0, 0, 0]));
 }
 run();
 assert.strictEqual(asked(), 17);
@@ -234,10 +236,67 @@ run(now + 30);
 assert.strictEqual(asked(), 2);
 run();
 
-// Send in Perform mode selects the set's performance; the patch blocks are not sent
-out.length = 0; ctx.send(); run();
+// a real performance (captured): the parts land on the Parts page
+const perfDump = fs.readFileSync(path.join(__dirname, "fixtures/jv2080_performance_dump.txt"), "utf8")
+	.split("\n").filter(l => l && !l.startsWith("#")).map(hex);
+out.length = 0; ctx.get();
+for (const m of perfDump) { feed(m); run(now + 30); }
+run();
+assert.strictEqual(out.filter(o => o[0] === 2).pop()[1].join(" "), "perfname LateAutumnSP");
+assert.deepStrictEqual([set["PerformPage/P2On"], set["PerformPage/P2Channel"], set["PerformPage/P2Bank"], set["PerformPage/P2Patch"]],
+	[1, 1, 5, 84], "part 2: on, channel 1, PR-E 084 (number 05 03 = 83)");
+assert.deepStrictEqual([set["PerformPage/P2Level"], set["PerformPage/P2Pan"]], [127, 0x44 - 64]);
+assert.deepStrictEqual([set["PerformPage/P3Bank"], set["PerformPage/P3Patch"], set["PerformPage/P3Level"]], [3, 20, 0x73], "part 3: PR-C 020");
+assert.deepStrictEqual([set["PerformPage/P6On"], set["PerformPage/P6Channel"]], [0, 6], "part 6 off, channel 6");
+for (const b of B.filter(b => b.block === "part" && b.tones[0] > 1)) {
+	assert.ok("PerformPage/" + b.varname in set, b.varname + " not set");
+}
+// a part level turned on the JV's panel follows, muted
+out.length = 0; feed(dt1([1, 0, 0x13, 6], [99]));
+assert.strictEqual(set["PerformPage/P4Level"], 99);
+assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0]);
+feed(dt1([1, 0, 0x13, 6], [0x72]));   // back to the read value
+
+// Send in Perform mode: the set's performance is selected, then (after the JV loaded it) the parts are written over it.
+// Get -> Send writes back exactly what was read (part 1 wasn't read: not compared).
+out.length = 0; posts.length = 0; ctx.send();
 assert.deepStrictEqual(out.filter(o => o[0] === 3), [[3, "perfselect"]]);
-assert.strictEqual(out.filter(o => o[0] === 0).length, 0);
+run(now + 1499);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "nothing while the JV loads the performance");
+run();
+const sp = posts.pop(); assert.ok(/send: 16 blocks, 0 of \d+ bytes differ/.test(sp), sp);
+{
+	const sent = {};
+	let cur = null;
+	for (const o of out.filter(o => o[0] === 0)) {
+		if (o[1] === 0xF0) cur = [];
+		cur.push(o[1]);
+		if (o[1] === 0xF7) {
+			const a = J.toNumber(cur.slice(5, 9));
+			cur.slice(9, -2).forEach((v, i) => { sent[a + i] = v; });
+			assert.strictEqual(cur.slice(5, -1).reduce((x, y) => x + y, 0) % 128, 0, "checksum");
+		}
+	}
+	const part3 = J.toNumber([1, 0, 0x12, 0]);
+	assert.deepStrictEqual([0, 1, 2, 3, 4, 5, 6, 7].map(i => sent[part3 + i]), [1, 0, 0, 5, 1, 3, 0x73, 0x54], "part 3 as read");
+	assert.strictEqual(sent[J.toNumber([1, 0, 0, 0])], undefined, "the name is not sent");
+}
+
+// USER patch names for the Parts page: asked one at a time when the JV is idle, answered as "username n name"
+out.length = 0; ctx.askname(12); ctx.askname(12); ctx.askname(3); run(now + 300);
+assert.deepStrictEqual(rq(), [0x11, 11, 0, 0, 0, 0, 0, 12], "USER:012 name, asked once");
+assert.strictEqual(asked(), 1, "one at a time");
+feed(dt1([0x11, 11, 0, 0], [..."My Pad      "].map(c => c.charCodeAt(0))));
+assert.strictEqual(out.filter(o => o[0] === 4).pop()[1].join(" "), "username 12 My Pad");
+run();
+assert.deepStrictEqual(rq(), [0x11, 2, 0, 0, 0, 0, 0, 12], "then USER:003");
+feed(dt1([0x11, 2, 0, 0], Array(12).fill(0x41)));
+run();
+assert.strictEqual(asked(), 2);
+// not while a Send is waiting for the JV to load the performance
+out.length = 0; ctx.send(); ctx.askname(5); run(now + 1000);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no name request while the JV loads");
+run();
 
 // the JV switched to Patch mode on its panel: the switch follows, muted
 out.length = 0; feed(dt1([0, 0, 0, 0], [1]));

@@ -91,7 +91,7 @@ assert.deepStrictEqual(JV.decode(JV.parse(JV.setParam(0x10, "tone", 1, "wave_num
 // --- bindings: every traced control converts both ways -----------------------------------------
 const B = require("../device/jv2080_bindings.js");
 for (const b of B) {
-	if (b.ops.length && b.ops[0][0] === "wave_group") continue;
+	if (b.ops.length && (b.ops[0][0] === "wave_group" || b.ops[0][0] === "part_group")) continue;
 	const p = JV.find(b.block, b.id);
 	for (let v = b.range[0]; v <= b.range[1]; v++) {
 		const raw = JV.fromControl(b, v);
@@ -110,4 +110,13 @@ for (let i = 0; i <= 20; i++) {
 }
 assert.strictEqual(JV.waveGroupToMenu(val(2, "wave_group_type"), val(2, "wave_group_id")), 1, "tone 2 = INT-B");
 
+// a part's patch bank menu <-> Patch Group Type / ID (measured: part 1 of "Reso Clav" = type 0, id 7 = PR-E)
+assert.strictEqual(JV.partGroupToMenu(0, 7), 5, "PR-E");
+assert.strictEqual(JV.partGroupToMenu(0, 2), 6, "CARD");
+assert.strictEqual(JV.partGroupToMenu(2, 11), 17, "SR-JV80-11");
+assert.strictEqual(JV.partGroupToMenu(1, 1), null, "PCM card (JV-1080) has no entry");
+for (let i = 0; i < 26; i++) {
+	const g = JV.partGroupFromMenu(i);
+	assert.strictEqual(JV.partGroupToMenu(g.type, g.id), i, "round trip " + i);
+}
 console.log("jvsysex: all tests passed");
