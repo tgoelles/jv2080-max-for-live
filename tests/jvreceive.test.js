@@ -54,7 +54,9 @@ assert.deepStrictEqual(posts, [], "no timeouts");
 const mutes = out.filter(o => o[0] === 1).map(o => o[2]);
 assert.deepStrictEqual(mutes, [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]);
 // patch name shown, trailing spaces trimmed
-assert.deepStrictEqual(out.filter(o => o[0] === 2)[0], [2, "set", "2  0  8  1"]);
+const nameMsg = out.filter(o => o[0] === 2)[0][1];
+assert.strictEqual(nameMsg[0], "fromjv");
+assert.strictEqual(nameMsg.slice(1).join(" "), "2  0  8  1", "patch name, inner spaces kept, trailing trimmed");
 
 // values land on the right controls, converted to control values
 assert.strictEqual(set["Pitch_4/live.dial"], -12, "tone 4 coarse tune");
@@ -163,6 +165,12 @@ assert.strictEqual(set["EffectsSwitch/live.toggle[2]"], 0, "chorus off");
 feed(dt1([0, 0, 0, 0x08], [1, 1, 0]));
 assert.deepStrictEqual([set["EffectsSwitch/live.toggle[3]"], set["EffectsSwitch/live.toggle[2]"], set["EffectsSwitch/live.toggle[1]"]], [1, 1, 0]);
 assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0, 1, 0]);
+
+// a name edit on the JV's panel (one character) updates the name field
+out.length = 0;
+feed(dt1([3, 0, 0, 0x00], [0x41]));   // first character -> "A"
+const edited = out.filter(o => o[0] === 2).pop()[1];
+assert.strictEqual(edited.slice(1).join(" "), "A  0  8  1");
 
 // models (#9): Get asks for the model's patch common size
 for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {

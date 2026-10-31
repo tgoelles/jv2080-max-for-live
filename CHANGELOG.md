@@ -10,6 +10,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
   depths) and the control switches (volume, hold-1, bender, redamper, pan), plus the patch-wide controller sources,
   Hold/Peak and EFX control. 126 new automatable parameters. Read back by **Get**. With this, every patch parameter
   of the JV-2080 can be edited from the device. (#8)
+- **Patch name editing**: click the name in the program block, type and press Return. The name goes to the JV at
+  once and is saved with the set; Send never overwrites the JV's name. Name edits on the JV's panel show up live. (#8)
 
 ### Upgrading
 - Sets saved with an older version have no controller values yet; the device starts with the JV's defaults (no
