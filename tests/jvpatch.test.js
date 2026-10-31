@@ -50,4 +50,29 @@ assert.deepStrictEqual(spans(1, 127, 1), [[0, 1]], 'full velocity range');
 assert.deepStrictEqual(spans(70, 60, 0), [], 'lower above upper: nothing');
 z.tone(2, 'keylo', 48); z.velsw(1);
 assert.strictEqual(vm.runInContext('tones[1].keylo + velOn', z), 49);
+// velocity bars: vertical, 127 at the top; full height when the velocity range switch is off
+const vb = (...a) => JSON.parse(JSON.stringify(z.velBar(...a)));
+z.velsw(1);
+assert.deepStrictEqual(vb({ vello: 1, velhi: 127 }, 127), [0, 127], 'all velocities');
+assert.deepStrictEqual(vb({ vello: 1, velhi: 64 }, 127), [63, 64], 'soft half at the bottom');
+assert.deepStrictEqual(vb({ vello: 81, velhi: 127 }, 127), [0, 47], 'hard notes at the top');
+assert.strictEqual(z.velBar({ vello: 90, velhi: 80 }, 127), null, 'empty range');
+z.velsw(0);
+assert.deepStrictEqual(vb({ vello: 100, velhi: 127 }, 127), [0, 127], 'switch off: full height');
+// dragging: the nearest end is grabbed, values stay on their side of the other end
+{
+	const zs = vm.runInContext('tones', z);
+	Object.assign(zs[1], { keylo: 0, keyhi: 127, vello: 1, velhi: 127 });
+	z.velsw(1);
+	const L = z.layout(256, 155);
+	const g1 = JSON.parse(JSON.stringify(z.hit(250, L.row * 1.5, L)));
+	assert.deepStrictEqual(g1, { tone: 1, field: 'keyhi' }, 'right end of tone 2 strip');
+	assert.strictEqual(z.valueAt(g1, 120, 0, L), 60, 'drag to x = 120 of 256: key 60 (C4)');
+	const g2 = JSON.parse(JSON.stringify(z.hit(L.col * 1.5, L.velTop + 2, L)));
+	assert.deepStrictEqual(g2, { tone: 1, field: 'velhi' }, 'top of tone 2 velocity bar');
+	assert.strictEqual(z.valueAt(g2, 0, L.velTop + L.velH / 2, L), 64, 'half way: velocity 64');
+	Object.assign(zs[1], { velhi: 64 });
+	assert.strictEqual(z.valueAt({ tone: 1, field: 'vello' }, 0, L.velTop, L), 64, 'lower end stays below the upper');
+	assert.strictEqual(z.hit(10, L.keysH + 5, L), null, 'the label row picks nothing');
+}
 console.log('jvpatch: all tests passed');

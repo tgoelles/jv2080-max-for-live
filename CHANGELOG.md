@@ -13,6 +13,11 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Patch name editing**: click the name in the program block, type and press Return. The name goes to the JV at
   once and is saved with the set; Send never overwrites the JV's name. Name edits on the JV's panel show up live. (#8)
 
+### Changed
+- Patch page: the velocity ranges are shown as vertical bars, one per tone (soft at the bottom, hard at the top),
+  like Live's velocity lane; the key ranges stay strips over the keyboard. Each tone has its own color. Drag an
+  end of a strip or bar to change the range directly.
+
 ### Upgrading
 - Sets saved with an older version have no controller values yet; the device starts with the JV's defaults (no
   destinations) and **Send on load** sends them. Click **Get** once and save the set to keep a patch's controller setup.
