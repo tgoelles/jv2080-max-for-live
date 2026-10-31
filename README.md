@@ -5,12 +5,17 @@ The JV-1080 and XP-50/80 are supported experimentally (Setup → Model).
 
 ![JV-2080 Control in Ableton Live](docs/screenshot.webp)
 
-The device has per-tone sections for Wave, Pitch, Filter and Amplifier (envelopes, keyfollow and
-velocity). Top left is the program block: bank/program select, the patch name, and **Send** (device → JV) / **Get**
-(JV → device). Below are the tone switches and levels, and Effects on/off. Use the Tone1–4 tabs to
-choose which tone you're editing. Below them, **LFO** and **Ctrl** open the selected tone's [LFO page](#lfo-page) and
-[controller page](#ctrl-page), **FX** the
-patch's [effects](#fx-page), **Patch** the [patch-wide settings](#patch-page), and **Setup** the [Setup page](#setup-page).
+It edits **every patch parameter** of the JV-2080, reads the JV's current patch back (**Get**), writes the device's
+patch to it (**Send**), and follows edits made on the JV's own panel live.
+
+- **Tone view**: per tone Wave, Pitch, Filter and Amplifier (envelopes, keyfollow, velocity). Use the **Tone1–4**
+  tabs to choose the tone.
+- **Program block** (top left): the patch name (click to rename), bank/program select, **Send** (device → JV) and
+  **Get** (JV → device). Below it the tone switches and levels, and Effects On/Off.
+- **Pages** (buttons below the Tone tabs):
+  - **LFO** and **Ctrl**, per tone: the [LFO page](#lfo-page) and the [controller page](#ctrl-page).
+  - **FX**, **Patch** and **Setup**, patch-wide: [effects with routing](#fx-page), [patch settings, structure and
+    key/velocity zones](#patch-page), and the [Setup page](#setup-page).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -104,6 +109,8 @@ back. The Tone tabs keep working on the LFO page.
 All of them are automatable (`T<n> LFO1 Rate`, `T<n> Pitch LFO1 Depth`, …) and are read back by **Get**.
 
 ### Ctrl page
+
+![The Ctrl page](docs/ctrl.webp)
 
 Click **Ctrl** (below LFO) for how MIDI controllers change the selected tone, like the JV's controller matrix:
 
@@ -218,7 +225,8 @@ For wave groups without names, the device shows only the wave number.
 
 ## Development
 
-The source files are in `device/`: an unfrozen `.amxd`, its `.maxpat` abstractions and two `.js` scripts. Open the
+The source files are in `device/`: an unfrozen `.amxd`, its `.maxpat` abstractions (one per section and page) and its
+`.js` scripts. `CLAUDE.md` describes how they fit together. Open the
 `.amxd` in Live, then edit it in Max.
 
 **One-time setup:** in Max, open **Options → File Preferences** and add this repo's `device` folder to the search path.
