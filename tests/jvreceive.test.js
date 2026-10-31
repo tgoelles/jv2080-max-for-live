@@ -199,8 +199,8 @@ assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "not while the JV is s
 run(t1 + 500);
 const where = [0xF0, 0x41, 0x10, 0x6A, 0x11, 0, 0, 0, 0, 0, 0, 0, 6, 0x7A, 0xF7];
 assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where);
-// no answer (the JV said "Data error"): asked once more after the timeout
-run(now + 500);
+// no answer (the JV said "Data error"): asked once more after the timeout (2 s in Perform mode)
+run(now + 2000);
 assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where.concat(where));
 out.length = 0;
 feed(dt1([0, 0, 0, 0], [0, 38, 0, 1, 0, 3]));   // PERFORM, CARD 07, USER 004
@@ -223,6 +223,16 @@ for (let p = 1; p <= 16; p++) {
 run();
 assert.strictEqual(asked(), 17);
 assert.ok(!("FX/EFXType" in set) || set["FX/EFXType"] === 3, "performance EFX values don't land on the patch FX page");
+
+// the JV answers slowly right after loading a performance (0.8 s, measured): the next request waits for the reply
+out.length = 0; ctx.get();
+const t2 = now;
+run(t2 + 1999);
+assert.strictEqual(asked(), 1, "no second request while the JV is still loading");
+feed(dt1([1, 0, 0, 0], Array(0x44).fill(0x20)));
+run(now + 30);
+assert.strictEqual(asked(), 2);
+run();
 
 // Send in Perform mode selects the set's performance; the patch blocks are not sent
 out.length = 0; ctx.send(); run();

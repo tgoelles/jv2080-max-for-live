@@ -102,6 +102,9 @@ function whereRequest() {
 
 var GAP_MS = 30;        // pause after a reply before the next request
 var TIMEOUT_MS = 500;   // give up waiting for a reply and move on
+// Perform mode: right after a performance is picked the JV loads 16 parts and answers the first request only after
+// ~0.8 s (measured). A request sent before that answer makes it report "Receive data error" and drop it.
+var PERF_TIMEOUT_MS = 2000;
 var pending = [];       // requests still to send
 var waiting = null;     // the request we're waiting for: its 4 address bytes
 var nextTask = new Task(sendNext, this);
@@ -277,7 +280,7 @@ function sendNext() {
 	for (var j = 0; j < req.length; j++) {
 		outlet(0, req[j]);
 	}
-	timeoutTask.schedule(TIMEOUT_MS);
+	timeoutTask.schedule(perform ? PERF_TIMEOUT_MS : TIMEOUT_MS);
 }
 
 function onTimeout() {
