@@ -5,7 +5,8 @@ const dir = path.join(__dirname, "../device");
 const set = {};   // "Pitch_4/live.dial" -> last value sent to that control
 const out = [];
 const patcher = {
-	getnamed: p => ({ subpatcher: () => ({ getnamed: v => ({ message: (sel, val) => { set[p + "/" + v] = val; },
+	getnamed: p => ({ message: (sel, val) => { set[p] = val; },   // a control in the main patch (ModeSwitch)
+		subpatcher: () => ({ getnamed: v => ({ message: (sel, val) => { set[p + "/" + v] = val; },
 		getvalueof: () => set[p + "/" + v] || 0 }) }) })
 };
 let now = 0, timers = [], posts = [];
@@ -188,4 +189,58 @@ for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {
 	run();
 }
 
+// Perform mode (#10): a mode change asks the JV where it is (System Common 00-05), unless the set is still loading
+out.length = 0; ctx.mode(1); run();
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no question while the set loads");
+ctx.mode(0); ctx.loadedAt = 0; out.length = 0; ctx.mode(1);
+const t1 = now;
+run(t1 + 499);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "not while the JV is still switching");
+run(t1 + 500);
+const where = [0xF0, 0x41, 0x10, 0x6A, 0x11, 0, 0, 0, 0, 0, 0, 0, 6, 0x7A, 0xF7];
+assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where);
+// no answer (the JV said "Data error"): asked once more after the timeout (2 s in Perform mode)
+run(now + 2000);
+assert.deepStrictEqual(out.filter(o => o[0] === 0).map(o => o[1]), where.concat(where));
+out.length = 0;
+feed(dt1([0, 0, 0, 0], [0, 38, 0, 1, 0, 3]));   // PERFORM, CARD 07, USER 004
+assert.deepStrictEqual(out.filter(o => o[0] === 3), [[3, "jvperf", 38], [3, "jvpatch", 0, 1, 3]]);
+assert.strictEqual(set["ModeSwitch"], undefined, "already in Perform mode: the switch isn't touched");
+
+// Get in Perform mode reads the temporary performance: common + 16 parts, one at a time; the name goes to the field
+out.length = 0; ctx.get();
+const asked = () => out.filter(o => o[0] === 0 && o[1] === 0xF0).length;
+const rq = () => { const b = out.filter(o => o[0] === 0).map(o => o[1]); const i = b.lastIndexOf(0xF0); return b.slice(i + 5, i + 13); };
+assert.strictEqual(asked(), 1);
+assert.deepStrictEqual(rq(), [1, 0, 0, 0, 0, 0, 0, 0x44]);
+feed(dt1([1, 0, 0, 0], [..."Seq:Template"].map(c => c.charCodeAt(0)).concat(Array(0x44 - 12).fill(0))));
+assert.strictEqual(out.filter(o => o[0] === 2).pop()[1].join(" "), "perfname Seq:Template");
+for (let p = 1; p <= 16; p++) {
+	run(now + 30);
+	assert.deepStrictEqual(rq(), [1, 0, 0x0F + p, 0, 0, 0, 0, 0x1A], "part " + p);
+	feed(dt1([1, 0, 0x0F + p, 0], Array(0x1A).fill(0)));
+}
+run();
+assert.strictEqual(asked(), 17);
+assert.ok(!("FX/EFXType" in set) || set["FX/EFXType"] === 3, "performance EFX values don't land on the patch FX page");
+
+// the JV answers slowly right after loading a performance (0.8 s, measured): the next request waits for the reply
+out.length = 0; ctx.get();
+const t2 = now;
+run(t2 + 1999);
+assert.strictEqual(asked(), 1, "no second request while the JV is still loading");
+feed(dt1([1, 0, 0, 0], Array(0x44).fill(0x20)));
+run(now + 30);
+assert.strictEqual(asked(), 2);
+run();
+
+// Send in Perform mode selects the set's performance; the patch blocks are not sent
+out.length = 0; ctx.send(); run();
+assert.deepStrictEqual(out.filter(o => o[0] === 3), [[3, "perfselect"]]);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0);
+
+// the JV switched to Patch mode on its panel: the switch follows, muted
+out.length = 0; feed(dt1([0, 0, 0, 0], [1]));
+assert.strictEqual(set["ModeSwitch"], 0);
+assert.deepStrictEqual(out.filter(o => o[0] === 1).map(o => o[2]), [1, 0]);
 console.log("jvreceive: all tests passed");

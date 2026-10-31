@@ -9,9 +9,16 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Library page** (button **Library** above Setup): back up the JV's whole user memory (patches, performances,
   rhythm sets, system) to a `.syx` file, restore it with confirmation and an automatic backup first, and record a
   bulk dump started on the JV. Files use the JV's own bulk dump format. (#39)
+- **Patch / Perform switch** at the top left: switches the JV between Patch and Performance mode and follows the
+  JV's own PATCH / PERFORM buttons. In Perform mode the program block selects performances (USER, PR-A, PR-B, CARD,
+  1–32), the name field shows and renames the performance, and **Get** reads the performance. The Parts and
+  performance effects pages follow. (#10)
 
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
+- The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
+- When a set loads, the device also sets the JV's mode (Patch or Perform) to the one saved in the set. Sets saved
+  before this version are in Patch mode.
 
 ### Fixed
 - The program number only went up to 127; it now reaches 128, the last patch of each bank.

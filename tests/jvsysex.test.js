@@ -10,7 +10,7 @@ const dump = fs.readFileSync(path.join(__dirname, "fixtures/jv2080_user_patch_du
 	.split("\n").filter(l => l && !l.startsWith("#")).map(hex);
 
 // --- table sanity -------------------------------------------------------------------------------
-for (const [block, size] of [["common", 0x4A], ["tone", 0x81]]) {
+for (const [block, size] of [["common", 0x4A], ["tone", 0x81], ["perf", 0x44], ["part", 0x1A]]) {
 	const covered = [];
 	for (const p of P[block]) {
 		for (let i = 0; i < (p.bytes || 1); i++) covered.push(p.off + i);
@@ -38,6 +38,20 @@ assert.deepStrictEqual(JV.setParam(0x10, "tone", 4, "reverb_send", 127).slice(5,
 // system settings are not patch data
 assert.strictEqual(JV.locate([0, 0, 0, 8]), null, "System EFX switch is not patch common");
 assert.deepStrictEqual(JV.locate([0x11, 0, 0x14, 0x51]), { patch: [0x11, 0], block: "tone", tone: 3, index: 0x51 });
+
+// performances (p.189): temporary 01 00, USER 10 00-1F; common at a3 = 00, part p at a3 = 0F + p
+assert.deepStrictEqual(JV.locate([1, 0, 0, 0x0D]), { perf: [1, 0], block: "perf", part: null, index: 0x0D });
+assert.deepStrictEqual(JV.locate([0x10, 5, 0x1F, 4]), { perf: [0x10, 5], block: "part", part: 16, index: 4 });
+assert.strictEqual(JV.locate([0x10, 0x40, 0, 0]), null, "user rhythm setup is not a performance");
+assert.deepStrictEqual(JV.rq1(0x10, JV.perfAddress("part", 3), 0x1A).slice(5, 13), [1, 0, 0x12, 0, 0, 0, 0, 0x1A]);
+assert.strictEqual(JV.requestPerformance(0x10).length, 17);
+{
+	const v = JV.decode(JV.parse(JV.dt1(0x10, [1, 0, 0x11, 0], [1, 2, 0, 3, 0, 4])));   // part 2: on, ch 3, PR-A 005
+	const get = id => v.find(x => x.id === id);
+	assert.deepStrictEqual([get("receive_switch").raw, get("midi_channel").raw, get("patch_group_id").raw, get("patch_number").raw, get("patch_number").part],
+		[1, 2, 3, 4, 2]);
+	assert.strictEqual(JV.display("part", "midi_channel", 2), 3);
+}
 
 // --- the real JV dump ---------------------------------------------------------------------------
 const msgs = dump.map(JV.parse);

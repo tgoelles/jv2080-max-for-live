@@ -59,6 +59,24 @@ var JVSysEx = (function () {
 		return out;
 	}
 
+	// Temporary performance (Performance mode): block "perf" (common) or "part" (part 1-16)
+	function perfAddress(block, part) {
+		var a = P.blocks[block].temp.slice();
+		if (block === "part") {
+			a[2] += part - 1;
+		}
+		return a;
+	}
+
+	// Request the whole temporary performance: common + 16 parts (17 requests)
+	function requestPerformance(dev) {
+		var out = [rq1(dev, perfAddress("perf"), P.blocks.perf.size)];
+		for (var p = 1; p <= 16; p++) {
+			out.push(rq1(dev, perfAddress("part", p), P.blocks.part.size));
+		}
+		return out;
+	}
+
 	// Raw value of one parameter as DT1 data bytes (nibble-split where the table says "bytes": 2)
 	function encodeValue(param, raw) {
 		raw = Math.max(param.min, Math.min(param.max, Math.round(raw)));
@@ -102,7 +120,17 @@ var JVSysEx = (function () {
 	// a3 = 00 common or 10/12/14/16 tone 1-4 (with 11/13/15/17 for the carried part of a tone).
 	var PATCH_AREAS = [0x02, 0x03, 0x11];   // performance-part temp patches, temp patch, user patches (p.188)
 
+	// Performance blocks: a1 a2 = which performance (01 00 temporary, 10 nn USER 1-32), a3 = 00 common or 10-1F part 1-16.
 	function locate(addr) {
+		if (addr[0] === 0x01 || (addr[0] === 0x10 && addr[1] < 0x20)) {
+			if (addr[2] === 0 && addr[3] < P.blocks.perf.size) {
+				return { perf: addr.slice(0, 2), block: "perf", part: null, index: addr[3] };
+			}
+			if (addr[2] >= 0x10 && addr[2] <= 0x1F && addr[3] < P.blocks.part.size) {
+				return { perf: addr.slice(0, 2), block: "part", part: addr[2] - 0x0F, index: addr[3] };
+			}
+			return null;
+		}
 		if (PATCH_AREAS.indexOf(addr[0]) < 0) {
 			return null;
 		}
@@ -140,7 +168,11 @@ var JVSysEx = (function () {
 				continue;
 			}
 			var raw = n === 2 ? (msg.data[start] << 4) | msg.data[start + 1] : msg.data[start];
-			out.push({ block: where.block, tone: where.tone, id: param.id, raw: raw });
+			var v = { block: where.block, tone: where.tone === undefined ? null : where.tone, id: param.id, raw: raw };
+			if (where.perf) {
+				v.part = where.part;
+			}
+			out.push(v);
 		}
 		return out;
 	}
@@ -234,6 +266,8 @@ var JVSysEx = (function () {
 		rq1: rq1,
 		patchAddress: patchAddress,
 		requestPatch: requestPatch,
+		perfAddress: perfAddress,
+		requestPerformance: requestPerformance,
 		encodeValue: encodeValue,
 		setParam: setParam,
 		find: find,

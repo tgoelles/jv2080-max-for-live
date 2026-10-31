@@ -81,4 +81,35 @@ out = []; bank(5);                                      // a stored PR-E on an X
 assert.ok(menu().includes("PR-E (n/a)"));
 ctx.model(0);
 
+// Perform mode: the menu lists the performance banks, the program number makes way for the performance number
+out = []; ctx.mode(1);
+assert.deepStrictEqual(menu(), ["USER", "PR-A", "PR-B", "CARD"]);
+assert.deepStrictEqual(out.filter(o => o[0] === 9).map(o => o.slice(1).join(" ")), ["script hide ProgramChange[1]", "script show PerfNumber"]);
+const sysex = () => out.filter(o => o[0] === 8).map(o => o[1]);
+// picking PR-B in the visible menu sets the stored Performance Bank, which echoes back and selects PR-B 1 (= 96)
+out = []; pick(2);
+assert.deepStrictEqual(out.filter(o => o[0] === 6).map(o => o[1]), [2]);
+out = []; ctx.perfbank(2);
+assert.deepStrictEqual(sysex(), [0xF0, 0x41, 0x10, 0x6A, 0x12, 0, 0, 0, 1, 96, 31, 0xF7]);
+out = []; ctx.perfnum(5);
+assert.deepStrictEqual(sysex().slice(9, 10), [100], "PR-B 05");
+// no bank select or program change for patches in Perform mode
+out = []; bank(3);
+assert.deepStrictEqual(midi(), []);
+assert.ok(!out.some(o => o[0] === 3), "no program change");
+out = []; ctx.msb(81); ctx.lsb(0);
+assert.deepStrictEqual(stored(), [], "bank select from the keyboard is not followed in Perform mode");
+// the JV reports CARD 07 (System Common 01 = 38): follow silently, then read it
+out = []; ctx.jvperf(38);
+assert.deepStrictEqual(out.filter(o => o[0] === 6 || o[0] === 7).map(o => o.join(" ")), ["6 set 3", "7 set 7"]);
+assert.deepStrictEqual(sysex(), [], "nothing sent back");
+assert.ok(out.some(o => o[0] === 5), "read the performance");
+// a patch reported in Perform mode: stored silently, no read
+out = []; ctx.jvpatch(0, 1, 0);
+assert.ok(!out.some(o => o[0] === 5));
+// back to Patch mode: the patch banks again; a performance reported now is stored, not read, not sent
+out = []; ctx.mode(0);
+assert.ok(menu().includes("PR-GM"));
+out = []; ctx.jvperf(0); ctx.perfnum(3);
+assert.ok(!out.some(o => o[0] === 5 || o[0] === 8));
 console.log("jvbank: all tests passed");

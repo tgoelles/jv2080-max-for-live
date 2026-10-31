@@ -10,7 +10,9 @@ patch to it (**Send**), and follows edits made on the JV's own panel live.
 
 - **Tone view**: per tone Wave, Pitch, Filter and Amplifier (envelopes, keyfollow, velocity). Use the **Tone1–4**
   tabs to choose the tone.
-- **Program block** (top left): the patch name (click to rename), bank/program select, **Send** (device → JV) and
+- **Patch / Perform** switch (top left): the JV's mode. Perform mode selects performances; its Parts page comes
+  next ([MIDI setup for several channels](#perform-mode-and-several-midi-channels)).
+- **Program block** (below it): the patch name (click to rename), bank/program select, **Send** (device → JV) and
   **Get** (JV → device). Below it the tone switches and levels, and Effects On/Off.
 - **Pages** (buttons below the Tone tabs):
   - **LFO** and **Ctrl**, per tone: the [LFO page](#lfo-page) and the [controller page](#ctrl-page).
@@ -58,10 +60,28 @@ directions must be wired, or **Get** silently does nothing.
 
 To check the wiring, use the [JV SysEx Monitor](diagnostics/README.md). It shows whether data from the JV arrives.
 
+### Perform mode and several MIDI channels
+
+In Perform mode the JV plays 16 parts, each on its own MIDI channel. One JV 2080 Control device edits all of them; the
+other tracks only carry notes. Example with a KeyStep Pro (tracks on channels 1–4):
+
+| Track | MIDI From | MIDI To | Device |
+|---|---|---|---|
+| **JV Control** | the JV's port only (**not** All Ins) | the JV's port | JV 2080 Control |
+| Part 1 | KeyStep Pro, Ch. 1 | the JV's port, Ch. 1 | none |
+| Part 2 | KeyStep Pro, Ch. 2 | the JV's port, Ch. 2 | none |
+| … | | | |
+
+Live sends everything a track plays on the channel set under its **MIDI To**, so a device track receiving All Ins
+would squash all keyboard channels onto one. Each JV part listens to its own channel (part n = channel n by default).
+The device picks performances with SysEx, so the device track's channel doesn't matter for that.
+
 ## Setup
 
 1. Put the device on the MIDI track set up as above.
-2. Put the JV-2080 in **Patch** mode. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
+2. Choose **Patch** or **Perform** with the switch at the top left; the JV follows (and the switch follows the JV's
+   own PATCH / PERFORM buttons). Perform mode is new: it selects performances and reads their name; the Parts page
+   comes next. If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (below the Tone tabs) and set **Device ID** to the same number.
 3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick

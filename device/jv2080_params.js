@@ -1,4 +1,5 @@
-// JV-2080 parameter address map: Patch Common and Patch Tone (owner's manual pp.189-190).
+// JV-2080 parameter address map: Patch Common and Patch Tone (owner's manual pp.189-190), Performance Common and
+// Performance Part (p.189).
 // "off" is the byte offset inside the block as a plain index (tone offset 0x80 is address 01 00).
 // "bytes": 2 = value split into two 4-bit nibbles, high first. "display": how the JV shows the raw value:
 //   {"add": n} raw + n, {"mul": m, "add": n} raw * m + n, {"enum": KEY} ENUMS[KEY][raw], {"char": true} ASCII,
@@ -9,7 +10,10 @@ var JV2080 = {
 	modelId: 0x6A,
 	blocks: {
 		common: { size: 0x4A, temp: [0x03, 0x00, 0x00, 0x00] },
-		tone: { size: 0x81, temp: [[0x03, 0x00, 0x10, 0x00], [0x03, 0x00, 0x12, 0x00], [0x03, 0x00, 0x14, 0x00], [0x03, 0x00, 0x16, 0x00]] }
+		tone: { size: 0x81, temp: [[0x03, 0x00, 0x10, 0x00], [0x03, 0x00, 0x12, 0x00], [0x03, 0x00, 0x14, 0x00], [0x03, 0x00, 0x16, 0x00]] },
+		// Performance mode (p.189): the temporary performance is 01 00 00 00 (common) and 01 00 1p 00 (part p+1)
+		perf: { size: 0x44, temp: [0x01, 0x00, 0x00, 0x00] },
+		part: { size: 0x1A, temp: [0x01, 0x00, 0x10, 0x00] }
 	},
 	common: [
 		{"off": 0, "id": "name_1", "name": "Patch Name 1", "min": 32, "max": 125, "display": {"char": true}},
@@ -216,6 +220,103 @@ var JV2080 = {
 		{"off": 127, "id": "chorus_send", "name": "Chorus Send Level", "min": 0, "max": 127},
 		{"off": 128, "id": "reverb_send", "name": "Reverb Send Level", "min": 0, "max": 127}
 	],
+	// Performance Common (p.189). "xp": in < > in the map, JV-1080/XP-80 only, ignored by the JV-2080.
+	perf: [
+		{"off": 0, "id": "name_1", "name": "Performance Name 1", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 1, "id": "name_2", "name": "Performance Name 2", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 2, "id": "name_3", "name": "Performance Name 3", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 3, "id": "name_4", "name": "Performance Name 4", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 4, "id": "name_5", "name": "Performance Name 5", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 5, "id": "name_6", "name": "Performance Name 6", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 6, "id": "name_7", "name": "Performance Name 7", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 7, "id": "name_8", "name": "Performance Name 8", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 8, "id": "name_9", "name": "Performance Name 9", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 9, "id": "name_10", "name": "Performance Name 10", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 10, "id": "name_11", "name": "Performance Name 11", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 11, "id": "name_12", "name": "Performance Name 12", "min": 32, "max": 125, "display": {"char": true}},
+		{"off": 12, "id": "efx_a_source", "name": "EFX-A Source", "min": 0, "max": 15, "display": {"enum": "PERF_EFX_SRC"}},
+		{"off": 13, "id": "efx_type", "name": "EFX Type", "min": 0, "max": 39, "display": {"add": 1}},
+		{"off": 14, "id": "efx_param_1", "name": "EFX Parameter 1", "min": 0, "max": 127},
+		{"off": 15, "id": "efx_param_2", "name": "EFX Parameter 2", "min": 0, "max": 127},
+		{"off": 16, "id": "efx_param_3", "name": "EFX Parameter 3", "min": 0, "max": 127},
+		{"off": 17, "id": "efx_param_4", "name": "EFX Parameter 4", "min": 0, "max": 127},
+		{"off": 18, "id": "efx_param_5", "name": "EFX Parameter 5", "min": 0, "max": 127},
+		{"off": 19, "id": "efx_param_6", "name": "EFX Parameter 6", "min": 0, "max": 127},
+		{"off": 20, "id": "efx_param_7", "name": "EFX Parameter 7", "min": 0, "max": 127},
+		{"off": 21, "id": "efx_param_8", "name": "EFX Parameter 8", "min": 0, "max": 127},
+		{"off": 22, "id": "efx_param_9", "name": "EFX Parameter 9", "min": 0, "max": 127},
+		{"off": 23, "id": "efx_param_10", "name": "EFX Parameter 10", "min": 0, "max": 127},
+		{"off": 24, "id": "efx_param_11", "name": "EFX Parameter 11", "min": 0, "max": 127},
+		{"off": 25, "id": "efx_param_12", "name": "EFX Parameter 12", "min": 0, "max": 127},
+		{"off": 26, "id": "efx_output_assign", "name": "EFX Output Assign", "min": 0, "max": 2, "display": {"enum": "EFX_OUT"}},
+		{"off": 27, "id": "efx_mix_send", "name": "EFX Mix Out Send Level", "min": 0, "max": 127},
+		{"off": 28, "id": "efx_chorus_send", "name": "EFX Chorus Send Level", "min": 0, "max": 127},
+		{"off": 29, "id": "efx_reverb_send", "name": "EFX Reverb Send Level", "min": 0, "max": 127},
+		{"off": 30, "id": "efx_ctrl_src_1", "name": "EFX Control Source 1", "min": 0, "max": 10, "display": {"enum": "EFX_CTRL_SRC"}},
+		{"off": 31, "id": "efx_ctrl_depth_1", "name": "EFX Control Depth 1", "min": 0, "max": 126, "display": {"add": -63}},
+		{"off": 32, "id": "efx_ctrl_src_2", "name": "EFX Control Source 2", "min": 0, "max": 10, "display": {"enum": "EFX_CTRL_SRC"}},
+		{"off": 33, "id": "efx_ctrl_depth_2", "name": "EFX Control Depth 2", "min": 0, "max": 126, "display": {"add": -63}},
+		{"off": 34, "id": "chorus_level", "name": "Chorus Level", "min": 0, "max": 127},
+		{"off": 35, "id": "chorus_rate", "name": "Chorus Rate", "min": 0, "max": 127},
+		{"off": 36, "id": "chorus_depth", "name": "Chorus Depth", "min": 0, "max": 127},
+		{"off": 37, "id": "chorus_predelay", "name": "Chorus Pre-Delay", "min": 0, "max": 127},
+		{"off": 38, "id": "chorus_feedback", "name": "Chorus Feedback", "min": 0, "max": 127},
+		{"off": 39, "id": "chorus_output", "name": "Chorus Output", "min": 0, "max": 2, "display": {"enum": "CHORUS_OUT"}},
+		{"off": 40, "id": "reverb_type", "name": "Reverb Type", "min": 0, "max": 7, "display": {"enum": "REVERB_TYPE"}},
+		{"off": 41, "id": "reverb_level", "name": "Reverb Level", "min": 0, "max": 127},
+		{"off": 42, "id": "reverb_time", "name": "Reverb Time", "min": 0, "max": 127},
+		{"off": 43, "id": "reverb_hf_damp", "name": "Reverb HF Damp", "min": 0, "max": 17, "display": {"enum": "HF_DAMP"}},
+		{"off": 44, "id": "delay_feedback", "name": "Delay Feedback", "min": 0, "max": 127},
+		{"off": 45, "id": "perf_tempo", "name": "Performance Tempo", "min": 20, "max": 250, "bytes": 2},
+		{"off": 47, "id": "key_range_switch", "name": "Keyboard Range Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}},
+		{"off": 48, "id": "voice_reserve_1", "name": "Voice Reserve 1", "min": 0, "max": 64},
+		{"off": 49, "id": "voice_reserve_2", "name": "Voice Reserve 2", "min": 0, "max": 64},
+		{"off": 50, "id": "voice_reserve_3", "name": "Voice Reserve 3", "min": 0, "max": 64},
+		{"off": 51, "id": "voice_reserve_4", "name": "Voice Reserve 4", "min": 0, "max": 64},
+		{"off": 52, "id": "voice_reserve_5", "name": "Voice Reserve 5", "min": 0, "max": 64},
+		{"off": 53, "id": "voice_reserve_6", "name": "Voice Reserve 6", "min": 0, "max": 64},
+		{"off": 54, "id": "voice_reserve_7", "name": "Voice Reserve 7", "min": 0, "max": 64},
+		{"off": 55, "id": "voice_reserve_8", "name": "Voice Reserve 8", "min": 0, "max": 64},
+		{"off": 56, "id": "voice_reserve_9", "name": "Voice Reserve 9", "min": 0, "max": 64},
+		{"off": 57, "id": "voice_reserve_10", "name": "Voice Reserve 10", "min": 0, "max": 64},
+		{"off": 58, "id": "voice_reserve_11", "name": "Voice Reserve 11", "min": 0, "max": 64},
+		{"off": 59, "id": "voice_reserve_12", "name": "Voice Reserve 12", "min": 0, "max": 64},
+		{"off": 60, "id": "voice_reserve_13", "name": "Voice Reserve 13", "min": 0, "max": 64},
+		{"off": 61, "id": "voice_reserve_14", "name": "Voice Reserve 14", "min": 0, "max": 64},
+		{"off": 62, "id": "voice_reserve_15", "name": "Voice Reserve 15", "min": 0, "max": 64},
+		{"off": 63, "id": "voice_reserve_16", "name": "Voice Reserve 16", "min": 0, "max": 64},
+		{"off": 64, "id": "keyboard_mode", "name": "Keyboard Mode", "min": 0, "max": 1, "display": {"enum": "KEYBOARD_MODE"}, "xp": true},
+		{"off": 65, "id": "clock_source", "name": "Clock Source", "min": 0, "max": 1, "display": {"enum": "PERF_CLOCK_SOURCE"}},
+		{"off": 66, "id": "efx_b_source", "name": "EFX-B Source", "min": 0, "max": 15, "display": {"enum": "PERF_EFX_SRC"}},
+		{"off": 67, "id": "efx_c_source", "name": "EFX-C Source", "min": 0, "max": 15, "display": {"enum": "PERF_EFX_SRC"}}
+	],
+	// Performance Part (p.189), one per part
+	part: [
+		{"off": 0, "id": "receive_switch", "name": "Receive Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}},
+		{"off": 1, "id": "midi_channel", "name": "MIDI Channel", "min": 0, "max": 15, "display": {"add": 1}},
+		{"off": 2, "id": "patch_group_type", "name": "Patch Group Type", "min": 0, "max": 2, "display": {"enum": "PART_GROUP_TYPE"}},
+		{"off": 3, "id": "patch_group_id", "name": "Patch Group ID", "min": 0, "max": 127},
+		{"off": 4, "id": "patch_number", "name": "Patch Number", "min": 0, "max": 254, "bytes": 2, "display": {"add": 1}},
+		{"off": 6, "id": "part_level", "name": "Part Level", "min": 0, "max": 127},
+		{"off": 7, "id": "part_pan", "name": "Part Pan", "min": 0, "max": 127, "display": {"add": -64}},
+		{"off": 8, "id": "coarse_tune", "name": "Part Coarse Tune", "min": 0, "max": 96, "display": {"add": -48}},
+		{"off": 9, "id": "fine_tune", "name": "Part Fine Tune", "min": 0, "max": 100, "display": {"add": -50}},
+		{"off": 10, "id": "output_assign", "name": "Output Assign", "min": 0, "max": 4, "display": {"enum": "PART_OUTPUT_ASSIGN"}},
+		{"off": 11, "id": "mix_efx_send", "name": "Mix/EFX Send Level", "min": 0, "max": 127},
+		{"off": 12, "id": "chorus_send", "name": "Chorus Send Level", "min": 0, "max": 127},
+		{"off": 13, "id": "reverb_send", "name": "Reverb Send Level", "min": 0, "max": 127},
+		{"off": 14, "id": "rx_program_change", "name": "Receive Program Change Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}},
+		{"off": 15, "id": "rx_volume", "name": "Receive Volume Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}},
+		{"off": 16, "id": "rx_hold_1", "name": "Receive Hold-1 Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}},
+		{"off": 17, "id": "key_range_lower", "name": "Keyboard Range Lower", "min": 0, "max": 127, "display": {"note": true}},
+		{"off": 18, "id": "key_range_upper", "name": "Keyboard Range Upper", "min": 0, "max": 127, "display": {"note": true}},
+		{"off": 19, "id": "octave_shift", "name": "Octave Shift", "min": 0, "max": 6, "display": {"add": -3}, "xp": true},
+		{"off": 20, "id": "local_switch", "name": "Local Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}, "xp": true},
+		{"off": 21, "id": "transmit_switch", "name": "Transmit Switch", "min": 0, "max": 1, "display": {"enum": "ON_OFF"}, "xp": true},
+		{"off": 22, "id": "transmit_bank_group", "name": "Transmit Bank Select Group", "min": 0, "max": 7, "display": {"enum": "TX_BANK_GROUP"}, "xp": true},
+		{"off": 23, "id": "transmit_volume", "name": "Transmit Volume", "min": 0, "max": 128, "bytes": 2, "xp": true},
+		{"off": 25, "id": "output_select", "name": "Output Select", "min": 0, "max": 2, "display": {"enum": "PART_OUTPUT_SELECT"}}
+	],
 	enums: {
 		"ON_OFF": ["OFF", "ON"],
 		"EFX_OUT": ["MIX", "DIR1", "DIR2"],
@@ -248,7 +349,14 @@ var JV2080 = {
 		"SENS_15": ["-100", "-70", "-50", "-40", "-30", "-20", "-10", "0", "+10", "+20", "+30", "+40", "+50", "+70", "+100"],
 		"FILTER_TYPE": ["OFF", "LPF", "BPF", "HPF", "PKG"],
 		"BIAS_DIR": ["LOWER", "UPPER", "LOW&UP", "ALL"],
-		"OUTPUT_ASSIGN": ["MIX", "EFX", "DIR1", "DIR2"]
+		"OUTPUT_ASSIGN": ["MIX", "EFX", "DIR1", "DIR2"],
+		"PERF_EFX_SRC": ["PERFORM", "1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "12", "13", "14", "15", "16"],
+		"KEYBOARD_MODE": ["LAYER", "SINGLE"],
+		"PERF_CLOCK_SOURCE": ["PERFORMANCE", "SYSTEM"],
+		"PART_GROUP_TYPE": ["USER&PRESET", "PCM", "EXP"],
+		"PART_OUTPUT_ASSIGN": ["MIX", "EFX", "DIR1", "DIR2", "PAT"],
+		"TX_BANK_GROUP": ["PATCH", "GROUP1", "GROUP2", "GROUP3", "GROUP4", "GROUP5", "GROUP6", "GROUP7"],
+		"PART_OUTPUT_SELECT": ["A", "B", "C"]
 	}
 };
 
