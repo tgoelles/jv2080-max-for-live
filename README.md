@@ -189,7 +189,9 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
 
 In **Perform** mode the device shows the JV's 16 parts side by side. Per part: **on/off** (the part's receive
 switch), **MIDI channel**, **patch bank** (USER, PR-A–PR-E, CARD, EXP-01–19 = the SR-JV80 board's number) and
-**patch number**, **level** (fader) and **pan**. **Get** reads them from the JV, changes on the JV's panel show up
+**patch number**, **level** (fader) and **pan**. The bank menu lists the banks your model has and the expansion
+boards set up on the **Setup** page (as XP-A, XP-B, …). Under the number is the patch's name: USER patches are read
+from the JV; preset and board names appear once they're imported (see [Wave names](#wave-names)). **Get** reads them from the JV, changes on the JV's panel show up
 live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
 with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
 
@@ -268,6 +270,14 @@ answers 403), run the script again. Internal waves
     python3 -I tools/import_wave_names.py --internal docs/int_waves.txt --keep
 
 For wave groups without names, the device shows only the wave number.
+
+**Patch names** for the Parts page come the same way, from the patch lists in the same board documents and, for the
+JV's preset banks PR-A–PR-E, from a local text file (`=== PR-A ===` headings, then `1 Name` lines):
+
+```
+python3 -I tools/import_patch_names.py
+python3 -I tools/import_patch_names.py --internal my_preset_list.txt --keep
+```
 
 ## Development
 

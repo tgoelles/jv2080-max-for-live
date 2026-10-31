@@ -15,7 +15,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   performance effects pages follow. (#10)
 - **Parts page** (Perform mode's main view): all 16 parts side by side with on/off, MIDI channel, patch bank and
   number, level and pan. Get reads them, edits on the JV's panel show up live, and Send (and the on-load push) selects
-  the set's performance and writes the parts over it, so a performance is stored in the Live set and in presets. (#10)
+  the set's performance and writes the parts over it, so a performance is stored in the Live set and in presets. The
+  bank menus list only the model's banks and the expansion boards set up on the Setup page, and each part shows its
+  patch's name: USER names are read from the JV, preset and board names come from `tools/import_patch_names.py`. (#10)
 
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.

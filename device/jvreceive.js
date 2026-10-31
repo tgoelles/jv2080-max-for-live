@@ -9,6 +9,7 @@
 // outlet 2: "fromjv <patch name>" for the name field (jvname.js): after a read or a name edit on the JV
 // outlet 3: "jvpatch type id number" when the JV reports a patch picked on its panel (System Common 02-05);
 //           "jvperf n" for its performance number (System Common 01); "perfselect" (Send in Perform mode)
+// outlet 4: "username n <name>": the name of USER:n (asked with "askname n" by the Parts page, or seen in a backup)
 //
 // Perform mode ("mode 1", from the device's Patch / Perform switch): Get reads the temporary performance (common
 // + 16 parts, 01 00 ..) and shows its name ("perfname ..." on outlet 2). The JV's Sound Mode (System Common 00)
@@ -35,12 +36,13 @@ include("jv2080_efx.js");
 
 autowatch = 1;
 inlets = 1;
-outlets = 4;
+outlets = 5;
 setinletassist(0, "MIDI bytes from midiin; get");
 setoutletassist(0, "RQ1 SysEx bytes to the queue");
 setoutletassist(1, "mute 1 / mute 0 to the queue");
 setoutletassist(2, "patch name (set ...)");
 setoutletassist(3, "jvpatch type id number");
+setoutletassist(4, "username n name");
 
 var jsthis = this;
 var nameChars = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32];   // the JV's patch name, ASCII
@@ -114,6 +116,38 @@ var PERF_SEND_GAP_MS = 150;   // Perform mode: a part block can make the JV load
 var PERF_SELECT_MS = 1500;    // Send in Perform mode: select the performance, let the JV load it, then write the parts
 var sendGap = SEND_GAP_MS;
 var perfSendTask = new Task(sendPerfBlocks, this);
+var perfSending = false;   // between the performance select and writing the parts: the JV is loading
+
+// USER patch names for the Parts page: asked one at a time, only when nothing else talks to the JV (the JV answers
+// late while it loads a performance, and a request in between gets "Receive data error")
+var nameQueue = [];
+var nameTask = new Task(drainNames, this);
+var NAMES_AFTER_LOAD_MS = 3000;
+
+function askname(n) {
+	n = Math.round(n);
+	if (n >= 1 && n <= 128 && nameQueue.indexOf(n) < 0) {
+		nameQueue.push(n);
+	}
+	nameTask.schedule(200);
+}
+
+function drainNames() {
+	if (!nameQueue.length || !perform) {
+		return;
+	}
+	if (libraryBusy || perfSending || pending.length || waiting || outbox.length ||
+		new Date().getTime() - loadedAt < NAMES_AFTER_LOAD_MS) {
+		nameTask.schedule(300);
+		return;
+	}
+	var n = nameQueue.shift();
+	pending = [JVSysEx.rq1(0x10, [0x11, n - 1, 0, 0], 12)];
+	sendNext();
+	if (nameQueue.length) {
+		nameTask.schedule(100);
+	}
+}
 var outbox = [];        // DT1 blocks still to send
 var sendTask = new Task(sendBlock, this);
 
@@ -142,6 +176,7 @@ function send() {
 		// the set's performance: selected on the JV (the program block sends it), then, once the JV has loaded it,
 		// the device's part settings written over it
 		outlet(3, "perfselect");
+		perfSending = true;
 		perfSendTask.schedule(PERF_SELECT_MS);
 		return;
 	}
@@ -178,6 +213,7 @@ function report(messages) {
 }
 
 function sendPerfBlocks() {
+	perfSending = false;
 	cache = {};
 	sendGap = PERF_SEND_GAP_MS;
 	outbox = perfBlocks(0x10);
@@ -386,6 +422,13 @@ function receive(bytes) {
 		performance(msg);   // the temporary performance
 		return;
 	}
+	if (where && where.patch && where.patch[0] === 0x11 && where.block === "common" && where.index === 0 && msg.data.length >= 12) {
+		// a USER patch's name (asked for the Parts page, or part of a backup)
+		var nm = String.fromCharCode.apply(null, msg.data.slice(0, 12)).replace(/\s+$/, "");
+		outlet(4, ["username", msg.addr[1] + 1].concat(nm.length ? nm.split(" ") : []));
+		answered(msg.addr);
+		return;
+	}
 	if (!where || !where.patch || where.patch[0] !== 0x03) {
 		return;   // only the temporary patch is what the device edits
 	}
@@ -573,6 +616,8 @@ function notifydeleted() {
 	askTask.freepeer();
 	perfSendTask.cancel();
 	perfSendTask.freepeer();
+	nameTask.cancel();
+	nameTask.freepeer();
 }
 
 var cache = {};

@@ -282,6 +282,22 @@ const sp = posts.pop(); assert.ok(/send: 16 blocks, 0 of \d+ bytes differ/.test(
 	assert.strictEqual(sent[J.toNumber([1, 0, 0, 0])], undefined, "the name is not sent");
 }
 
+// USER patch names for the Parts page: asked one at a time when the JV is idle, answered as "username n name"
+out.length = 0; ctx.askname(12); ctx.askname(12); ctx.askname(3); run(now + 300);
+assert.deepStrictEqual(rq(), [0x11, 11, 0, 0, 0, 0, 0, 12], "USER:012 name, asked once");
+assert.strictEqual(asked(), 1, "one at a time");
+feed(dt1([0x11, 11, 0, 0], [..."My Pad      "].map(c => c.charCodeAt(0))));
+assert.strictEqual(out.filter(o => o[0] === 4).pop()[1].join(" "), "username 12 My Pad");
+run();
+assert.deepStrictEqual(rq(), [0x11, 2, 0, 0, 0, 0, 0, 12], "then USER:003");
+feed(dt1([0x11, 2, 0, 0], Array(12).fill(0x41)));
+run();
+assert.strictEqual(asked(), 2);
+// not while a Send is waiting for the JV to load the performance
+out.length = 0; ctx.send(); ctx.askname(5); run(now + 1000);
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "no name request while the JV loads");
+run();
+
 // the JV switched to Patch mode on its panel: the switch follows, muted
 out.length = 0; feed(dt1([0, 0, 0, 0], [1]));
 assert.strictEqual(set["ModeSwitch"], 0);
