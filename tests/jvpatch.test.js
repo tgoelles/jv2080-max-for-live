@@ -50,4 +50,12 @@ assert.deepStrictEqual(spans(1, 127, 1), [[0, 1]], 'full velocity range');
 assert.deepStrictEqual(spans(70, 60, 0), [], 'lower above upper: nothing');
 z.tone(2, 'keylo', 48); z.velsw(1);
 assert.strictEqual(vm.runInContext('tones[1].keylo + velOn', z), 49);
+// the zone map: keys across, velocity up (127 at the top); velocity ranges only count when the switch is on
+const zr = (...a) => JSON.parse(JSON.stringify(z.zone(...a)));
+z.velsw(1);
+assert.deepStrictEqual(zr({ keylo: 0, keyhi: 127, vello: 1, velhi: 127 }, 128, 127), [0, 0, 128, 127], 'everything');
+assert.deepStrictEqual(zr({ keylo: 60, keyhi: 127, vello: 1, velhi: 64 }, 128, 127), [60, 63, 68, 64], 'upper keys, velocity 1-64 in the lower half');
+z.velsw(0);
+assert.deepStrictEqual(zr({ keylo: 0, keyhi: 59, vello: 100, velhi: 127 }, 128, 127), [0, 0, 60, 127], 'velocity off: full height');
+assert.strictEqual(z.zone({ keylo: 70, keyhi: 60, vello: 1, velhi: 127 }, 128, 127), null, 'empty key range');
 console.log('jvpatch: all tests passed');

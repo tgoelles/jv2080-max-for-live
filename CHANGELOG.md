@@ -13,6 +13,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Patch name editing**: click the name in the program block, type and press Return. The name goes to the JV at
   once and is saved with the set; Send never overwrites the JV's name. Name edits on the JV's panel show up live. (#8)
 
+### Changed
+- Patch page: the zone graphic is one map, keys across and velocity upwards like in Live, with each tone as a
+  colored rectangle.
+
 ### Upgrading
 - Sets saved with an older version have no controller values yet; the device starts with the JV's defaults (no
   destinations) and **Send on load** sends them. Click **Get** once and save the set to keep a patch's controller setup.
