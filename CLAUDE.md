@@ -24,7 +24,8 @@ XP-50/80. These share model ID `0x6A`.
 - `tests/`: Node tests that mock the Max `js` globals. Run them with `node tests/<file>.test.js`.
 - `tools/maxjson.py`: loads and saves patchers in Max's exact formatting, so a file that is loaded and saved unchanged stays byte-identical. Use it for structural edits rather than splicing text.
 - `tools/validate.py`: checks that patch lines point at existing boxes and valid inlets/outlets, and that parameter long names are unique. Run it after every patch edit. When adding boxes, derive new ids from the patcher's current maximum; never hard-code them.
-- `tools/check.sh`: runs every offline check (validate, bindings `--check`, all Node tests). CI runs it on every PR (`.github/workflows/check.yml`).
+- `tools/parts_page.py`, `tools/part_page.py`, `tools/keys_page.py`, `tools/perffx.py`: **generate** the Perform-mode pages (`JV_PERFORM`, `JV_PARTEDIT`, `JV_KEYS`, `JV_PERFFX` from `JV_FX`). Change a script (or the FX page), rerun it; never edit these four patches in Max. `--check` fails when a page is stale.
+- `tools/check.sh`: runs every offline check (validate, bindings and generated pages `--check`, all Node tests). CI runs it on every PR (`.github/workflows/check.yml`).
 - `tools/amxd.py`: `unfreeze` splits a frozen device into source files. `textconv` prints the JSON for git diffs.
 - `docs/JV-2080_OM.pdf`: Roland owner's manual. It is gitignored; download it from
   https://static.roland.com/assets/media/pdf/JV-2080_OM.pdf. It is a scan with no text layer, so read the pages as images.
