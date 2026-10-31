@@ -312,7 +312,7 @@ function place(block, b, value) {
 		block[JVSysEx.find("tone", "wave_group_id").off] = g.id;
 		return;
 	}
-	var raw = op === "efx" ? JV2080_EFX.toRaw(currentEfxType(), b.ops[0][1], value) : JVSysEx.fromControl(b, value);
+	var raw = op === "efx" ? JV2080_EFX.toRaw(currentEfxType(b.path[0]), b.ops[0][1], value) : JVSysEx.fromControl(b, value);
 	var param = JVSysEx.find(b.block, b.id);
 	var data = JVSysEx.encodeValue(param, raw);
 	for (var i = 0; i < data.length; i++) {
@@ -615,17 +615,17 @@ function setControls(id, tone, value, isControlValue) {
 			continue;
 		}
 		if (b.ops.length && b.ops[0][0] === "efx") {
-			obj.message("int", JV2080_EFX.toDial(currentEfxType(), b.ops[0][1], value));
+			obj.message("int", JV2080_EFX.toDial(currentEfxType(b.path[0]), b.ops[0][1], value));
 		} else {
 			obj.message("int", isControlValue ? value : JVSysEx.toControl(b, value));
 		}
 	}
 }
 
-// EFX parameter values are converted per EFX type: the device's EFX Type menu. In a read, the type (offset 0x0C)
-// is set before its parameters (0x0D-0x18), so the menu already has the JV's type.
-function currentEfxType() {
-	var menu = find("FX", "EFXType");
+// EFX parameter values are converted per EFX type: the EFX Type menu on the same page (FX for the patch, PerfFX for
+// the performance). In a read, the type is set before its parameters, so the menu already has the JV's type.
+function currentEfxType(page) {
+	var menu = find(page || "FX", "EFXType");
 	var v = menu ? menu.getvalueof() : 0;
 	return Math.round(v instanceof Array ? v[0] : v) || 0;
 }

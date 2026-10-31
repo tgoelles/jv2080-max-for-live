@@ -194,6 +194,13 @@ from the JV; preset and board names appear once they're imported (see [Wave name
 live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
 with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
 
+### Performance FX (Perform mode)
+
+In Perform mode the **FX** button opens the **performance's** effects: the EFX (type, 12 parameters with the same
+labels as on the FX page, output and sends), chorus and reverb. **EFX sources**: EFX-A uses either these performance
+EFX settings (**PERFORM**) or a part's patch EFX; EFX-B and EFX-C, the JV-2080's extra effects in Perform mode,
+always use a part's patch EFX. Also here: the performance's **clock source** and **tempo**.
+
 ### Keys page (Perform mode)
 
 The **Keys** button (Perform mode) shows the 16 parts' **key ranges** as bars over the keyboard, for splits and

@@ -20,11 +20,11 @@ setoutletassist(1, "<page> set 0/1 for the page buttons");
 
 var PAGES = ["lfo", "ctrl", "fx", "patch", "library", "setup", "part", "keys"];
 var GLOBAL = { library: "LibraryPage", setup: "Settings" };    // in both modes
-var PATCH_PAGES = { lfo: 1, ctrl: 1, fx: 1, patch: 1 };
+var PATCH_PAGES = { lfo: 1, ctrl: 1, patch: 1 };   // fx: both modes (patch FX / performance FX)
 var PERFORM_PAGES = { part: 1, keys: 1 };
 // controls that only exist in Patch mode: the tone tabs, the patch page buttons and the tone switches / levels
-var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "FXButton", "PatchButton", "ToneMix"];
-var PERFORM_CONTROLS = ["PartButton", "KeysButton", "VoicesRest"];
+var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "PatchButton", "ToneMix", "FXButton"];
+var PERFORM_CONTROLS = ["PartButton", "KeysButton", "VoicesRest", "FXButton"];
 for (var pb = 1; pb <= 16; pb++) {
 	PERFORM_CONTROLS.push("PartSel" + pb);
 }
@@ -37,14 +37,20 @@ var shown = {};    // varname -> true / false as last sent
 var states = {};   // page -> button state as last sent
 
 function sections() {
-	var all = ["CtrlCommon", "FX", "PatchPage", "LibraryPage", "Settings", "PerformPage", "KeysPage"];
+	var all = ["CtrlCommon", "FX", "PatchPage", "LibraryPage", "Settings", "PerformPage", "KeysPage", "PerfFX"];
 	for (var t = 1; t <= 4; t++) {
 		all.push("Pitch_" + t, "TVF_" + t, "WG_" + t, "VCA_" + t, "LFO_" + t, "CTRL_" + t);
 	}
 	for (var p = 1; p <= 16; p++) {
 		all.push("PartEdit_" + p);
 	}
-	return all.concat(PATCH_CONTROLS, PERFORM_CONTROLS);
+	var both = PATCH_CONTROLS.concat(PERFORM_CONTROLS);
+	for (var i = 0; i < both.length; i++) {
+		if (all.indexOf(both[i]) < 0) {
+			all.push(both[i]);   // FXButton is in both modes
+		}
+	}
+	return all;
 }
 
 function visible() {
@@ -53,7 +59,7 @@ function visible() {
 	if (GLOBAL[page]) {
 		v.push(GLOBAL[page]);
 	} else if (mode === 1) {
-		v.push(page === "part" ? "PartEdit_" + (part + 1) : page === "keys" ? "KeysPage" : "PerformPage");
+		v.push(page === "part" ? "PartEdit_" + (part + 1) : page === "keys" ? "KeysPage" : page === "fx" ? "PerfFX" : "PerformPage");
 	} else if (page === "lfo") {
 		v.push("LFO_" + t);
 	} else if (page === "ctrl") {

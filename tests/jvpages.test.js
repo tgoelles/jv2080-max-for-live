@@ -49,7 +49,7 @@ assert.deepStrictEqual(buttons(), { setup: 0 });
 send('page', 'lfo', 1);
 send('mode', 1);
 assert.deepStrictEqual(shows(), ['KeysButton', 'PartButton', 'VoicesRest'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
-for (const name of ['LFO_2', 'ToneTabs', 'LFOButton', 'CtrlButton', 'FXButton', 'PatchButton', 'ToneMix']) {
+for (const name of ['LFO_2', 'ToneTabs', 'LFOButton', 'CtrlButton', 'PatchButton', 'ToneMix']) {
 	assert.ok(hides().includes(name), name + ' hidden');
 }
 assert.deepStrictEqual(buttons(), { lfo: 0 });
@@ -58,14 +58,17 @@ send('page', 'library', 1);
 assert.deepStrictEqual(shows(), ['LibraryPage']);
 send('mode', 0);
 assert.ok(!shows().includes('PerformPage') && hides().includes('PerformPage') === false, 'Library stays');
-assert.deepStrictEqual(shows(), ['CtrlButton', 'FXButton', 'LFOButton', 'PatchButton', 'ToneMix', 'ToneTabs']);
+assert.deepStrictEqual(shows(), ['CtrlButton', 'LFOButton', 'PatchButton', 'ToneMix', 'ToneTabs']);
 assert.ok(hides().includes('PartSel16') && hides().includes('PartButton'), 'part controls hidden in Patch mode');
 send('page', 'library', 0);
 assert.deepStrictEqual(shows(), ['Pitch_2', 'TVF_2', 'VCA_2', 'WG_2']);
-// a Patch-mode page can't be opened in Perform mode (its button is hidden anyway)
-send('mode', 1); send('page', 'fx', 1);
+// a Patch-mode page can't be opened in Perform mode (its button is hidden anyway); FX opens the performance FX
+send('mode', 1); send('page', 'lfo', 1);
 assert.deepStrictEqual(shows(), []);
-assert.deepStrictEqual(buttons(), { fx: 0 });
+assert.deepStrictEqual(buttons(), { lfo: 0 });
+send('page', 'fx', 1);
+assert.deepStrictEqual(shows(), ['PerfFX']);
+send('page', 'fx', 0);
 // the same mode again changes nothing
 send('mode', 1);
 assert.deepStrictEqual(out, []);

@@ -257,6 +257,13 @@ assert.deepStrictEqual([set["KeysPage/P2KeyLo"], set["KeysPage/P2KeyHi"]], [60, 
 assert.strictEqual(set["KeysPage/KeyRangeSwitch"], 1, "LateAutumnSP: key ranges on (common 0x2F)");
 assert.deepStrictEqual([...Array(16).keys()].map(i => set["PerformPage/P" + (i + 1) + "Voices"]),
 	[8, 8, 18, 18, 8, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0], "voice reserve (common 0x30-0x3F), 64 in all");
+// the performance's effects land on the performance FX page, the patch FX page is untouched
+const fxBefore = set["FX/EFXType"];
+assert.deepStrictEqual([set["PerfFX/EFXASource"], set["PerfFX/EFXType"], set["PerfFX/RevType"], set["PerfFX/PerfTempo"]],
+	[1, 0x12, 5, 120], "EFX-A from part 1, EFX type 19, reverb HALL2, tempo 120");
+assert.strictEqual(set["PerfFX/EFXBSource"], 2, "EFX-B from part 2");
+assert.strictEqual(set["FX/EFXType"], fxBefore);
+
 // a part level turned on the JV's panel follows, muted
 out.length = 0; feed(dt1([1, 0, 0x13, 6], [99]));
 assert.strictEqual(set["PerformPage/P4Level"], 99);
