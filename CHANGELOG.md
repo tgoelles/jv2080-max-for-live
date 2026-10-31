@@ -35,8 +35,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
   itself. (#10)
 
 ### Changed
-- **Library** and **Setup** are now icon buttons (box and gear) in a column at the top left; the page column holds
-  only the editing pages.
+- **Library** and **Setup** are now icon buttons (box and gear) in a column at the top left. The page column has the
+  per-tone pages at the top (Tone 1–4, LFO, Ctrl) and the patch-wide ones at the bottom (FX, Patch).
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
 - When a set loads, the device also sets the JV's mode (Patch or Perform) to the one saved in the set. Sets saved
