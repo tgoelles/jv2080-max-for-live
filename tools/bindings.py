@@ -20,7 +20,7 @@ import maxjson
 
 ROOT = Path(__file__).resolve().parent.parent
 DEVICE = ROOT / "device"
-SECTIONS = {"JV_Wave": "WG", "JV_Pitch": "Pitch", "JV_Filter": "TVF", "JV_VCA": "VCA", "JV_LFO": "LFO"}
+SECTIONS = {"JV_Wave": "WG", "JV_Pitch": "Pitch", "JV_Filter": "TVF", "JV_VCA": "VCA", "JV_LFO": "LFO", "JV_CTRL": "CTRL"}
 UI = {"live.dial", "live.numbox", "live.slider", "live.menu", "live.toggle", "live.tab", "live.text"}
 SX_ABSTRACTION = re.compile(r"^js jvparam\.js 3 0 -1 (\d+)( 2)?$")
 SX_FIXED = re.compile(r"^js jvparam\.js 3 0 (\d+) (\d+)( 2)?$")
@@ -117,7 +117,7 @@ def build():
 
     # FX and Patch pages: one instance each with fixed addresses, patch common (a3 = 0) and per-tone settings
     # (a3 = tone byte, +1 for tone offsets from 0x80)
-    for name, section, path in (("JV_FX", "FX", "FX"), ("JV_PATCH", "Patch", "PatchPage")):
+    for name, section, path in (("JV_FX", "FX", "FX"), ("JV_PATCH", "Patch", "PatchPage"), ("JV_CTRLCOMMON", "Ctrl", "CtrlCommon")):
         pat = maxjson.load(DEVICE / f"{name}.maxpat")["patcher"]
         for b in pat["boxes"]:
             m = SX_FIXED.match(b["box"].get("text", ""))
