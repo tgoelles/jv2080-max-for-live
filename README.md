@@ -72,6 +72,10 @@ other tracks only carry notes. Example with a KeyStep Pro (tracks on channels 1â
 | Part 2 | KeyStep Pro, Ch. 2 | the JV's port, Ch. 2 | none |
 | â€¦ | | | |
 
+On the **Parts page**, each part shows the name of the Live track that plays it (in the row below the parts), lit in
+the track's colour while it plays. Route the keyboard tracks **straight to the JV's port** with their channel, as in the table: a track
+routed into the JV 2080 Control track plays on *that* track's channel instead.
+
 Live sends everything a track plays on the channel set under its **MIDI To**, so a device track receiving All Ins
 would squash all keyboard channels onto one. Each JV part listens to its own channel (part n = channel n by default).
 The device picks performances with SysEx, so the device track's channel doesn't matter for that.

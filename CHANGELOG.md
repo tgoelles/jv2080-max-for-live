@@ -30,6 +30,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Performance FX** (Perform mode, **FX** button): the performance's EFX (type, 12 parameters, output and sends),
   chorus and reverb, which part's patch EFX feeds EFX-A, B and C, and the performance's clock source and tempo. (#10)
 
+- **Parts from Live tracks** (Perform mode): each part shows the Live track(s) that play it (MIDI tracks whose MIDI
+  To is the JV's port, on the part's channel), shown below the parts and lit in the track's colour while it plays. Follows renamed and re-routed tracks by
+  itself. (#10)
+
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
