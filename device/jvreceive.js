@@ -281,9 +281,12 @@ function perfBlocks(dev) {
 		if (b.block !== "perf" && b.block !== "part") {
 			continue;
 		}
-		var obj = find(b.path[0], b.varname);
-		if (obj) {
-			place(bytes[b.block === "perf" ? "perf" : "part" + b.tones[0]], b, controlValue(obj));
+		var parts = b.tones.length ? b.tones : [null];
+		for (var k = 0; k < parts.length; k++) {
+			var obj = find(b.path[0].replace("{n}", parts[k]), b.varname);
+			if (obj) {
+				place(bytes[b.block === "perf" ? "perf" : "part" + parts[k]], b, controlValue(obj));
+			}
 		}
 	}
 	var out = [];
@@ -317,10 +320,32 @@ function place(block, b, value) {
 	}
 }
 
-// one DT1 per run of consecutive offsets below size
+// one DT1 per run of consecutive offsets below size. A short gap of bytes the device doesn't edit is bridged with
+// the JV's own last-read values (written back unchanged), so a block goes out in one message instead of several.
+var BRIDGE = 8;
+
 function runs(block, size, base, dev, out) {
-	var start = -1, data = [];
-	for (var off = 0; off <= size; off++) {
+	var start = -1, data = [], b0 = JVSysEx.toNumber(base);
+	for (var off = 0; off < size; off++) {
+		if (block[off] !== undefined) {
+			continue;
+		}
+		var end = off;
+		while (end < size && block[end] === undefined) {
+			end++;
+		}
+		var known = end < size && off > 0 && end - off <= BRIDGE && block[off - 1] !== undefined;
+		for (var k = off; known && k < end; k++) {
+			known = lastRead[b0 + k] !== undefined;
+		}
+		if (known) {
+			for (k = off; k < end; k++) {
+				block[k] = lastRead[b0 + k];
+			}
+		}
+		off = end;
+	}
+	for (off = 0; off <= size; off++) {
 		if (off < size && block[off] !== undefined) {
 			if (start < 0) {
 				start = off;

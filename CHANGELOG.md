@@ -19,6 +19,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
   bank menus list only the model's banks and the expansion boards set up on the Setup page, and each part shows its
   patch's name: USER names are read from the JV, preset and board names come from `tools/import_patch_names.py`. (#10)
 
+- **Part page** (Perform mode): the part buttons below the program block (1–16) open a part's settings: output
+  (MIX / EFX / DIR1 / DIR2 / PATCH, EFX A/B/C), mix/EFX, chorus and reverb send, coarse and fine tune, and whether it
+  receives program change, volume and hold. The **Part** button switches between it and the Parts page. (#10)
+
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
