@@ -27,6 +27,9 @@ and versions follow [Semantic Versioning](https://semver.org/).
   performance's key range switch. **Voice reserve** per part on the Parts page, under the pan knob, kept to 64 in all,
   with the voices left ("rest") shown in the page column. (#10)
 
+- **Performance FX** (Perform mode, **FX** button): the performance's EFX (type, 12 parameters, output and sends),
+  chorus and reverb, which part's patch EFX feeds EFX-A, B and C, and the performance's clock source and tempo. (#10)
+
 ### Changed
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.

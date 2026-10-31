@@ -156,7 +156,7 @@ def build():
     # Perform mode: the Parts page (one instance), fixed addresses in the temporary performance. "tones" holds the
     # part number for block "part". The part's patch bank menu feeds Patch Group Type / ID (offsets 2/3) through two
     # exprs, like the wave group: special-cased as op "part_group".
-    for b, pat, page in [(b, pat, page) for name, page in (("JV_PERFORM", "PerformPage"), ("JV_KEYS", "KeysPage"))
+    for b, pat, page in [(b, pat, page) for name, page in (("JV_PERFORM", "PerformPage"), ("JV_KEYS", "KeysPage"), ("JV_PERFFX", "PerfFX"))
                          for pat in [maxjson.load(DEVICE / f"{name}.maxpat")["patcher"]] for b in pat["boxes"]]:
         m = SX_PERF.match(b["box"].get("text", ""))
         if not m:
@@ -168,6 +168,12 @@ def build():
             block, tones = "part", [a3 - 0x0F]
         else:
             problems.append(f"Parts: unexpected address in {b['box']['text']}")
+            continue
+        if page == "PerfFX" and block == "perf" and 14 <= a4 <= 25:
+            # EFX Parameter 1-12 of the performance (0x0E-0x19): converted per EFX type by jvfx.js, as on the FX page
+            n = a4 - 13
+            bindings.append({"block": "perf", "id": "efx_param_%d" % n, "section": "PerfFX", "path": [page],
+                             "varname": "EFXParam%d" % n, "ops": [["efx", n - 1]], "range": [0, 127], "tones": []})
             continue
         if block == "part" and a4 in (2, 3):
             if a4 == 2:
