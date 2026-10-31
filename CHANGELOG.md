@@ -14,8 +14,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
   once and is saved with the set; Send never overwrites the JV's name. Name edits on the JV's panel show up live. (#8)
 
 ### Changed
-- Patch page: the zone graphic is one map, keys across and velocity upwards like in Live, with each tone as a
-  colored rectangle.
+- Patch page: the velocity ranges are shown as vertical bars, one per tone (soft at the bottom, hard at the top),
+  like Live's velocity lane; the key ranges stay strips over the keyboard. Each tone has its own color.
 
 ### Upgrading
 - Sets saved with an older version have no controller values yet; the device starts with the JV's defaults (no
