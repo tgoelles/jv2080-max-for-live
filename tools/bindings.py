@@ -141,6 +141,18 @@ def build():
             else:
                 problems.append(f"{section}: unexpected address in {b['box']['text']}")
 
+    # Perform mode: the Part page, one abstraction per part (address on its inlet, like the tone sections)
+    pat = maxjson.load(DEVICE / "JV_PARTEDIT.maxpat")["patcher"]
+    for b in pat["boxes"]:
+        m = re.match(r"^js jvparam\.js 1 0 -1 (\d+)( 2)?$", b["box"].get("text", ""))
+        if not m:
+            continue
+        got = trace(pat, b["box"]["id"])
+        if got is None:
+            problems.append(f"PartEdit: can't trace sender {b['box']['text']}")
+        else:
+            add("part", int(m.group(1)), "PartEdit", ["PartEdit_{n}"], got[0], got[1], list(range(1, 17)))
+
     # Perform mode: the Parts page (one instance), fixed addresses in the temporary performance. "tones" holds the
     # part number for block "part". The part's patch bank menu feeds Patch Group Type / ID (offsets 2/3) through two
     # exprs, like the wave group: special-cased as op "part_group".

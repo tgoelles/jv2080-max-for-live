@@ -2,11 +2,12 @@
 // Perform) feed this; it sends "script show/hide <varname>" to thispatcher and keeps the page buttons in step.
 //
 // Patch mode: the tone's four sections (Pitch, TVF, WG, VCA), or a page instead: LFO and Ctrl (per tone),
-// FX and Patch (patch-wide). Perform mode: the performance page. Library and Setup work in both modes.
+// FX and Patch (patch-wide). Perform mode: the Parts page, or the Part page of the part chosen with the part
+// buttons (PartTabs). Library and Setup work in both modes.
 // One page at a time: switching one on switches the others off; switching it off shows the mode's main view.
 // A tone tab click leaves LFO / Ctrl on (they follow the tone) and switches the other pages off.
 //
-// inlet 0: "mode 0/1", "tone 0-3", "page <name> 0/1", "refresh" (show/hide everything, at load)
+// inlet 0: "mode 0/1", "tone 0-3", "part 0-15" (opens that part's Part page), "page <name> 0/1", "refresh" (at load)
 // outlet 0: "script show <varname>" / "script hide <varname>" for thispatcher
 // outlet 1: "<page> set 0/1" for the page buttons (route by page name)
 
@@ -17,15 +18,17 @@ setinletassist(0, "mode, tone, page <name> 0/1, refresh");
 setoutletassist(0, "script show/hide for thispatcher");
 setoutletassist(1, "<page> set 0/1 for the page buttons");
 
-var PAGES = ["lfo", "ctrl", "fx", "patch", "library", "setup"];
+var PAGES = ["lfo", "ctrl", "fx", "patch", "library", "setup", "part"];
 var GLOBAL = { library: "LibraryPage", setup: "Settings" };    // in both modes
 var PATCH_PAGES = { lfo: 1, ctrl: 1, fx: 1, patch: 1 };
+var PERFORM_PAGES = { part: 1 };
 // controls that only exist in Patch mode: the tone tabs, the patch page buttons and the tone switches / levels
 var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "FXButton", "PatchButton", "ToneMix"];
-var PERFORM_CONTROLS = [];
+var PERFORM_CONTROLS = ["PartTabs", "PartButton"];
 
 var mode = 0;      // 0 Patch, 1 Perform
 var tone = 0;      // 0-3
+var part = 0;      // 0-15
 var page = null;   // null = the mode's main view
 var shown = {};    // varname -> true / false as last sent
 var states = {};   // page -> button state as last sent
@@ -34,6 +37,9 @@ function sections() {
 	var all = ["CtrlCommon", "FX", "PatchPage", "LibraryPage", "Settings", "PerformPage"];
 	for (var t = 1; t <= 4; t++) {
 		all.push("Pitch_" + t, "TVF_" + t, "WG_" + t, "VCA_" + t, "LFO_" + t, "CTRL_" + t);
+	}
+	for (var p = 1; p <= 16; p++) {
+		all.push("PartEdit_" + p);
 	}
 	return all.concat(PATCH_CONTROLS, PERFORM_CONTROLS);
 }
@@ -44,7 +50,7 @@ function visible() {
 	if (GLOBAL[page]) {
 		v.push(GLOBAL[page]);
 	} else if (mode === 1) {
-		v.push("PerformPage");
+		v.push(page === "part" ? "PartEdit_" + (part + 1) : "PerformPage");
 	} else if (page === "lfo") {
 		v.push("LFO_" + t);
 	} else if (page === "ctrl") {
@@ -111,10 +117,15 @@ function anything() {
 			return;
 		}
 		states[name] = on ? 1 : 0;   // the button's state now; render corrects it if the click is refused
-		if (on && (mode === 0 || !PATCH_PAGES[name])) {
+		if (on && (mode === 0 ? !PERFORM_PAGES[name] : !PATCH_PAGES[name])) {
 			page = name;
 		} else if (!on && page === name) {
 			page = null;
+		}
+	} else if (messagename === "part") {
+		part = Math.max(0, Math.min(15, Math.round(a[0])));
+		if (mode === 1 && !GLOBAL[page]) {
+			page = "part";
 		}
 	} else if (messagename === "refresh") {
 		render(true);

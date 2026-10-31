@@ -194,6 +194,13 @@ from the JV; preset and board names appear once they're imported (see [Wave name
 live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
 with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
 
+### Part page (Perform mode)
+
+The part buttons **1–16** (below the program block, in Perform mode) open one part's settings: **output** (MIX, EFX,
+DIR1, DIR2 or PATCH = the patch's own routing; with EFX, which of the JV-2080's three EFX: A, B or C), the **mix/EFX,
+chorus and reverb send**, **coarse** and **fine tune**, and whether the part **receives** program changes, volume
+(CC 7) and hold (CC 64). The **Part** button in the page column switches back to the Parts page.
+
 ### Library page
 
 Click **Library** (above Setup) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
