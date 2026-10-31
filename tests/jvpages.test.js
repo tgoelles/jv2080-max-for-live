@@ -15,7 +15,7 @@ const lit = () => out.filter(o => o[0] === 1 && /^p\d/.test(o[1]) && o[3] === 1)
 send('refresh');
 assert.deepStrictEqual(shows(), ['CtrlButton', 'FXButton', 'LFOButton', 'PatchButton', 'Pitch_1', 'TVF_1', 'ToneMix', 'ToneTabs', 'VCA_1', 'WG_1']);
 assert.ok(hides().includes('PerformPage') && hides().includes('LFO_1') && hides().includes('Settings'));
-assert.deepStrictEqual(buttons(), { lfo: 0, ctrl: 0, fx: 0, patch: 0, library: 0, setup: 0, part: 0 });
+assert.deepStrictEqual(buttons(), { lfo: 0, ctrl: 0, fx: 0, patch: 0, library: 0, setup: 0, part: 0, keys: 0 });
 
 // a tone tab: only the changes go out
 send('tone', 2);
@@ -48,7 +48,7 @@ assert.deepStrictEqual(buttons(), { setup: 0 });
 // Perform mode: the tone pages, their buttons and the tone switches go; the performance page shows
 send('page', 'lfo', 1);
 send('mode', 1);
-assert.deepStrictEqual(shows(), ['PartButton'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
+assert.deepStrictEqual(shows(), ['KeysButton', 'PartButton', 'VoicesRest'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
 for (const name of ['LFO_2', 'ToneTabs', 'LFOButton', 'CtrlButton', 'FXButton', 'PatchButton', 'ToneMix']) {
 	assert.ok(hides().includes(name), name + ' hidden');
 }
@@ -89,4 +89,10 @@ assert.deepStrictEqual(shows(), ['PartEdit_7'], 'the Part button shows the selec
 send('mode', 0); send('page', 'part', 1);
 assert.ok(!shows().some(s => s.startsWith('PartEdit')));
 assert.deepStrictEqual(buttons(), { part: 0 });
+// Keys page (Perform mode), switched off by the Part page and back
+send('mode', 1); send('page', 'keys', 1);
+assert.deepStrictEqual(shows(), ['KeysPage']);
+send('part', 2);
+assert.deepStrictEqual(shows(), ['PartEdit_3']);
+assert.deepStrictEqual(buttons(), { part: 1, keys: 0 });
 console.log('jvpages: all tests passed');

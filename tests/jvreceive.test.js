@@ -248,9 +248,15 @@ assert.deepStrictEqual([set["PerformPage/P2On"], set["PerformPage/P2Channel"], s
 assert.deepStrictEqual([set["PerformPage/P2Level"], set["PerformPage/P2Pan"]], [127, 0x44 - 64]);
 assert.deepStrictEqual([set["PerformPage/P3Bank"], set["PerformPage/P3Patch"], set["PerformPage/P3Level"]], [3, 20, 0x73], "part 3: PR-C 020");
 assert.deepStrictEqual([set["PerformPage/P6On"], set["PerformPage/P6Channel"]], [0, 6], "part 6 off, channel 6");
-for (const b of B.filter(b => b.block === "part" && b.tones[0] > 1)) {
-	assert.ok("PerformPage/" + b.varname in set, b.varname + " not set");
+for (const b of B.filter(b => b.block === "part")) {
+	for (const p of b.tones.filter(p => p > 1)) {   // part 1 wasn't in the capture
+		assert.ok(b.path[0].replace("{n}", p) + "/" + b.varname in set, b.varname + " part " + p + " not set");
+	}
 }
+assert.deepStrictEqual([set["KeysPage/P2KeyLo"], set["KeysPage/P2KeyHi"]], [60, 127], "part 2: split from C4 up");
+assert.strictEqual(set["KeysPage/KeyRangeSwitch"], 1, "LateAutumnSP: key ranges on (common 0x2F)");
+assert.deepStrictEqual([...Array(16).keys()].map(i => set["PerformPage/P" + (i + 1) + "Voices"]),
+	[8, 8, 18, 18, 8, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0], "voice reserve (common 0x30-0x3F), 64 in all");
 // a part level turned on the JV's panel follows, muted
 out.length = 0; feed(dt1([1, 0, 0x13, 6], [99]));
 assert.strictEqual(set["PerformPage/P4Level"], 99);
@@ -264,7 +270,7 @@ assert.deepStrictEqual(out.filter(o => o[0] === 3), [[3, "perfselect"]]);
 run(now + 1499);
 assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "nothing while the JV loads the performance");
 run();
-const sp = posts.pop(); assert.ok(/send: 16 blocks, 0 of \d+ bytes differ/.test(sp), sp);
+const sp = posts.pop(); assert.ok(/send: 17 blocks, 0 of \d+ bytes differ/.test(sp), sp);
 {
 	const sent = {};
 	let cur = null;

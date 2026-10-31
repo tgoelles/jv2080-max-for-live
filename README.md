@@ -194,6 +194,16 @@ from the JV; preset and board names appear once they're imported (see [Wave name
 live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
 with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
 
+### Keys page (Perform mode)
+
+The **Keys** button (Perform mode) shows the 16 parts' **key ranges** as bars over the keyboard, for splits and
+layers. Drag either end of a bar to change it; the note names are written on the bar. **key ranges on** is the
+performance's key range switch: off, every part plays the whole keyboard. Parts that are switched off are drawn dim.
+
+**Voice reserve** (Parts page, under each pan knob, "n vc"): voices kept free for that part, so busy parts can't steal
+them. All parts together can reserve at most 64: the device keeps to that (a change that would go over is lowered
+to what's left), and **rest n** in the page column shows how many are still free, like the JV's display.
+
 ### Part page (Perform mode)
 
 The part buttons **1–16** (below the program block, in Perform mode) open one part's settings: **output** (MIX, EFX,
