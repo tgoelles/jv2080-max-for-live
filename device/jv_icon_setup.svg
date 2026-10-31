@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Setup: a gear -->
+  <g fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="8" cy="8" r="3.6"/>
+    <circle cx="8" cy="8" r="1.4"/>
+    <path d="M8 1.5 V3.2 M8 12.8 V14.5 M1.5 8 H3.2 M12.8 8 H14.5 M3.4 3.4 L4.6 4.6 M11.4 11.4 L12.6 12.6 M3.4 12.6 L4.6 11.4 M11.4 4.6 L12.6 3.4"/>
+  </g>
+</svg>

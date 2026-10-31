@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Library: an archive box (backup / restore) -->
+  <g fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-linejoin="round">
+    <rect x="1.5" y="3" width="13" height="3" rx="0.5"/>
+    <path d="M2.5 6 V13 H13.5 V6"/>
+    <path d="M6 8.5 H10" stroke-linecap="round"/>
+  </g>
+</svg>
