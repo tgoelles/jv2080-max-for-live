@@ -154,7 +154,8 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
   like the JV's Struct page. The **boost** menu only matters for Types 3 and 4 and is greyed out otherwise.
 - **Key / velocity zones**: per tone the keyboard range (C-1 … G9), velocity range and velocity cross fade, for
   splits and layers. The graphic shows each tone's key range as a strip over the keyboard, and its velocity range
-  as a vertical bar below (soft at the bottom, hard at the top), like Live's velocity lane.
+  as a vertical bar below (soft at the bottom, hard at the top), like Live's velocity lane. **Drag** an end of a
+  strip or bar to change that range directly.
   Velocity ranges only apply when **velocity ranges** is on.
 
 ## Global controls (cutoff, resonance, attack, release)
