@@ -172,6 +172,13 @@ feed(dt1([3, 0, 0, 0x00], [0x41]));   // first character -> "A"
 const edited = out.filter(o => o[0] === 2).pop()[1];
 assert.strictEqual(edited.slice(1).join(" "), "A  0  8  1");
 
+// while the Library talks to the JV, Get and Send don't
+posts.length = 0; out.length = 0;
+ctx.busy(1); ctx.get(); ctx.send(); run();
+assert.strictEqual(out.filter(o => o[0] === 0).length, 0, "nothing sent while the library is busy");
+assert.strictEqual(posts.length, 2);
+ctx.busy(0);
+
 // models (#9): Get asks for the model's patch common size
 for (const [m, size] of [[1, 0x48], [2, 0x49], [0, 0x4A]]) {
 	ctx.model(m); out.length = 0; ctx.get();

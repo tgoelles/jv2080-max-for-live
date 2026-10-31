@@ -16,6 +16,7 @@ patch to it (**Send**), and follows edits made on the JV's own panel live.
   - **LFO** and **Ctrl**, per tone: the [LFO page](#lfo-page) and the [controller page](#ctrl-page).
   - **FX**, **Patch** and **Setup**, patch-wide: [effects with routing](#fx-page), [patch settings, structure and
     key/velocity zones](#patch-page), and the [Setup page](#setup-page).
+  - **Library**: [backup and restore](#library-page) of the JV's whole user memory.
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -164,6 +165,24 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
   as a vertical bar below (soft at the bottom, hard at the top), like Live's velocity lane. **Drag** an end of a
   strip or bar to change that range directly.
   Velocity ranges only apply when **velocity ranges** is on.
+
+### Library page
+
+Click **Library** (above Setup) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
+user performances, the 2 user rhythm sets and the system settings.
+
+- **Backup...**: choose a file name, then the device reads everything from the JV into one `.syx` file (about a
+  minute). The file has the same format as the JV's own bulk dump, so other librarians and the JV itself can read it.
+- **Restore...**: choose a `.syx` file, check the summary, then click **Restore now**. Before anything is
+  overwritten, the device saves an automatic backup of the JV's current memory next to the file
+  (`JV-2080_auto_backup_<date>.syx`). Only the JV's user memory in the file is used; anything else is skipped.
+- **Record dump**: switch it on, start *Utility → Data Transfer → Bulk Dump* on the JV, then switch it off and choose
+  where to save what arrived.
+- **Cancel** stops a running transfer. While the Library talks to the JV, Get and Send wait.
+
+**Favorites** don't need the Library page: click **Get** on a patch, then Live's **Save Preset** (device title bar).
+Every patch parameter is a Live parameter, so the preset is the complete patch. Live's browser lets you tag, search
+and collect them, and loading a preset sends the patch to the JV.
 
 ## Global controls (cutoff, resonance, attack, release)
 

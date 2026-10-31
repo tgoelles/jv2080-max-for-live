@@ -2,6 +2,7 @@
 //
 // inlet 0: MIDI bytes from midiin (only complete SysEx messages are used); "get" requests the patch;
 //          "send" writes the device's whole patch to the JV (Send button, on-load push);
+//          "busy 1/0" from the Library page: Get and Send wait while it talks to the JV;
 //          "model 0/1/2" (JV-2080, JV-1080, XP-50/80) sets the patch common size to request
 // outlet 0: SysEx bytes (RQ1 requests, DT1 blocks for "send") for jv_sysex_queue.js inlet 1
 // outlet 1: "mute 1" / "mute 0" for jv_sysex_queue.js, around updating the controls
@@ -68,8 +69,17 @@ var sendTask = new Task(sendBlock, this);
 // of one message per parameter. Parameters the device doesn't edit are left out, so the JV keeps its own values.
 var sendAfterGet = false;
 var getAfterSend = false;
+var libraryBusy = false;
+
+function busy(on) {
+	libraryBusy = !!on;
+}
 
 function send() {
+	if (libraryBusy) {
+		post("jvreceive: the Library is busy with the JV, Send skipped\n");
+		return;
+	}
 	if (pending.length || waiting) {
 		sendAfterGet = true;   // a Get is still running: send when it's done
 		return;
@@ -186,6 +196,10 @@ function runs(block, size, base, dev, out) {
 }
 
 function get() {
+	if (libraryBusy) {
+		post("jvreceive: the Library is busy with the JV, Get skipped\n");
+		return;
+	}
 	if (outbox.length) {
 		getAfterSend = true;   // a Send is still going out: read when it's done
 		return;

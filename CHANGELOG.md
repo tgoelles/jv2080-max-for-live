@@ -5,6 +5,14 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Library page** (button **Library** above Setup): back up the JV's whole user memory (patches, performances,
+  rhythm sets, system) to a `.syx` file, restore it with confirmation and an automatic backup first, and record a
+  bulk dump started on the JV. Files use the JV's own bulk dump format. (#39)
+
+### Changed
+- The Tone tabs are a little shorter, to fit the Library button in the button column.
+
 ### Fixed
 - The program number only went up to 127; it now reaches 128, the last patch of each bank.
 
