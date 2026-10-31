@@ -8,7 +8,8 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../device/jvpages.js'), 'u
 const send = (name, ...args) => { out = []; ctx.messagename = name; ctx.anything(...args); };
 const shows = () => out.filter(o => o[0] === 0 && o[2] === 'show').map(o => o[3]).sort();
 const hides = () => out.filter(o => o[0] === 0 && o[2] === 'hide').map(o => o[3]);
-const buttons = () => Object.fromEntries(out.filter(o => o[0] === 1).map(o => [o[1], o[3]]));
+const buttons = () => Object.fromEntries(out.filter(o => o[0] === 1 && !/^p\d/.test(o[1])).map(o => [o[1], o[3]]));
+const lit = () => out.filter(o => o[0] === 1 && /^p\d/.test(o[1]) && o[3] === 1).map(o => o[1]);
 
 // at load: everything is shown or hidden once; Patch mode, Tone 1
 send('refresh');
@@ -47,7 +48,7 @@ assert.deepStrictEqual(buttons(), { setup: 0 });
 // Perform mode: the tone pages, their buttons and the tone switches go; the performance page shows
 send('page', 'lfo', 1);
 send('mode', 1);
-assert.deepStrictEqual(shows(), ['PartButton', 'PartTabs', 'PerformPage']);
+assert.deepStrictEqual(shows(), ['PartButton'].concat([...Array(16).keys()].map(i => 'PartSel' + (i + 1)).sort(), ['PerformPage']).sort());
 for (const name of ['LFO_2', 'ToneTabs', 'LFOButton', 'CtrlButton', 'FXButton', 'PatchButton', 'ToneMix']) {
 	assert.ok(hides().includes(name), name + ' hidden');
 }
@@ -58,7 +59,7 @@ assert.deepStrictEqual(shows(), ['LibraryPage']);
 send('mode', 0);
 assert.ok(!shows().includes('PerformPage') && hides().includes('PerformPage') === false, 'Library stays');
 assert.deepStrictEqual(shows(), ['CtrlButton', 'FXButton', 'LFOButton', 'PatchButton', 'ToneMix', 'ToneTabs']);
-assert.ok(hides().includes('PartTabs') && hides().includes('PartButton'), 'part controls hidden in Patch mode');
+assert.ok(hides().includes('PartSel16') && hides().includes('PartButton'), 'part controls hidden in Patch mode');
 send('page', 'library', 0);
 assert.deepStrictEqual(shows(), ['Pitch_2', 'TVF_2', 'VCA_2', 'WG_2']);
 // a Patch-mode page can't be opened in Perform mode (its button is hidden anyway)
@@ -76,6 +77,10 @@ assert.deepStrictEqual(buttons(), { part: 1 });
 send('part', 6);
 assert.deepStrictEqual(shows(), ['PartEdit_7']);
 assert.deepStrictEqual(hides(), ['PartEdit_5']);
+assert.deepStrictEqual(lit(), ['p7'], 'the selected part button lit');
+assert.ok(out.some(o => o[1] === 'p5' && o[3] === 0), 'the previous one off');
+send('part', 6);
+assert.deepStrictEqual(lit(), ['p7'], 'clicking the lit button keeps it lit');
 send('page', 'part', 0);
 assert.deepStrictEqual(shows(), ['PerformPage']);
 send('page', 'part', 1);

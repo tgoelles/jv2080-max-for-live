@@ -3,13 +3,13 @@
 //
 // Patch mode: the tone's four sections (Pitch, TVF, WG, VCA), or a page instead: LFO and Ctrl (per tone),
 // FX and Patch (patch-wide). Perform mode: the Parts page, or the Part page of the part chosen with the part
-// buttons (PartTabs). Library and Setup work in both modes.
+// buttons (PartSel1-16, the selected one lit). Library and Setup work in both modes.
 // One page at a time: switching one on switches the others off; switching it off shows the mode's main view.
 // A tone tab click leaves LFO / Ctrl on (they follow the tone) and switches the other pages off.
 //
 // inlet 0: "mode 0/1", "tone 0-3", "part 0-15" (opens that part's Part page), "page <name> 0/1", "refresh" (at load)
 // outlet 0: "script show <varname>" / "script hide <varname>" for thispatcher
-// outlet 1: "<page> set 0/1" for the page buttons (route by page name)
+// outlet 1: "<page> set 0/1" for the page buttons, "p<n> set 0/1" for the part buttons (route by name)
 
 autowatch = 1;
 inlets = 1;
@@ -24,7 +24,10 @@ var PATCH_PAGES = { lfo: 1, ctrl: 1, fx: 1, patch: 1 };
 var PERFORM_PAGES = { part: 1 };
 // controls that only exist in Patch mode: the tone tabs, the patch page buttons and the tone switches / levels
 var PATCH_CONTROLS = ["ToneTabs", "LFOButton", "CtrlButton", "FXButton", "PatchButton", "ToneMix"];
-var PERFORM_CONTROLS = ["PartTabs", "PartButton"];
+var PERFORM_CONTROLS = ["PartButton"];
+for (var pb = 1; pb <= 16; pb++) {
+	PERFORM_CONTROLS.push("PartSel" + pb);
+}
 
 var mode = 0;      // 0 Patch, 1 Perform
 var tone = 0;      // 0-3
@@ -90,6 +93,13 @@ function render(all) {
 			states[PAGES[i]] = s;
 		}
 	}
+	for (i = 0; i < 16; i++) {
+		var ps = i === part ? 1 : 0;
+		if (all || states["p" + (i + 1)] !== ps) {
+			outlet(1, "p" + (i + 1), "set", ps);
+			states["p" + (i + 1)] = ps;
+		}
+	}
 }
 
 function msg_int(v) {
@@ -124,6 +134,7 @@ function anything() {
 		}
 	} else if (messagename === "part") {
 		part = Math.max(0, Math.min(15, Math.round(a[0])));
+		delete states["p" + (part + 1)];   // a click on the lit button switched it off: light it again
 		if (mode === 1 && !GLOBAL[page]) {
 			page = "part";
 		}
