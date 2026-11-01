@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Help: a question mark in a circle -->
+  <g fill="none" stroke="#1e1e1e" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="8" cy="8" r="6.3"/>
+    <path d="M6 6.3 C6 4.9 7 4.3 8 4.3 C9.1 4.3 10 5 10 6.1 C10 7.4 8 7.6 8 9.2"/>
+  </g>
+  <circle cx="8" cy="11.6" r="0.95" fill="#1e1e1e"/>
+</svg>

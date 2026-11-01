@@ -22,11 +22,12 @@ PANEL = [0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0]
 ORANGE = [1.0, 0.709803921568627, 0.196078431372549, 1.0]
 MID = [0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0]
 JS = {"filename": "jvparam.js", "parameter_enable": 0}
-# left to right: Output and sends, Part (copies of the Parts page strip, jvpartview.js), Receive, Level and tuning
-PART_X, PART_W = 263.0, 160.0
-RX_X = PART_X + PART_W + 3.0
-TUNE_X = RX_X + 137.0
-WIDTH = TUNE_X + 220.0
+# left to right: Part (copies of the Parts page strip, jvpartview.js), Level and tuning, Output and sends, Receive
+PART_X, PART_W = 0.0, 160.0
+TUNE_X = PART_X + PART_W + 3.0
+OUT_X = TUNE_X + 223.0
+RX_X = OUT_X + 263.0
+WIDTH = RX_X + 134.0
 LIGHT = [0.85, 0.85, 0.85, 1.0]
 
 # ---------------------------------------------------------------- the abstraction
@@ -136,7 +137,8 @@ def toggle(var, long, short, rect, init):
     return i
 
 
-# output and sends (offsets 0x0A-0x0D, 0x19)
+# output and sends (offsets 0x0A-0x0D, 0x19); laid out from 0, moved to OUT_X below
+mark = (len(front), len(boxes))
 panel(0.0, 260.0)
 comment("Output and sends", [0.0, 0.0, 260.0, 18.0], DIM, 1)
 comment("output", [4.0, 20.0, 50.0, 18.0])
@@ -148,6 +150,9 @@ for k, (var, long, short, off, init) in enumerate([("MixSend", "Mix/EFX Send", "
                                                     ("ReverbSend", "Reverb Send", "reverb", 13, 0)]):
     sender(dial(var, long, short, [12.0 + 82.0 * k, 50.0, 41.0, 48.0], 0, 127, init), off)
 comment("output PATCH: the patch's own routing", [4.0, 140.0, 252.0, 18.0], DIM)
+for b in front[mark[0]:] + boxes[mark[1]:]:
+    if b["box"].get("presentation_rect"):
+        b["box"]["presentation_rect"][0] += OUT_X
 # level and pan (the strip's copies, added below) and tuning (0x08, 0x09)
 panel(TUNE_X, 220.0)
 comment("Level and tuning", [TUNE_X, 0.0, 220.0, 18.0], DIM, 1)
