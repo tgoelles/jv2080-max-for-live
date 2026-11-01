@@ -20,7 +20,9 @@ made on the JV's own panel live.
   keyfollow, velocity); choose the tone with the **Tone1–4** tabs. The page buttons next to it open the tone's
   [LFO](#lfo-page) and [Ctrl](#ctrl-page) pages, and, at the bottom, the patch-wide [Patch](#patch-page) (settings,
   structure, key/velocity zones) and [FX](#fx-page) (effects with routing) pages.
-- **Perform mode**: the [Parts page](#parts-page-perform-mode) shows all 16 parts. The part buttons 1–16 open a
+- **Perform mode**: the [Parts page](#parts-page-perform-mode) shows all 16 parts, and under each part **the Live
+  track that plays it**: the track's name, lit in the track's own colour whenever it sends MIDI to the JV, so you see
+  at a glance which part is played from where. The part buttons 1–16 open a
   [part's page](#part-page-perform-mode); **Part** goes back to the Parts page, **Keys** shows the
   [key ranges](#keys-page-perform-mode) and **FX** the [performance's effects](#performance-fx-perform-mode). See also
   [MIDI setup for several channels](#perform-mode-and-several-midi-channels).
