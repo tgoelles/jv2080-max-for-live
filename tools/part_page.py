@@ -22,8 +22,11 @@ PANEL = [0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0]
 ORANGE = [1.0, 0.709803921568627, 0.196078431372549, 1.0]
 MID = [0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0]
 JS = {"filename": "jvparam.js", "parameter_enable": 0}
-PART_W = 160.0   # the left panel: copies of the Parts page strip (jvpartview.js)
-WIDTH = PART_W + 3.0 + 620.0
+# left to right: Output and sends, Part (copies of the Parts page strip, jvpartview.js), Receive, Level and tuning
+PART_X, PART_W = 263.0, 160.0
+RX_X = PART_X + PART_W + 3.0
+TUNE_X = RX_X + 137.0
+WIDTH = TUNE_X + 220.0
 LIGHT = [0.85, 0.85, 0.85, 1.0]
 
 # ---------------------------------------------------------------- the abstraction
@@ -146,28 +149,23 @@ for k, (var, long, short, off, init) in enumerate([("MixSend", "Mix/EFX Send", "
     sender(dial(var, long, short, [12.0 + 82.0 * k, 50.0, 41.0, 48.0], 0, 127, init), off)
 comment("output PATCH: the patch's own routing", [4.0, 140.0, 252.0, 18.0], DIM)
 # level and pan (the strip's copies, added below) and tuning (0x08, 0x09)
-TUNE_X = 263.0
 panel(TUNE_X, 220.0)
 comment("Level and tuning", [TUNE_X, 0.0, 220.0, 18.0], DIM, 1)
 sender(dial("CoarseTune", "Coarse Tune", "coarse", [TUNE_X + 110.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
 sender(dial("FineTune", "Fine Tune", "fine", [TUNE_X + 164.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
 # receive switches (0x0E-0x10)
-panel(486.0, 134.0)
-comment("Receive", [486.0, 0.0, 134.0, 18.0], DIM, 1)
+panel(RX_X, 134.0)
+comment("Receive", [RX_X, 0.0, 134.0, 18.0], DIM, 1)
 for k, (var, long, short, off) in enumerate([("RxProgram", "Rx Program Change", "rx pgm", 14),
                                               ("RxVolume", "Rx Volume", "rx vol", 15),
                                               ("RxHold", "Rx Hold-1", "rx hold", 16)]):
     y = 24.0 + 22.0 * k
-    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [492.0, y - 2.0, 100.0, 18.0])
-    sender(toggle(var, long, short, [596.0, y, 15.0, 15.0], 1), off)
+    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [RX_X + 6.0, y - 2.0, 100.0, 18.0])
+    sender(toggle(var, long, short, [RX_X + 110.0, y, 15.0, 15.0], 1), off)
 
-# the part's strip controls, bigger, on the left: copies (Hidden parameters) that jvparts.js on the Parts page keeps
-# in step; an edit here moves the strip's control (jvpartview.js). Added after the sections above so their box ids
-# (and the per-instance parameter names in the main device) stay put; the sections move right.
-for b in front + boxes:
-    r = b["box"].get("presentation_rect")
-    if r:
-        r[0] += PART_W + 3.0
+# the part's strip controls, bigger: copies (Hidden parameters) that jvparts.js on the Parts page keeps in step; an
+# edit here moves the strip's control (jvpartview.js). Added after the sections above so their box ids (and the
+# per-instance parameter names in the main device) stay put.
 view = obj("js jvpartview.js", 20.0, 860.0, 2, 1, {"filename": "jvpartview.js", "parameter_enable": 0})
 line(addr, view, 0, 1)
 rmirror = obj("r ---partmirror", 20.0, 820.0, 0, 1)
@@ -195,30 +193,30 @@ def hidden(var, short, rect, ptype, maxclass, attrs, **kw):
     return i
 
 
-panel(0.0, PART_W)
-comment("Part", [0.0, 0.0, PART_W, 18.0], DIM, 1, var="PartTitle")   # "Part <n>" (jvpartview.js)
-hidden("On", "on", [8.0, 24.0, 34.0, 18.0], 2, "live.text",
+panel(PART_X, PART_W)
+comment("Part", [PART_X, 0.0, PART_W, 18.0], DIM, 1, var="PartTitle")   # "Part <n>" (jvpartview.js)
+hidden("On", "on", [PART_X + 8.0, 24.0, 34.0, 18.0], 2, "live.text",
        {"numoutlets": 2, "outlettype": ["", ""], "text": "off", "texton": "on", "textcolor": GREY,
         "activetextoncolor": [0.0, 0.0, 0.0, 1.0], "bgcolor": [0.0, 0.0, 0.0, 0.0], "activebgcolor": [0.0, 0.0, 0.0, 0.0],
         "bgoncolor": ORANGE, "activebgoncolor": ORANGE, "bordercolor": GREY, "fontsize": 11.0, "hint": "Part on/off (Receive Switch)"},
        parameter_enum=["off", "on"], parameter_mmax=1)
-hidden("Channel", "ch", [48.0, 24.0, 44.0, 18.0], 1, "live.numbox",
+hidden("Channel", "ch", [PART_X + 48.0, 24.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "MIDI channel"},
        parameter_mmin=1.0, parameter_mmax=16.0, parameter_unitstyle=9, parameter_units="ch %d")
-hidden("Voices", "voices", [98.0, 24.0, 44.0, 18.0], 1, "live.numbox",
+hidden("Voices", "voices", [PART_X + 98.0, 24.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 1,
         "hint": "Voice reserve: voices kept free for this part (all parts together at most 64)"},
        parameter_mmin=0.0, parameter_mmax=64.0, parameter_unitstyle=9, parameter_units="%d vc")
-hidden("BankView", "bank", [8.0, 48.0, 84.0, 18.0], 2, "live.menu",
+hidden("BankView", "bank", [PART_X + 8.0, 48.0, 84.0, 18.0], 2, "live.menu",
        {"appearance": 1, "numoutlets": 3, "outlettype": ["", "", "float"], "fontsize": 11.0, "hint": "Patch bank"},
        parameter_enum=["USER"], parameter_mmax=0)
-hidden("Patch", "patch", [98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
+hidden("Patch", "patch", [PART_X + 98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "Patch number (1-128; expansion boards up to 255)"},
        parameter_mmin=1.0, parameter_mmax=255.0, parameter_unitstyle=0)
 add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 260.0, 190.0, 24.0],
-     "presentation": 1, "presentation_rect": [4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
+     "presentation": 1, "presentation_rect": [PART_X + 4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
      "fontsize": 16.0, "textjustification": 0, "varname": "ViewName"}, ui=True)
-TX = PART_W + 3.0 + TUNE_X   # the Level and tuning panel, moved right with the other sections
+TX = TUNE_X
 hidden("Level", "level", [TX + 12.0, 20.0, 30.0, 140.0], 1, "live.slider",
        {"modulationcolor": ORANGE, "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE, "hint": "Part level"},
        parameter_mmin=0.0, parameter_mmax=127.0, parameter_unitstyle=0)
