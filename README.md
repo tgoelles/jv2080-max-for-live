@@ -5,21 +5,27 @@ The JV-1080 and XP-50/80 are supported experimentally (Setup → Model).
 
 ![JV-2080 Control in Ableton Live](docs/screenshot.webp)
 
-It edits **every patch parameter** of the JV-2080, reads the JV's current patch back (**Get**), writes the device's
-patch to it (**Send**), and follows edits made on the JV's own panel live.
+It edits **every patch parameter** of the JV-2080 and, in Perform mode, the **performance** with its 16 parts. It
+reads the JV's current patch or performance back (**Get**), writes the device's to it (**Send**), and follows edits
+made on the JV's own panel live.
 
-- **Tone view**: per tone Wave, Pitch, Filter and Amplifier (envelopes, keyfollow, velocity). Use the **Tone1–4**
-  tabs to choose the tone.
-- **Patch / Perform** switch (top left): the JV's mode. Perform mode selects performances and shows the
-  [Parts page](#parts-page-perform-mode) ([MIDI setup for several channels](#perform-mode-and-several-midi-channels)).
-- **Program block** (below it): the patch name (click to rename), bank/program select, **Send** (device → JV) and
-  **Get** (JV → device). Below it the tone switches and levels, and Effects On/Off.
-- **Pages** (buttons below the Tone tabs):
-  - **LFO** and **Ctrl**, per tone: the [LFO page](#lfo-page) and the [controller page](#ctrl-page).
-  - **FX**, **Patch** and **Setup**, patch-wide: [effects with routing](#fx-page), [patch settings, structure and
-    key/velocity zones](#patch-page), and the [Setup page](#setup-page).
-  - **Library** and **Setup**: the box and gear icons at the top left: [backup and restore](#library-page) of the
-    JV's whole user memory, and the [Setup page](#setup-page).
+- **Patch / Perform** switch (top left): the JV's mode; the JV follows, and the switch follows the JV's own PATCH /
+  PERFORM buttons.
+- **Program block** (below it): the patch or performance name (click to rename), bank and number, **Send** (device →
+  JV) and **Get** (JV → device). Below it the tone switches and levels (Patch mode) or the part buttons 1–16 (Perform
+  mode), and Effects On/Off.
+- **Icons** at the top left: **Library** (box, [backup, restore, write to USER](#library-page)), **Setup** (gear,
+  [Setup page](#setup-page)) and **Help** (question mark, opens this page).
+- **Patch mode**: the **Tone view** shows the selected tone's Wave, Pitch, Filter and Amplifier (envelopes,
+  keyfollow, velocity); choose the tone with the **Tone1–4** tabs. The page buttons next to it open the tone's
+  [LFO](#lfo-page) and [Ctrl](#ctrl-page) pages, and, at the bottom, the patch-wide [Patch](#patch-page) (settings,
+  structure, key/velocity zones) and [FX](#fx-page) (effects with routing) pages.
+- **Perform mode**: the [Parts page](#parts-page-perform-mode) shows all 16 parts, and under each part **the Live
+  track that plays it**: the track's name, lit in the track's own colour whenever it sends MIDI to the JV, so you see
+  at a glance which part is played from where. The part buttons 1–16 open a
+  [part's page](#part-page-perform-mode); **Part** goes back to the Parts page, **Keys** shows the
+  [key ranges](#keys-page-perform-mode) and **FX** the [performance's effects](#performance-fx-perform-mode). See also
+  [MIDI setup for several channels](#perform-mode-and-several-midi-channels).
 
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
@@ -87,7 +93,7 @@ The device picks performances with SysEx, so the device track's channel doesn't 
 2. Choose **Patch** or **Perform** with the switch at the top left; the JV follows (and the switch follows the JV's
    own PATCH / PERFORM buttons). Perform mode selects performances and shows their 16 parts ([Parts page](#parts-page-perform-mode)). If you changed the JV's Device ID (SYSTEM → MIDI, default 17), click **Setup**
    (the gear icon, top left) and set **Device ID** to the same number.
-3. Click **Get** (top left, under the patch name) to load the JV's current patch into the device, including its name. After a program change
+3. Click **Get** (top left, under the patch name) to load the JV's current patch (in Perform mode: performance) into the device, including its name. After a program change
    this happens automatically. You can turn that off on the **Setup** page. To have the device follow when you pick
    patches on the **JV's own panel**, keep **Setup → Follow JV patch changes** on (default). Edits made on the JV's
    panel, such as turning Cutoff, also show up in the device live.
@@ -118,6 +124,9 @@ Click **Setup** (the gear icon at the top left) to open it, and click it again o
 | **Get on program change** | Loads the new patch from the JV after a program change. Needs MIDI From to include the JV. |
 | **Follow JV patch changes** | Picking a patch on the JV's panel updates the device too. |
 | **Model** | JV-2080, JV-1080 or XP-50/80. Sets the bank list and the patch size for Get. JV-1080 and XP are experimental. |
+
+Below Model: the device's version and author, and **Help and updates...**, which opens this page on GitHub (new
+versions are under Releases).
 
 ### LFO page
 
@@ -192,14 +201,29 @@ Click **Patch** (below the Tone tabs) for the settings of the whole patch:
 
 ### Parts page (Perform mode)
 
-In **Perform** mode the device shows the JV's 16 parts side by side. Per part: the **part number** button (lit = on, the part's receive switch), **MIDI channel**, **patch bank** (USER, PR-A–PR-E, CARD, EXP-01–19 = the SR-JV80 board's number) and
-**patch number**, **level** (fader) and **pan**. The bank menu lists the banks your model has and the expansion
-boards set up on the **Setup** page (as XP-A, XP-B, …). Under the number is the patch's name: USER patches are read
-from the JV; preset and board names appear once they're imported (see [Wave names](#wave-names)). **Get** reads them from the JV, changes on the JV's panel show up
-live, and **Send** selects the device's performance on the JV and then writes the parts over it. The parts are saved
-with the Live set and in device presets. Sends, tuning, output and key ranges come with the next page.
+![The Parts page](docs/perform.webp)
+
+In **Perform** mode the program block selects **performances** (USER, PR-A, PR-B, CARD, 1–32) and the device shows
+the JV's 16 parts side by side. Per part:
+
+- the **part number** button (lit = on, the part's receive switch) and the **MIDI channel**,
+- **patch bank** (the banks your model has and the expansion boards set up on the **Setup** page, as XP-A, XP-B, …)
+  and **patch number**, with the patch's **name** below: USER patches are read from the JV; preset and board names
+  are included (see [Wave names](#wave-names)),
+- **level** (fader), **pan** and **voice reserve** ("n vc"): voices kept free for that part, so busy parts can't steal
+  them. All parts together can reserve at most 64: the device keeps to that (a change that would go over is lowered
+  to what's left). How many are still free (the JV's "rest") is in each voice box's hint and in Live's Info View.
+- below the black area: the **Live track** that plays the part (any MIDI track sending to the JV's port on the part's
+  channel), lit in the track's colour while it plays.
+
+**Get** reads the performance from the JV, changes on the JV's panel show up live, and **Send** selects the device's
+performance on the JV and then writes the parts over it. Everything is saved with the Live set and in device presets;
+to store it in the JV itself, use [Write to USER](#library-page). The part buttons 1–16 in the left column show which
+parts are on (faint = off).
 
 ### Performance FX (Perform mode)
+
+![The performance FX page](docs/perffx.webp)
 
 In Perform mode the **FX** button opens the **performance's** effects: the EFX (type, 12 parameters with the same
 labels as on the FX page, output and sends), chorus and reverb. **EFX sources**: EFX-A uses either these performance
@@ -212,21 +236,24 @@ The **Keys** button (Perform mode) shows the 16 parts' **key ranges** as bars ov
 layers. Drag either end of a bar to change it; the note names are written on the bar. **key ranges on** is the
 performance's key range switch: off, every part plays the whole keyboard. Parts that are switched off are drawn dim.
 
-**Voice reserve** (Parts page, under each pan knob, "n vc"): voices kept free for that part, so busy parts can't steal
-them. All parts together can reserve at most 64: the device keeps to that (a change that would go over is lowered
-to what's left). How many are still free (the JV's "rest") is in each voice box's hint and in Live's Info View.
-
 ### Part page (Perform mode)
 
-The part buttons **1–16** (below the program block, in Perform mode) open one part's settings. On the left, the part's
-controls from the Parts page, bigger: on/off, MIDI channel, voice reserve, bank, patch number, the patch's name, level
-and pan (they're the same settings: a change on either page shows on the other). The selected part's button is lit red; parts that are
-switched off have faint buttons. Then **output** (MIX, EFX,
-DIR1, DIR2 or PATCH = the patch's own routing; with EFX, which of the JV-2080's three EFX: A, B or C), the **mix/EFX,
-chorus and reverb send**, **coarse** and **fine tune**, and whether the part **receives** program changes, volume
-(CC 7) and hold (CC 64). The **Part** button in the page column switches back to the Parts page.
+![The Part page](docs/part.webp)
+
+The part buttons **1–16** (below the program block, in Perform mode) open one part's page; the selected part's button
+is lit red. **Part** in the page column switches back to the Parts page.
+
+- **Part n**: the part's controls from the Parts page, bigger: on/off, MIDI channel, voice reserve, bank, patch
+  number and the patch's name. They're the same settings: a change on either page shows on the other.
+- **Level and tuning**: level, pan, **coarse** and **fine** tune.
+- **Output and sends**: **output** MIX, EFX, DIR1, DIR2 or PATCH (the patch's own routing); with EFX, which of the
+  JV-2080's three EFX (A, B or C). The JV-2080's three stereo outputs are MIX, DIRECT 1 and DIRECT 2, so parts can
+  go to separate inputs of your audio interface. Then the **mix/EFX, chorus and reverb sends**.
+- **Receive**: whether the part reacts to program changes, volume (CC 7) and hold (CC 64).
 
 ### Library page
+
+![The Library page](docs/library.webp)
 
 Click **Library** (the box icon at the top left, above the gear) to back up and restore the JV's **whole user memory**: the 128 user patches, the 32
 user performances, the 2 user rhythm sets and the system settings.
