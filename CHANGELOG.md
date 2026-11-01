@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-01
+
 ### Added
 - **Help** button (question mark, below Setup) opens the manual (README) on GitHub. The **Setup page** shows the
   device's version and author, with **Help and updates...** (the same page; new versions are under Releases).
@@ -26,11 +28,12 @@ and versions follow [Semantic Versioning](https://semver.org/).
 - **Part page** (Perform mode): the part buttons below the program block (1–16) open a part's settings: output
   (MIX / EFX / DIR1 / DIR2 / PATCH, EFX A/B/C), mix/EFX, chorus and reverb send, coarse and fine tune, and whether it
   receives program change, volume and hold. The **Part** button switches between it and the Parts page. On its left
-  the part's Parts page controls (on/off, channel, voices, bank, patch, name, level, pan) again, bigger. (#10)
+  the part's Parts page controls (on/off, channel, voices, bank, patch, name) again, bigger; level and pan sit with
+  the tuning. The selected part's button is lit red, parts that are off have faint buttons. (#10)
 
 - **Keys page** (Perform mode): the 16 parts' key ranges as bars over the keyboard, with draggable ends, and the
   performance's key range switch. **Voice reserve** per part on the Parts page, under the pan knob, kept to 64 in all,
-  with the voices left ("rest") shown in the page column. (#10)
+  with the voices left (the JV's "rest") in each voice box's hint / Info View. (#10)
 
 - **Performance FX** (Perform mode, **FX** button): the performance's EFX (type, 12 parameters, output and sends),
   chorus and reverb, which part's patch EFX feeds EFX-A, B and C, and the performance's clock source and tempo. (#10)
@@ -41,7 +44,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - **Library** and **Setup** are now icon buttons (box and gear) in a column at the top left. The page column has the
-  per-tone pages at the top (Tone 1–4, LFO, Ctrl) and the patch-wide ones at the bottom (FX, Patch).
+  per-tone pages at the top (Tone 1–4, LFO, Ctrl) and the patch-wide ones at the bottom (Patch, FX).
 - The Tone tabs are a little shorter, to fit the Library button in the button column.
 - The "Effects On/Off" label is gone (the buttons say EFX / Chorus / Reverb), making room for the Patch / Perform switch.
 - When a set loads, the device also sets the JV's mode (Patch or Perform) to the one saved in the set. Sets saved
@@ -212,7 +215,8 @@ include the JV (see *MIDI setup* in the README).
 
 First version tracked in this repository, as published on maxforlive.com.
 
-[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/tgoelles/jv2080-max-for-live/compare/v0.4.0...v0.5.0
