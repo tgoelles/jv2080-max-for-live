@@ -65,9 +65,11 @@ def valueof(long, short, ptype, **kw):
     return {"valueof": v}
 
 
-def comment(text, rect, color=GREY, just=0):
+def comment(text, rect, color=GREY, just=0, var=None):
     add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0 + rect[0], 300.0 + rect[1], 80.0, 18.0],
          "presentation": 1, "presentation_rect": rect, "text": text, "textcolor": color, "textjustification": just}, ui=True)
+    if var:
+        front[-1]["box"]["varname"] = var
 
 
 def panel(x, w):
@@ -193,7 +195,7 @@ def hidden(var, short, rect, ptype, maxclass, attrs, **kw):
 
 
 panel(0.0, PART_W)
-comment("Part", [0.0, 0.0, PART_W, 18.0], DIM, 1)
+comment("Part", [0.0, 0.0, PART_W, 18.0], DIM, 1, var="PartTitle")   # "Part <n>" (jvpartview.js)
 hidden("On", "on", [8.0, 24.0, 34.0, 18.0], 2, "live.text",
        {"numoutlets": 2, "outlettype": ["", ""], "text": "off", "texton": "on", "textcolor": GREY,
         "activetextoncolor": [0.0, 0.0, 0.0, 1.0], "bgcolor": [0.0, 0.0, 0.0, 0.0], "activebgcolor": [0.0, 0.0, 0.0, 0.0],
@@ -215,11 +217,13 @@ hidden("Patch", "patch", [98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
 add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 260.0, 190.0, 24.0],
      "presentation": 1, "presentation_rect": [4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
      "fontsize": 16.0, "textjustification": 0, "varname": "ViewName"}, ui=True)
-for k, (var, short, lo, hi) in enumerate([("Level", "level", 0, 127), ("Pan", "pan", -64, 63)]):
-    hidden(var, short, [36.0 + 88.0 * k, 102.0, 41.0, 48.0], 1, "live.dial",
-           {"activedialcolor": ORANGE, "activefgdialcolor": MID, "activeneedlecolor": MID, "textcolor": GREY, "tricolor": MID,
-            "hint": "Part " + short},
-           parameter_mmin=float(lo), parameter_mmax=float(hi), parameter_unitstyle=0)
+hidden("Level", "level", [12.0, 96.0, 22.0, 64.0], 1, "live.slider",
+       {"modulationcolor": ORANGE, "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE, "hint": "Part level"},
+       parameter_mmin=0.0, parameter_mmax=127.0, parameter_unitstyle=0)
+hidden("Pan", "pan", [60.0, 100.0, 41.0, 48.0], 1, "live.dial",
+       {"activedialcolor": ORANGE, "activefgdialcolor": MID, "activeneedlecolor": MID, "textcolor": GREY, "tricolor": MID,
+        "hint": "Part pan"},
+       parameter_mmin=-64.0, parameter_mmax=63.0, parameter_unitstyle=0)
 
 pat["boxes"] = front + boxes   # controls first: drawn on top of the panels
 pat["lines"] = lines

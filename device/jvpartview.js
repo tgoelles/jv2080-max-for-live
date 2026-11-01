@@ -22,6 +22,10 @@ var ready = false;   // edits go out only once the strip's state came in (not th
 function msg_int(v) {
 	if (inlet === 1 && v >= 0x10 && v <= 0x1F) {
 		part = v - 0x0F;
+		var title = jsthis.patcher.getnamed("PartTitle");
+		if (title) {
+			title.message("set", "Part " + part);
+		}
 		outlet(0, "refresh", part);
 	}
 }

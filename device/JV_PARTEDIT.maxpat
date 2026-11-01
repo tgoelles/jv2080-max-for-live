@@ -498,7 +498,8 @@
 					"text" : "Part",
 					"textcolor" : [ 0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0 ],
 					"textjustification" : 1,
-					"id" : "obj-43"
+					"id" : "obj-43",
+					"varname" : "PartTitle"
 				}
 
 			}
@@ -687,14 +688,14 @@
 			}
 , 			{
 				"box" : 				{
-					"maxclass" : "live.dial",
+					"maxclass" : "live.slider",
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 770.0, 740.0, 50.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 36.0, 102.0, 41.0, 48.0 ],
+					"presentation_rect" : [ 12.0, 96.0, 22.0, 64.0 ],
 					"varname" : "ViewLevel",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -709,11 +710,10 @@
 
 					}
 ,
-					"activedialcolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"activefgdialcolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
-					"activeneedlecolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
+					"modulationcolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
+					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
-					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
+					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
 					"hint" : "Part level",
 					"id" : "obj-55"
 				}
@@ -728,7 +728,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 920.0, 740.0, 50.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 124.0, 102.0, 41.0, 48.0 ],
+					"presentation_rect" : [ 60.0, 100.0, 41.0, 48.0 ],
 					"varname" : "ViewPan",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{

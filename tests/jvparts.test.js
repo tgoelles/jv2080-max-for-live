@@ -2,7 +2,8 @@
 const fs = require('fs'), vm = require('vm'), path = require('path'), assert = require('assert');
 const ui = {};   // varname -> list of messages received
 const stored = {};
-const patcher = { getnamed: v => ({ message: (...a) => {
+const top = { getnamed: v => ({ message: (...a) => { const m = Array.isArray(a[0]) ? a[0] : a; (ui['top:' + v] = ui['top:' + v] || []).push(m); } }) };
+const patcher = { parentpatcher: top, getnamed: v => ({ message: (...a) => {
 	const m = Array.isArray(a[0]) ? a[0] : a;
 	(ui[v] = ui[v] || []).push(m);
 	if (/^P\d+Bank$/.test(v) && m[0] === 'int') { stored[v] = m[1]; }
@@ -72,4 +73,9 @@ assert.deepStrictEqual(r.find(m => m[0] === 'Channel'), ['Channel', 'set', 3]);
 assert.strictEqual(r.find(m => m[0] === 'BankView' && m[1] === '_parameter_range')[2], 'USER');
 assert.ok(r.find(m => m[0] === 'BankView' && m[1] === 'set'));
 assert.ok(r.find(m => m[0] === 'Name'));
+// the device's part buttons: a part switched off is drawn faint
+send('show', 9, 'On', 0);
+assert.deepStrictEqual(Array.from(ui['top:PartSel9'].find(m => m[0] === 'textcolor')), ['textcolor', 0.45, 0.45, 0.45, 0.6]);
+send('show', 9, 'On', 1);
+assert.strictEqual(ui['top:PartSel9'].filter(m => m[0] === 'textcolor').pop()[4], 1.0);
 console.log('jvparts: all tests passed');

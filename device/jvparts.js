@@ -18,6 +18,7 @@
 //          "show <part> <Var> <v>" (a strip control's output), "edit <part> <Var> <v>", "refresh <part>" (Part page)
 // outlet 0: "askname <n>" (s ---askname)
 // outlet 1: "part <n> <Var> <message...>" for the Part page's copies (s ---partmirror)
+// It also draws the device's part buttons (PartSel<n>, main patch) faint for parts that are switched off.
 
 include("jv2080_patchnames.js");
 
@@ -95,6 +96,9 @@ function anything() {
 	}
 	if (messagename === "show") {
 		mirror(part, a[1], "set", a[2]);
+		if (a[1] === "On") {
+			inUse(part, Math.round(a[2]) === 1);
+		}
 		return;
 	}
 	if (messagename === "edit") {
@@ -130,6 +134,17 @@ function pick(part, index) {
 	var menu = jsthis.patcher.getnamed("P" + part + "Bank");
 	if (value !== undefined && menu) {
 		menu.message("int", value);   // the stored menu sends it and reports back with "bank"
+	}
+}
+
+// the part buttons in the device's page column (PartSel<n>): parts that are switched off are drawn faint
+var DIMMED = [0.45, 0.45, 0.45, 0.6], NORMAL = [0.1, 0.1, 0.1, 1.0];
+function inUse(part, on) {
+	var top = jsthis.patcher.parentpatcher;
+	var button = top ? top.getnamed("PartSel" + part) : null;
+	if (button) {
+		button.message(["textcolor"].concat(on ? NORMAL : DIMMED));
+		button.message(["bordercolor"].concat(on ? [0.647, 0.647, 0.647, 1.0] : [0.647, 0.647, 0.647, 0.3]));
 	}
 }
 
