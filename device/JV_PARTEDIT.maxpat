@@ -583,7 +583,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 320.0, 740.0, 50.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 146.0, 24.0, 46.0, 18.0 ],
+					"presentation_rect" : [ 98.0, 24.0, 44.0, 18.0 ],
 					"varname" : "ViewVoices",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -676,7 +676,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1200.0, 260.0, 190.0, 24.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 4.0, 70.0, 192.0, 24.0 ],
+					"presentation_rect" : [ 4.0, 70.0, 148.0, 24.0 ],
 					"text" : "",
 					"textcolor" : [ 0.85, 0.85, 0.85, 1.0 ],
 					"fontsize" : 16.0,
@@ -695,7 +695,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 770.0, 740.0, 50.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 12.0, 96.0, 22.0, 64.0 ],
+					"presentation_rect" : [ 160.0, 20.0, 30.0, 140.0 ],
 					"varname" : "ViewLevel",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -728,7 +728,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 920.0, 740.0, 50.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 60.0, 100.0, 41.0, 48.0 ],
+					"presentation_rect" : [ 20.0, 100.0, 41.0, 48.0 ],
 					"varname" : "ViewPan",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{

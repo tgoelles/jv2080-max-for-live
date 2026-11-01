@@ -204,7 +204,7 @@ hidden("On", "on", [8.0, 24.0, 34.0, 18.0], 2, "live.text",
 hidden("Channel", "ch", [48.0, 24.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "MIDI channel"},
        parameter_mmin=1.0, parameter_mmax=16.0, parameter_unitstyle=9, parameter_units="ch %d")
-hidden("Voices", "voices", [146.0, 24.0, 46.0, 18.0], 1, "live.numbox",
+hidden("Voices", "voices", [98.0, 24.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 1,
         "hint": "Voice reserve: voices kept free for this part (all parts together at most 64)"},
        parameter_mmin=0.0, parameter_mmax=64.0, parameter_unitstyle=9, parameter_units="%d vc")
@@ -215,12 +215,12 @@ hidden("Patch", "patch", [98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "Patch number (1-128; expansion boards up to 255)"},
        parameter_mmin=1.0, parameter_mmax=255.0, parameter_unitstyle=0)
 add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 260.0, 190.0, 24.0],
-     "presentation": 1, "presentation_rect": [4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
+     "presentation": 1, "presentation_rect": [4.0, 70.0, 148.0, 24.0], "text": "", "textcolor": LIGHT,
      "fontsize": 16.0, "textjustification": 0, "varname": "ViewName"}, ui=True)
-hidden("Level", "level", [12.0, 96.0, 22.0, 64.0], 1, "live.slider",
+hidden("Level", "level", [160.0, 20.0, 30.0, 140.0], 1, "live.slider",   # full height, on the right
        {"modulationcolor": ORANGE, "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE, "hint": "Part level"},
        parameter_mmin=0.0, parameter_mmax=127.0, parameter_unitstyle=0)
-hidden("Pan", "pan", [60.0, 100.0, 41.0, 48.0], 1, "live.dial",
+hidden("Pan", "pan", [20.0, 100.0, 41.0, 48.0], 1, "live.dial",
        {"activedialcolor": ORANGE, "activefgdialcolor": MID, "activeneedlecolor": MID, "textcolor": GREY, "tricolor": MID,
         "hint": "Part pan"},
        parameter_mmin=-64.0, parameter_mmax=63.0, parameter_unitstyle=0)
