@@ -165,7 +165,8 @@
 
 					}
 ,
-					"id" : "obj-8"
+					"id" : "obj-8",
+					"annotation" : "Controller 1 Peak&Hold. HOLD: a pedal freezes the controller's current value. PEAK: it keeps the highest value. (JV-2080 manual p.74, 106)"
 				}
 
 			}
@@ -226,7 +227,8 @@
 
 					}
 ,
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"annotation" : "Source of this patch controller: the MIDI message (foot, aftertouch, breath, system controllers ...) it reacts to. (JV-2080 manual p.74, 106)"
 				}
 
 			}
@@ -272,7 +274,8 @@
 
 					}
 ,
-					"id" : "obj-13"
+					"id" : "obj-13",
+					"annotation" : "Controller 2 Peak&Hold. HOLD: a pedal freezes the controller's current value. PEAK: it keeps the highest value. (JV-2080 manual p.74, 106)"
 				}
 
 			}
@@ -333,7 +336,8 @@
 
 					}
 ,
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"annotation" : "Source of this patch controller: the MIDI message (foot, aftertouch, breath, system controllers ...) it reacts to. (JV-2080 manual p.74, 106)"
 				}
 
 			}
@@ -379,7 +383,8 @@
 
 					}
 ,
-					"id" : "obj-18"
+					"id" : "obj-18",
+					"annotation" : "Controller 3 Peak&Hold. HOLD: a pedal freezes the controller's current value. PEAK: it keeps the highest value. (JV-2080 manual p.74, 106)"
 				}
 
 			}
@@ -455,7 +460,8 @@
 
 					}
 ,
-					"id" : "obj-22"
+					"id" : "obj-22",
+					"annotation" : "EFX control 1 source: the MIDI controller (modulation, breath, foot, aftertouch, system controllers ...) that moves the EFX's controllable (#) parameter. (JV-2080 manual p.104)"
 				}
 
 			}
@@ -518,7 +524,8 @@
 
 					}
 ,
-					"id" : "obj-25"
+					"id" : "obj-25",
+					"annotation" : "EFX control 1 depth: how far and in which direction (+/-) the source moves the parameter. (JV-2080 manual p.104)"
 				}
 
 			}
@@ -591,7 +598,8 @@
 
 					}
 ,
-					"id" : "obj-29"
+					"id" : "obj-29",
+					"annotation" : "EFX control 2 source: the MIDI controller (modulation, breath, foot, aftertouch, system controllers ...) that moves the EFX's controllable (#) parameter. (JV-2080 manual p.104)"
 				}
 
 			}
@@ -654,7 +662,8 @@
 
 					}
 ,
-					"id" : "obj-32"
+					"id" : "obj-32",
+					"annotation" : "EFX control 2 depth: how far and in which direction (+/-) the source moves the parameter. (JV-2080 manual p.104)"
 				}
 
 			}
@@ -727,7 +736,8 @@
 
 					}
 ,
-					"id" : "obj-36"
+					"id" : "obj-36",
+					"annotation" : "EFX control Peak&Hold. HOLD: a pedal freezes the EFX control's current value. PEAK: it keeps the highest value. (JV-2080 manual p.106)"
 				}
 
 			}

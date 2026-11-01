@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 from maxjson import load, dump
+from infoview import annotate
 
 GREY = [0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0]
 DIM = [0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0]
@@ -234,6 +235,7 @@ pat["boxes"] = front + boxes   # controls first: drawn on top of the panels
 pat["lines"] = lines
 pat["parameters"] = dict(params, parameterbanks={})
 pat["rect"] = [100.0, 100.0, 1400.0, 1100.0]
+annotate(pat, "JV_PARTEDIT")   # Live's Info View texts
 dump(d, DST)
 if CHECK:
     if DST.read_bytes() != REAL.read_bytes():

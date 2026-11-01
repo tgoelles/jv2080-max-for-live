@@ -208,7 +208,8 @@
 
 					}
 ,
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"annotation" : "Controller 1, destination 1: the tone parameter that controller 1 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -256,7 +257,8 @@
 
 					}
 ,
-					"id" : "obj-13"
+					"id" : "obj-13",
+					"annotation" : "Controller 1, depth 1: how far and in which direction (+/-) controller 1 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -314,7 +316,8 @@
 
 					}
 ,
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"annotation" : "Controller 1, destination 2: the tone parameter that controller 1 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -362,7 +365,8 @@
 
 					}
 ,
-					"id" : "obj-18"
+					"id" : "obj-18",
+					"annotation" : "Controller 1, depth 2: how far and in which direction (+/-) controller 1 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -420,7 +424,8 @@
 
 					}
 ,
-					"id" : "obj-21"
+					"id" : "obj-21",
+					"annotation" : "Controller 1, destination 3: the tone parameter that controller 1 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -468,7 +473,8 @@
 
 					}
 ,
-					"id" : "obj-23"
+					"id" : "obj-23",
+					"annotation" : "Controller 1, depth 3: how far and in which direction (+/-) controller 1 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -526,7 +532,8 @@
 
 					}
 ,
-					"id" : "obj-26"
+					"id" : "obj-26",
+					"annotation" : "Controller 1, destination 4: the tone parameter that controller 1 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -574,7 +581,8 @@
 
 					}
 ,
-					"id" : "obj-28"
+					"id" : "obj-28",
+					"annotation" : "Controller 1, depth 4: how far and in which direction (+/-) controller 1 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -647,7 +655,8 @@
 
 					}
 ,
-					"id" : "obj-32"
+					"id" : "obj-32",
+					"annotation" : "Controller 2, destination 1: the tone parameter that controller 2 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -695,7 +704,8 @@
 
 					}
 ,
-					"id" : "obj-34"
+					"id" : "obj-34",
+					"annotation" : "Controller 2, depth 1: how far and in which direction (+/-) controller 2 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -753,7 +763,8 @@
 
 					}
 ,
-					"id" : "obj-37"
+					"id" : "obj-37",
+					"annotation" : "Controller 2, destination 2: the tone parameter that controller 2 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -801,7 +812,8 @@
 
 					}
 ,
-					"id" : "obj-39"
+					"id" : "obj-39",
+					"annotation" : "Controller 2, depth 2: how far and in which direction (+/-) controller 2 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -859,7 +871,8 @@
 
 					}
 ,
-					"id" : "obj-42"
+					"id" : "obj-42",
+					"annotation" : "Controller 2, destination 3: the tone parameter that controller 2 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -907,7 +920,8 @@
 
 					}
 ,
-					"id" : "obj-44"
+					"id" : "obj-44",
+					"annotation" : "Controller 2, depth 3: how far and in which direction (+/-) controller 2 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -965,7 +979,8 @@
 
 					}
 ,
-					"id" : "obj-47"
+					"id" : "obj-47",
+					"annotation" : "Controller 2, destination 4: the tone parameter that controller 2 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1013,7 +1028,8 @@
 
 					}
 ,
-					"id" : "obj-49"
+					"id" : "obj-49",
+					"annotation" : "Controller 2, depth 4: how far and in which direction (+/-) controller 2 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1086,7 +1102,8 @@
 
 					}
 ,
-					"id" : "obj-53"
+					"id" : "obj-53",
+					"annotation" : "Controller 3, destination 1: the tone parameter that controller 3 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1134,7 +1151,8 @@
 
 					}
 ,
-					"id" : "obj-55"
+					"id" : "obj-55",
+					"annotation" : "Controller 3, depth 1: how far and in which direction (+/-) controller 3 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1192,7 +1210,8 @@
 
 					}
 ,
-					"id" : "obj-58"
+					"id" : "obj-58",
+					"annotation" : "Controller 3, destination 2: the tone parameter that controller 3 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1240,7 +1259,8 @@
 
 					}
 ,
-					"id" : "obj-60"
+					"id" : "obj-60",
+					"annotation" : "Controller 3, depth 2: how far and in which direction (+/-) controller 3 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1298,7 +1318,8 @@
 
 					}
 ,
-					"id" : "obj-63"
+					"id" : "obj-63",
+					"annotation" : "Controller 3, destination 3: the tone parameter that controller 3 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1346,7 +1367,8 @@
 
 					}
 ,
-					"id" : "obj-65"
+					"id" : "obj-65",
+					"annotation" : "Controller 3, depth 3: how far and in which direction (+/-) controller 3 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1404,7 +1426,8 @@
 
 					}
 ,
-					"id" : "obj-68"
+					"id" : "obj-68",
+					"annotation" : "Controller 3, destination 4: the tone parameter that controller 3 moves (pitch, cutoff, resonance, level, pan, mix, chorus or reverb send, LFO depths or rates). Controller 1 is the modulation wheel; the sources of controllers 2 and 3 are set on the right. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1452,7 +1475,8 @@
 
 					}
 ,
-					"id" : "obj-70"
+					"id" : "obj-70",
+					"annotation" : "Controller 3, depth 4: how far and in which direction (+/-) controller 3 moves that destination. (JV-2080 manual p.88, 106)"
 				}
 
 			}
@@ -1573,7 +1597,8 @@
 
 					}
 ,
-					"id" : "obj-77"
+					"id" : "obj-77",
+					"annotation" : "Whether the tone reacts to volume messages (CC 7). (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1634,7 +1659,8 @@
 
 					}
 ,
-					"id" : "obj-80"
+					"id" : "obj-80",
+					"annotation" : "Whether the tone reacts to hold-1, the sustain pedal (CC 64). (JV-2080 manual p.89)"
 				}
 
 			}
@@ -1695,7 +1721,8 @@
 
 					}
 ,
-					"id" : "obj-83"
+					"id" : "obj-83",
+					"annotation" : "Whether the tone reacts to pitch bend. (JV-2080 manual p.89)"
 				}
 
 			}
@@ -1756,7 +1783,8 @@
 
 					}
 ,
-					"id" : "obj-86"
+					"id" : "obj-86",
+					"annotation" : "Redamper: sustain pressed after the key is released still catches the decaying note, like a piano. Needs hold-1 on. (JV-2080 manual p.89)"
 				}
 
 			}
@@ -1817,7 +1845,8 @@
 
 					}
 ,
-					"id" : "obj-89"
+					"id" : "obj-89",
+					"annotation" : "How the tone reacts to pan (CC 10). OFF: not at all. CONTINUOUS: sounding notes move too. KEY-ON: only notes played afterwards. (JV-2080 manual p.88-89)"
 				}
 
 			}

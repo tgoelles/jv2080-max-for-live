@@ -308,7 +308,8 @@
 					}
 ,
 					"varname" : "LFO1Wave",
-					"id" : "obj-6"
+					"id" : "obj-6",
+					"annotation" : "LFO 1 waveform: TRI, SIN, SAW, SQR, TRP (trapezoid), S&H (sample and hold), RND (random), CHS (chaos). (JV-2080 manual p.86)"
 				}
 
 			}
@@ -369,7 +370,8 @@
 					}
 ,
 					"varname" : "LFO1Sync",
-					"id" : "obj-9"
+					"id" : "obj-9",
+					"annotation" : "LFO 1 external sync: OFF, or CLK to follow the clock (patch / system tempo or MIDI clock). (JV-2080 manual p.87)"
 				}
 
 			}
@@ -420,7 +422,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO1Rate",
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"annotation" : "LFO 1 speed. With sync on (CLK) it's a note length of the tempo. Ignored by CHS. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -471,7 +474,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO1Delay",
-					"id" : "obj-13"
+					"id" : "obj-13",
+					"annotation" : "LFO 1 delay: in the ON fade modes, the time from key down until the LFO starts; in the OFF modes, from key up. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -522,7 +526,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO1FadeTime",
-					"id" : "obj-15"
+					"id" : "obj-15",
+					"annotation" : "LFO 1 fade time: how long it takes to reach full depth (or to die away) after the delay. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -583,7 +588,8 @@
 					}
 ,
 					"varname" : "LFO1FadeMode",
-					"id" : "obj-18"
+					"id" : "obj-18",
+					"annotation" : "LFO 1 fade mode. ON-IN: fades in after key down. ON-OUT: starts at once and fades out. OFF-IN: fades in after key up. OFF-OUT: runs until after key up, then fades out. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -644,7 +650,8 @@
 					}
 ,
 					"varname" : "LFO1Offset",
-					"id" : "obj-21"
+					"id" : "obj-21",
+					"annotation" : "LFO 1 offset: shifts the waveform up or down, so it modulates mainly in one direction. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -705,7 +712,8 @@
 					}
 ,
 					"varname" : "LFO1KeyTrigger",
-					"id" : "obj-24"
+					"id" : "obj-24",
+					"annotation" : "LFO 1 key sync: restart the LFO cycle with every key press. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -781,7 +789,8 @@
 					}
 ,
 					"varname" : "LFO2Wave",
-					"id" : "obj-28"
+					"id" : "obj-28",
+					"annotation" : "LFO 2 waveform: TRI, SIN, SAW, SQR, TRP (trapezoid), S&H (sample and hold), RND (random), CHS (chaos). (JV-2080 manual p.86)"
 				}
 
 			}
@@ -842,7 +851,8 @@
 					}
 ,
 					"varname" : "LFO2Sync",
-					"id" : "obj-31"
+					"id" : "obj-31",
+					"annotation" : "LFO 2 external sync: OFF, or CLK to follow the clock (patch / system tempo or MIDI clock). (JV-2080 manual p.87)"
 				}
 
 			}
@@ -893,7 +903,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO2Rate",
-					"id" : "obj-33"
+					"id" : "obj-33",
+					"annotation" : "LFO 2 speed. With sync on (CLK) it's a note length of the tempo. Ignored by CHS. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -944,7 +955,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO2Delay",
-					"id" : "obj-35"
+					"id" : "obj-35",
+					"annotation" : "LFO 2 delay: in the ON fade modes, the time from key down until the LFO starts; in the OFF modes, from key up. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -995,7 +1007,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "LFO2FadeTime",
-					"id" : "obj-37"
+					"id" : "obj-37",
+					"annotation" : "LFO 2 fade time: how long it takes to reach full depth (or to die away) after the delay. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -1056,7 +1069,8 @@
 					}
 ,
 					"varname" : "LFO2FadeMode",
-					"id" : "obj-40"
+					"id" : "obj-40",
+					"annotation" : "LFO 2 fade mode. ON-IN: fades in after key down. ON-OUT: starts at once and fades out. OFF-IN: fades in after key up. OFF-OUT: runs until after key up, then fades out. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -1117,7 +1131,8 @@
 					}
 ,
 					"varname" : "LFO2Offset",
-					"id" : "obj-43"
+					"id" : "obj-43",
+					"annotation" : "LFO 2 offset: shifts the waveform up or down, so it modulates mainly in one direction. (JV-2080 manual p.87)"
 				}
 
 			}
@@ -1178,7 +1193,8 @@
 					}
 ,
 					"varname" : "LFO2KeyTrigger",
-					"id" : "obj-46"
+					"id" : "obj-46",
+					"annotation" : "LFO 2 key sync: restart the LFO cycle with every key press. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -1313,7 +1329,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "PitchLFO1Depth",
-					"id" : "obj-53"
+					"id" : "obj-53",
+					"annotation" : "How much LFO 1 moves the pitch (vibrato). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1376,7 +1393,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "FilterLFO1Depth",
-					"id" : "obj-56"
+					"id" : "obj-56",
+					"annotation" : "How much LFO 1 moves the cutoff (wah). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1439,7 +1457,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "AmpLFO1Depth",
-					"id" : "obj-59"
+					"id" : "obj-59",
+					"annotation" : "How much LFO 1 moves the volume (tremolo). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1502,7 +1521,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "PanLFO1Depth",
-					"id" : "obj-62"
+					"id" : "obj-62",
+					"annotation" : "How much LFO 1 moves the pan (auto pan). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1580,7 +1600,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "PitchLFO2Depth",
-					"id" : "obj-66"
+					"id" : "obj-66",
+					"annotation" : "How much LFO 2 moves the pitch (vibrato). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1643,7 +1664,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "FilterLFO2Depth",
-					"id" : "obj-69"
+					"id" : "obj-69",
+					"annotation" : "How much LFO 2 moves the cutoff (wah). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1706,7 +1728,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "AmpLFO2Depth",
-					"id" : "obj-72"
+					"id" : "obj-72",
+					"annotation" : "How much LFO 2 moves the volume (tremolo). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}
@@ -1769,7 +1792,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "PanLFO2Depth",
-					"id" : "obj-75"
+					"id" : "obj-75",
+					"annotation" : "How much LFO 2 moves the pan (auto pan). Negative inverts it. (JV-2080 manual p.88)"
 				}
 
 			}

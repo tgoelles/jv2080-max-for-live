@@ -179,7 +179,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[18]"
+					"varname" : "live.numbox[18]",
+					"annotation" : "Alternate pan: notes alternate between left and right; L or R sets the side and width. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -210,7 +211,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[8]"
+					"varname" : "live.numbox[8]",
+					"annotation" : "Random pan: each note gets a random position. 0 = none. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -257,7 +259,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[3]"
+					"varname" : "live.numbox[3]",
+					"annotation" : "Pan keyfollow: positive moves notes above C4 to the right, negative to the left. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -291,7 +294,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
-					"varname" : "live.dial[1]"
+					"varname" : "live.dial[1]",
+					"annotation" : "The tone's pan, L64 ... 63R. Added to the patch pan. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -385,7 +389,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[17]"
+					"varname" : "live.numbox[17]",
+					"annotation" : "Velocity curve (1-7) for the volume: how playing strength maps to loudness. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -482,7 +487,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[15]"
+					"varname" : "live.numbox[15]",
+					"annotation" : "Bias amount: how strongly the level changes away from the bias point. Negative inverts it. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -511,7 +517,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[14]"
+					"varname" : "live.numbox[14]",
+					"annotation" : "Bias point: the key where the level change starts. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -540,7 +547,8 @@
 
 					}
 ,
-					"varname" : "live.menu"
+					"varname" : "live.menu",
+					"annotation" : "Bias: where the level changes with key position. LOWER: below the bias point. UPPER: above it. LOWER&UPPER: both sides. ALL: across the keyboard, centred on the point. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -597,7 +605,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
-					"varname" : "live.dial"
+					"varname" : "live.dial",
+					"annotation" : "The tone's volume, to balance the tones. The patch level scales all of them. (JV-2080 manual p.85)"
 				}
 
 			}
@@ -628,7 +637,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[2]"
+					"varname" : "live.numbox[2]",
+					"annotation" : "Amp envelope level 3, relative to the tone's level. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -659,7 +669,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[1]"
+					"varname" : "live.numbox[1]",
+					"annotation" : "Amp envelope level 2, relative to the tone's level. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -690,7 +701,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[9]"
+					"varname" : "live.numbox[9]",
+					"annotation" : "Velocity and Time 1 of the amp envelope: positive makes the attack faster for hard notes, negative slower. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -761,7 +773,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[11]"
+					"varname" : "live.numbox[11]",
+					"annotation" : "Time keyfollow of the amp envelope: positive makes times 2-4 shorter above C4 and longer below. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -792,7 +805,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[10]"
+					"varname" : "live.numbox[10]",
+					"annotation" : "Note-off velocity and Time 4 of the amp envelope: positive makes the release faster for quickly released keys. Needs a keyboard that sends note-off velocity. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -855,7 +869,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[7]"
+					"varname" : "live.numbox[7]",
+					"annotation" : "How much velocity changes the tone's volume. Negative: harder is softer. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -902,7 +917,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox"
+					"varname" : "live.numbox",
+					"annotation" : "Amp envelope level 1, relative to the tone's level. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -935,7 +951,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[3]"
+					"varname" : "live.slider[3]",
+					"annotation" : "Amp envelope time 4: how long it takes to reach level 4 (time 4: after key up). (JV-2080 manual p.86)"
 				}
 
 			}
@@ -968,7 +985,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[2]"
+					"varname" : "live.slider[2]",
+					"annotation" : "Amp envelope time 3: how long it takes to reach level 3. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -1001,7 +1019,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[1]"
+					"varname" : "live.slider[1]",
+					"annotation" : "Amp envelope time 2: how long it takes to reach level 2. (JV-2080 manual p.86)"
 				}
 
 			}
@@ -1034,7 +1053,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider"
+					"varname" : "live.slider",
+					"annotation" : "Amp envelope time 1: how long it takes to reach level 1. (JV-2080 manual p.86)"
 				}
 
 			}

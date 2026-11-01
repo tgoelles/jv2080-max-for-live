@@ -79,7 +79,8 @@
 						}
 
 					}
-
+,
+					"annotation" : "The wave group: the internal waves (INT-A, INT-B) or an expansion board set up on the Setup page. (JV-2080 manual p.79)"
 				}
 
 			}
@@ -196,7 +197,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[5]"
+					"varname" : "live.numbox[5]",
+					"annotation" : "Tone delay time: from key down (key up in the KEY-OFF modes) until the tone sounds. No delay: mode NORMAL, time 0. With CLOCK-SYNC it's a note length. (JV-2080 manual p.81-82)"
 				}
 
 			}
@@ -224,7 +226,8 @@
 
 					}
 ,
-					"varname" : "live.menu[1]"
+					"varname" : "live.menu[1]",
+					"annotation" : "Tone delay mode. NORMAL: the tone starts after the delay time. HOLD: only if the key is still held. KEY-OFF-N / KEY-OFF-D: the tone sounds when the key is released. PLAYMATE: the delay follows the time between your notes. CLOCK-SYNC / TEMPO-SYNC: the delay follows the clock. (JV-2080 manual p.80-81)"
 				}
 
 			}
@@ -319,7 +322,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[4]"
+					"varname" : "live.numbox[4]",
+					"annotation" : "FXM depth: how strong the frequency modulation is. (JV-2080 manual p.80)"
 				}
 
 			}
@@ -351,7 +355,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[3]"
+					"varname" : "live.numbox[3]",
+					"annotation" : "FXM colour: higher values sound rougher, lower values more metallic. (JV-2080 manual p.80)"
 				}
 
 			}
@@ -415,7 +420,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
-					"varname" : "live.dial[1]"
+					"varname" : "live.dial[1]",
+					"annotation" : "Gain of the waveform in 6 dB steps (+6 dB doubles it). More gain drives the booster harder. (JV-2080 manual p.80)"
 				}
 
 			}
@@ -477,7 +483,8 @@
 
 					}
 ,
-					"varname" : "live.toggle"
+					"varname" : "live.toggle",
+					"annotation" : "FXM (frequency cross modulation) on or off: modulates the wave's frequency for complex, rich overtones. (JV-2080 manual p.80)"
 				}
 
 			}
@@ -741,7 +748,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
-					"varname" : "live.dial"
+					"varname" : "live.dial",
+					"annotation" : "The PCM waveform the tone is built on. (JV-2080 manual p.80)"
 				}
 
 			}

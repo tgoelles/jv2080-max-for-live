@@ -184,7 +184,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "PatchLevel",
-					"id" : "obj-8"
+					"id" : "obj-8",
+					"annotation" : "Volume of the whole patch; the tone levels are scaled by it. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -247,7 +248,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "PatchPan",
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"annotation" : "Pan of the whole patch, L64 ... 63R; the tones' pan is added to it. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -322,7 +324,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "OctaveShift",
-					"id" : "obj-15"
+					"id" : "obj-15",
+					"annotation" : "Shifts the patch up or down by octaves (+/-3). (JV-2080 manual p.72)"
 				}
 
 			}
@@ -397,7 +400,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "BendUp",
-					"id" : "obj-19"
+					"id" : "obj-19",
+					"annotation" : "Pitch bend range up, in semitones. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -460,7 +464,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "BendDown",
-					"id" : "obj-22"
+					"id" : "obj-22",
+					"annotation" : "Pitch bend range down, in semitones. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -523,7 +528,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "AnalogFeel",
-					"id" : "obj-25"
+					"id" : "obj-25",
+					"annotation" : "Analog feel: adds slow, irregular (1/f) modulation, like an analog synth's drift. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -584,7 +590,8 @@
 					}
 ,
 					"varname" : "StretchTune",
-					"id" : "obj-28"
+					"id" : "obj-28",
+					"annotation" : "Stretch tuning, like an acoustic piano: lows a little lower, highs a little higher. OFF = equal temperament, 3 = most. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -645,7 +652,8 @@
 					}
 ,
 					"varname" : "KeyAssign",
-					"id" : "obj-31"
+					"id" : "obj-31",
+					"annotation" : "POLY plays chords; SOLO only the last note (for monophonic instruments). (JV-2080 manual p.73)"
 				}
 
 			}
@@ -706,7 +714,8 @@
 					}
 ,
 					"varname" : "SoloLegato",
-					"id" : "obj-34"
+					"id" : "obj-34",
+					"annotation" : "Solo legato: in SOLO, a key played while another is held only changes the pitch, without a new attack (hammer-on). (JV-2080 manual p.73)"
 				}
 
 			}
@@ -767,7 +776,8 @@
 					}
 ,
 					"varname" : "VoicePriority",
-					"id" : "obj-37"
+					"id" : "obj-37",
+					"annotation" : "When polyphony runs out: LAST keeps the newest notes, LOUDEST the loudest. (JV-2080 manual p.73)"
 				}
 
 			}
@@ -830,7 +840,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "PatchTempo",
-					"id" : "obj-40"
+					"id" : "obj-40",
+					"annotation" : "Patch tempo, for synced LFOs, EFX and tone delay when the clock source is PATCH. (JV-2080 manual p.73)"
 				}
 
 			}
@@ -891,7 +902,8 @@
 					}
 ,
 					"varname" : "ClockSource",
-					"id" : "obj-43"
+					"id" : "obj-43",
+					"annotation" : "Clock for synced LFOs, EFX and tone delay. PATCH: the patch tempo. SYSTEM: the system tempo or MIDI clock. (JV-2080 manual p.73)"
 				}
 
 			}
@@ -952,7 +964,8 @@
 					}
 ,
 					"varname" : "PatchCategory",
-					"id" : "obj-46"
+					"id" : "obj-46",
+					"annotation" : "Patch category, used by the JV's patch search. (JV-2080 manual p.72)"
 				}
 
 			}
@@ -1013,7 +1026,8 @@
 					}
 ,
 					"varname" : "PortaSwitch",
-					"id" : "obj-49"
+					"id" : "obj-49",
+					"annotation" : "Portamento on or off: glide from one note's pitch to the next. (JV-2080 manual p.73)"
 				}
 
 			}
@@ -1076,7 +1090,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "PortaTime",
-					"id" : "obj-52"
+					"id" : "obj-52",
+					"annotation" : "Portamento time: how long the glide takes. (JV-2080 manual p.74)"
 				}
 
 			}
@@ -1137,7 +1152,8 @@
 					}
 ,
 					"varname" : "PortaMode",
-					"id" : "obj-55"
+					"id" : "obj-55",
+					"annotation" : "Portamento mode. NORMAL: always. LEGATO: only when you play legato. (JV-2080 manual p.74)"
 				}
 
 			}
@@ -1198,7 +1214,8 @@
 					}
 ,
 					"varname" : "PortaType",
-					"id" : "obj-58"
+					"id" : "obj-58",
+					"annotation" : "Portamento type. RATE: the time depends on the interval. TIME: always the same time. (JV-2080 manual p.74)"
 				}
 
 			}
@@ -1259,7 +1276,8 @@
 					}
 ,
 					"varname" : "PortaStart",
-					"id" : "obj-61"
+					"id" : "obj-61",
+					"annotation" : "Portamento start. PITCH: a new glide starts where the current one is. NOTE: from the note being played. (JV-2080 manual p.74)"
 				}
 
 			}
@@ -1338,7 +1356,8 @@
 					}
 ,
 					"varname" : "Structure12",
-					"id" : "obj-65"
+					"id" : "obj-65",
+					"annotation" : "How tones 1 and 2 are combined: Type 1 independent, others chain the filters, add the booster (distortion) or the ring modulator. (JV-2080 manual p.74-75)"
 				}
 
 			}
@@ -1399,7 +1418,8 @@
 					}
 ,
 					"varname" : "Booster12",
-					"id" : "obj-68"
+					"id" : "obj-68",
+					"annotation" : "Booster gain (structure types 3 and 4): distortion of the combined tones. (JV-2080 manual p.75)"
 				}
 
 			}
@@ -1491,7 +1511,8 @@
 					}
 ,
 					"varname" : "Structure34",
-					"id" : "obj-73"
+					"id" : "obj-73",
+					"annotation" : "How tones 3 and 4 are combined: Type 1 independent, others chain the filters, add the booster (distortion) or the ring modulator. (JV-2080 manual p.74-75)"
 				}
 
 			}
@@ -1552,7 +1573,8 @@
 					}
 ,
 					"varname" : "Booster34",
-					"id" : "obj-76"
+					"id" : "obj-76",
+					"annotation" : "Booster gain (structure types 3 and 4): distortion of the combined tones. (JV-2080 manual p.75)"
 				}
 
 			}
@@ -1756,7 +1778,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1KeyLo",
-					"id" : "obj-88"
+					"id" : "obj-88",
+					"annotation" : "Lowest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -1815,7 +1838,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1KeyHi",
-					"id" : "obj-91"
+					"id" : "obj-91",
+					"annotation" : "Highest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -1875,7 +1899,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1VelLo",
-					"id" : "obj-94"
+					"id" : "obj-94",
+					"annotation" : "Lowest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -1935,7 +1960,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1VelHi",
-					"id" : "obj-97"
+					"id" : "obj-97",
+					"annotation" : "Highest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -1995,7 +2021,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1VelFade",
-					"id" : "obj-100"
+					"id" : "obj-100",
+					"annotation" : "Velocity cross fade: how gradually the tone fades out beyond its velocity range. 0 = cut off. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2069,7 +2096,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2KeyLo",
-					"id" : "obj-104"
+					"id" : "obj-104",
+					"annotation" : "Lowest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2128,7 +2156,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2KeyHi",
-					"id" : "obj-107"
+					"id" : "obj-107",
+					"annotation" : "Highest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2188,7 +2217,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2VelLo",
-					"id" : "obj-110"
+					"id" : "obj-110",
+					"annotation" : "Lowest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2248,7 +2278,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2VelHi",
-					"id" : "obj-113"
+					"id" : "obj-113",
+					"annotation" : "Highest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2308,7 +2339,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2VelFade",
-					"id" : "obj-116"
+					"id" : "obj-116",
+					"annotation" : "Velocity cross fade: how gradually the tone fades out beyond its velocity range. 0 = cut off. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2382,7 +2414,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3KeyLo",
-					"id" : "obj-120"
+					"id" : "obj-120",
+					"annotation" : "Lowest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2441,7 +2474,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3KeyHi",
-					"id" : "obj-123"
+					"id" : "obj-123",
+					"annotation" : "Highest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2501,7 +2535,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3VelLo",
-					"id" : "obj-126"
+					"id" : "obj-126",
+					"annotation" : "Lowest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2561,7 +2596,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3VelHi",
-					"id" : "obj-129"
+					"id" : "obj-129",
+					"annotation" : "Highest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2621,7 +2657,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3VelFade",
-					"id" : "obj-132"
+					"id" : "obj-132",
+					"annotation" : "Velocity cross fade: how gradually the tone fades out beyond its velocity range. 0 = cut off. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2695,7 +2732,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4KeyLo",
-					"id" : "obj-136"
+					"id" : "obj-136",
+					"annotation" : "Lowest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2754,7 +2792,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4KeyHi",
-					"id" : "obj-139"
+					"id" : "obj-139",
+					"annotation" : "Highest key that plays the tone (C-1 ... G9), for splits and layers. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2814,7 +2853,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4VelLo",
-					"id" : "obj-142"
+					"id" : "obj-142",
+					"annotation" : "Lowest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2874,7 +2914,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4VelHi",
-					"id" : "obj-145"
+					"id" : "obj-145",
+					"annotation" : "Highest velocity that plays the tone. Only used when velocity ranges are switched on. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -2934,7 +2975,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4VelFade",
-					"id" : "obj-148"
+					"id" : "obj-148",
+					"annotation" : "Velocity cross fade: how gradually the tone fades out beyond its velocity range. 0 = cut off. (JV-2080 manual p.76)"
 				}
 
 			}
@@ -3007,7 +3049,8 @@
 					}
 ,
 					"varname" : "VelRangeSwitch",
-					"id" : "obj-152"
+					"id" : "obj-152",
+					"annotation" : "Whether the tones' velocity ranges are used. (JV-2080 manual p.76)"
 				}
 
 			}

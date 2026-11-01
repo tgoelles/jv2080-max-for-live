@@ -401,7 +401,8 @@
 					}
 ,
 					"varname" : "T1Out",
-					"id" : "obj-10"
+					"id" : "obj-10",
+					"annotation" : "Where the tone goes: MIX (MIX outputs), EFX (through the EFX), DIR1 / DIR2 (DIRECT outputs, no chorus or reverb). (JV-2080 manual p.26)"
 				}
 
 			}
@@ -461,7 +462,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1MixSend",
-					"id" : "obj-13"
+					"id" : "obj-13",
+					"annotation" : "Level to the MIX outputs, or into the EFX when the output is EFX. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -521,7 +523,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1ChoSend",
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"annotation" : "How much of the tone goes to the chorus. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -581,7 +584,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T1RevSend",
-					"id" : "obj-19"
+					"id" : "obj-19",
+					"annotation" : "How much of the tone goes to the reverb. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -654,7 +658,8 @@
 					}
 ,
 					"varname" : "T2Out",
-					"id" : "obj-23"
+					"id" : "obj-23",
+					"annotation" : "Where the tone goes: MIX (MIX outputs), EFX (through the EFX), DIR1 / DIR2 (DIRECT outputs, no chorus or reverb). (JV-2080 manual p.26)"
 				}
 
 			}
@@ -714,7 +719,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2MixSend",
-					"id" : "obj-26"
+					"id" : "obj-26",
+					"annotation" : "Level to the MIX outputs, or into the EFX when the output is EFX. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -774,7 +780,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2ChoSend",
-					"id" : "obj-29"
+					"id" : "obj-29",
+					"annotation" : "How much of the tone goes to the chorus. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -834,7 +841,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T2RevSend",
-					"id" : "obj-32"
+					"id" : "obj-32",
+					"annotation" : "How much of the tone goes to the reverb. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -907,7 +915,8 @@
 					}
 ,
 					"varname" : "T3Out",
-					"id" : "obj-36"
+					"id" : "obj-36",
+					"annotation" : "Where the tone goes: MIX (MIX outputs), EFX (through the EFX), DIR1 / DIR2 (DIRECT outputs, no chorus or reverb). (JV-2080 manual p.26)"
 				}
 
 			}
@@ -967,7 +976,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3MixSend",
-					"id" : "obj-39"
+					"id" : "obj-39",
+					"annotation" : "Level to the MIX outputs, or into the EFX when the output is EFX. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1027,7 +1037,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3ChoSend",
-					"id" : "obj-42"
+					"id" : "obj-42",
+					"annotation" : "How much of the tone goes to the chorus. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1087,7 +1098,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T3RevSend",
-					"id" : "obj-45"
+					"id" : "obj-45",
+					"annotation" : "How much of the tone goes to the reverb. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1160,7 +1172,8 @@
 					}
 ,
 					"varname" : "T4Out",
-					"id" : "obj-49"
+					"id" : "obj-49",
+					"annotation" : "Where the tone goes: MIX (MIX outputs), EFX (through the EFX), DIR1 / DIR2 (DIRECT outputs, no chorus or reverb). (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1220,7 +1233,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4MixSend",
-					"id" : "obj-52"
+					"id" : "obj-52",
+					"annotation" : "Level to the MIX outputs, or into the EFX when the output is EFX. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1280,7 +1294,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4ChoSend",
-					"id" : "obj-55"
+					"id" : "obj-55",
+					"annotation" : "How much of the tone goes to the chorus. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1340,7 +1355,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "T4RevSend",
-					"id" : "obj-58"
+					"id" : "obj-58",
+					"annotation" : "How much of the tone goes to the reverb. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -1461,7 +1477,8 @@
 					}
 ,
 					"varname" : "EFXType",
-					"id" : "obj-65"
+					"id" : "obj-65",
+					"annotation" : "EFX type: one of 40 effects (EQ, distortion, phaser, delays, rotary, pitch shifter, ...). The 12 dials follow the type. (JV-2080 manual p.33)"
 				}
 
 			}
@@ -1525,7 +1542,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam1",
 					"id" : "obj-68",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 1. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1577,7 +1595,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam2",
 					"id" : "obj-70",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 2. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1629,7 +1648,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam3",
 					"id" : "obj-72",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 3. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1681,7 +1701,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam4",
 					"id" : "obj-74",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 4. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1733,7 +1754,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam5",
 					"id" : "obj-76",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 5. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1785,7 +1807,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam6",
 					"id" : "obj-78",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 6. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1837,7 +1860,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam7",
 					"id" : "obj-80",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 7. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1889,7 +1913,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam8",
 					"id" : "obj-82",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 8. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1941,7 +1966,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam9",
 					"id" : "obj-84",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 9. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -1993,7 +2019,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam10",
 					"id" : "obj-86",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 10. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -2045,7 +2072,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam11",
 					"id" : "obj-88",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 11. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -2097,7 +2125,8 @@
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"varname" : "EFXParam12",
 					"id" : "obj-90",
-					"shownumber" : 0
+					"shownumber" : 0,
+					"annotation" : "EFX parameter 12. What it does depends on the EFX type: see the label above the dial. (JV-2080 manual p.33-53)"
 				}
 
 			}
@@ -2203,7 +2232,8 @@
 					}
 ,
 					"varname" : "EFXOut",
-					"id" : "obj-96"
+					"id" : "obj-96",
+					"annotation" : "Where the EFX goes: the MIX outputs, or DIRECT 1 / 2 (then no chorus or reverb send). (JV-2080 manual p.26)"
 				}
 
 			}
@@ -2263,7 +2293,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "EFXLevel",
-					"id" : "obj-99"
+					"id" : "obj-99",
+					"annotation" : "EFX output level. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -2323,7 +2354,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "EFXChoSend",
-					"id" : "obj-102"
+					"id" : "obj-102",
+					"annotation" : "How much of the EFX goes to the chorus. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -2383,7 +2415,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "EFXRevSend",
-					"id" : "obj-105"
+					"id" : "obj-105",
+					"annotation" : "How much of the EFX goes to the reverb. (JV-2080 manual p.26)"
 				}
 
 			}
@@ -2521,7 +2554,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "ChoLevel",
-					"id" : "obj-113"
+					"id" : "obj-113",
+					"annotation" : "Chorus volume. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2596,7 +2630,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "ChoRate",
-					"id" : "obj-117"
+					"id" : "obj-117",
+					"annotation" : "Chorus modulation speed. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2659,7 +2694,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "ChoDepth",
-					"id" : "obj-120"
+					"id" : "obj-120",
+					"annotation" : "Chorus modulation depth. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2722,7 +2758,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "ChoPreDelay",
-					"id" : "obj-123"
+					"id" : "obj-123",
+					"annotation" : "Chorus pre-delay: the time before the chorus is heard. More sounds spacier. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2785,7 +2822,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "ChoFeedback",
-					"id" : "obj-126"
+					"id" : "obj-126",
+					"annotation" : "Chorus feedback: how much is fed back into the chorus, for a more complex sound. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2846,7 +2884,8 @@
 					}
 ,
 					"varname" : "ChoOut",
-					"id" : "obj-129"
+					"id" : "obj-129",
+					"annotation" : "Chorus output: MIX (MIX outputs), REV (into the reverb) or MIX+REV. (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2919,7 +2958,8 @@
 					}
 ,
 					"varname" : "RevType",
-					"id" : "obj-133"
+					"id" : "obj-133",
+					"annotation" : "Reverb type: ROOM1 / 2, STAGE1 / 2, HALL1 / 2, or DELAY and PAN-DLY (echoes, panned left and right). (JV-2080 manual p.54)"
 				}
 
 			}
@@ -2994,7 +3034,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "RevLevel",
-					"id" : "obj-137"
+					"id" : "obj-137",
+					"annotation" : "Reverb volume. (JV-2080 manual p.54-55)"
 				}
 
 			}
@@ -3069,7 +3110,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "RevTime",
-					"id" : "obj-141"
+					"id" : "obj-141",
+					"annotation" : "Reverb time: how long the reverb lasts (the delay time for DELAY and PAN-DLY). (JV-2080 manual p.55)"
 				}
 
 			}
@@ -3130,7 +3172,8 @@
 					}
 ,
 					"varname" : "RevHFDamp",
-					"id" : "obj-144"
+					"id" : "obj-144",
+					"annotation" : "HF damp: cuts the reverb's highs above this frequency. BYPASS: no damping. (JV-2080 manual p.55)"
 				}
 
 			}
@@ -3193,7 +3236,8 @@
 ,
 					"textjustification" : 0,
 					"varname" : "RevDelayFbk",
-					"id" : "obj-147"
+					"id" : "obj-147",
+					"annotation" : "Delay feedback: how many repeats, for the DELAY and PAN-DLY reverb types. (JV-2080 manual p.55)"
 				}
 
 			}
