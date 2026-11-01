@@ -6,6 +6,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Write to USER** (Library page): stores the JV's current patch (USER 1–128) or performance (USER 1–32) in a USER
+  slot, after a confirmation. The Restore confirmation button is now called **Confirm**. (#39, #10)
 - **Library page** (button **Library** above Setup): back up the JV's whole user memory (patches, performances,
   rhythm sets, system) to a `.syx` file, restore it with confirmation and an automatic backup first, and record a
   bulk dump started on the JV. Files use the JV's own bulk dump format. (#39)
