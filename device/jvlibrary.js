@@ -27,7 +27,8 @@
 // outlet 0: SysEx bytes (RQ1 requests, DT1 for restore) for jv_sysex_queue.js
 // outlet 1: "set <text>" status line
 // outlet 2: "busy 1/0" (Get and Send wait while the library talks to the JV)
-// outlet 3: "confirm 1/0" shows/hides the confirmation buttons; "savedialog <name>" asks for a file name
+// outlet 3: "confirm 1/0" shows/hides the confirmation buttons; "savedialog <name>" asks for a file name;
+//           "slotmax 32/128" limits the Write slot box to the mode's USER slots
 
 autowatch = 1;
 inlets = 1;
@@ -179,6 +180,7 @@ function model(m) {
 
 function devmode(m) {
 	devMode = m ? 1 : 0;
+	outlet(3, "slotmax", devMode ? 32 : 128);   // the slot box: USER 1-32 performances, 1-128 patches
 }
 
 // --- backup

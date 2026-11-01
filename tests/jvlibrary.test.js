@@ -117,6 +117,7 @@ assert.strictEqual(memory[num([0x11, 6, 0x16, 0x80])], 0x52, 'USER:007 tone 4');
 assert.ok(/Wrote the patch to USER 7/.test(status.pop()));
 // Perform mode: the temporary performance (common + 16 parts) to 10 nn; USER 1-32 only
 ctx.devmode(1);
+assert.deepStrictEqual(dialogs.pop(), ['slotmax', 32], 'the slot box: USER 1-32 in Perform mode');
 fill([0x01, 0, 0, 0], 0x44, 0x61);
 fill([0x01, 0, 0x1F, 0], 0x1A, 0x62);
 ctx.writeuser(33);

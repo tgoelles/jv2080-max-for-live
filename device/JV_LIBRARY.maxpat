@@ -44,26 +44,11 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1830.0, 324.0, 236.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 620.0, 24.0, 236.0, 18.0 ],
+					"presentation_rect" : [ 320.0, 24.0, 200.0, 18.0 ],
 					"text" : "Write to USER",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
 					"id" : "obj-42"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1830.0, 340.0, 236.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 620.0, 40.0, 236.0, 18.0 ],
-					"text" : "what the JV plays now, like its WRITE",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-43"
 				}
 
 			}
@@ -77,7 +62,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1830.0, 500.0, 64.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 620.0, 64.0, 64.0, 17.0 ],
+					"presentation_rect" : [ 320.0, 46.0, 64.0, 17.0 ],
 					"textjustification" : 0,
 					"varname" : "WriteSlot",
 					"hint" : "USER slot to write to: 1-128 patches (Patch mode), 1-32 performances (Perform mode)",
@@ -111,7 +96,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1900.0, 500.0, 70.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 690.0, 64.0, 70.0, 17.0 ],
+					"presentation_rect" : [ 390.0, 46.0, 70.0, 17.0 ],
 					"text" : "Write...",
 					"texton" : "Write...",
 					"varname" : "WriteButton",
@@ -239,26 +224,11 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1206.0, 324.0, 300.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 24.0, 300.0, 18.0 ],
+					"presentation_rect" : [ 6.0, 24.0, 200.0, 18.0 ],
 					"text" : "JV user memory",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
 					"id" : "obj-8"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 340.0, 320.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 40.0, 320.0, 18.0 ],
-					"text" : "128 patches, 32 performances, 2 rhythm sets, system",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-9"
 				}
 
 			}
@@ -272,7 +242,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1206.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 6.0, 46.0, 90.0, 17.0 ],
 					"text" : "Backup...",
 					"texton" : "Backup...",
 					"varname" : "BackupButton",
@@ -289,7 +259,8 @@
 
 					}
 ,
-					"id" : "obj-10"
+					"id" : "obj-10",
+					"hint" : "Read the JV's whole user memory (128 patches, 32 performances, 2 rhythm sets, system) into a .syx file, about 1 min"
 				}
 
 			}
@@ -303,7 +274,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1302.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 102.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 102.0, 46.0, 90.0, 17.0 ],
 					"text" : "Restore...",
 					"texton" : "Restore...",
 					"varname" : "RestoreButton",
@@ -320,7 +291,8 @@
 
 					}
 ,
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file"
 				}
 
 			}
@@ -334,7 +306,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1398.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 198.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 198.0, 46.0, 90.0, 17.0 ],
 					"text" : "Record dump",
 					"texton" : "Record dump",
 					"varname" : "RecordButton",
@@ -351,52 +323,8 @@
 
 					}
 ,
-					"id" : "obj-12"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 388.0, 330.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 88.0, 330.0, 18.0 ],
-					"text" : "Backup reads everything into a .syx file (about 1 min).",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-13"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 404.0, 330.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 104.0, 330.0, 18.0 ],
-					"text" : "Restore writes a .syx back; a backup is saved first.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-14"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 420.0, 380.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 120.0, 380.0, 18.0 ],
-					"text" : "Record dump: then start Utility > Data Transfer > Bulk Dump on the JV.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-15"
+					"id" : "obj-12",
+					"hint" : "Record a bulk dump: switch on, start Utility > Data Transfer > Bulk Dump on the JV, switch off and save"
 				}
 
 			}
@@ -410,7 +338,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1600.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 6.0, 90.0, 90.0, 17.0 ],
 					"text" : "Confirm",
 					"texton" : "Confirm",
 					"varname" : "RestoreNow",
@@ -442,7 +370,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1696.0, 500.0, 60.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 496.0, 64.0, 60.0, 17.0 ],
+					"presentation_rect" : [ 102.0, 90.0, 60.0, 17.0 ],
 					"text" : "Cancel",
 					"texton" : "Cancel",
 					"varname" : "CancelButton",
@@ -470,42 +398,12 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1600.0, 386.0, 450.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 86.0, 450.0, 18.0 ],
+					"presentation_rect" : [ 170.0, 89.0, 684.0, 18.0 ],
 					"text" : "",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
 					"varname" : "LibraryStatus",
 					"id" : "obj-18"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1600.0, 416.0, 456.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 116.0, 456.0, 18.0 ],
-					"text" : "Favorites: Get a patch, then Live's Save Preset (title bar). Every patch parameter",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-19"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1600.0, 432.0, 456.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 132.0, 456.0, 18.0 ],
-					"text" : "is saved; tag, search and collect them in Live's browser.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-20"
 				}
 
 			}
@@ -693,10 +591,10 @@
 				"box" : 				{
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "" ],
+					"numoutlets" : 4,
+					"outlettype" : [ "", "", "", "" ],
 					"patching_rect" : [ 20.0, 840.0, 212.0, 22.0 ],
-					"text" : "route confirm savedialog",
+					"text" : "route confirm savedialog slotmax",
 					"id" : "obj-36"
 				}
 
@@ -830,6 +728,18 @@
 					"patching_rect" : [ 520.0, 790.0, 144.0, 22.0 ],
 					"text" : "prepend devmode",
 					"id" : "obj-51"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 300.0, 870.0, 190.0, 22.0 ],
+					"text" : "prepend _parameter_range 1",
+					"id" : "obj-52"
 				}
 
 			}
@@ -1153,6 +1063,20 @@
 				"patchline" : 				{
 					"destination" : [ "obj-4", 0 ],
 					"source" : [ "obj-51", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-52", 0 ],
+					"source" : [ "obj-36", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"source" : [ "obj-52", 0 ]
 				}
 
 			}
