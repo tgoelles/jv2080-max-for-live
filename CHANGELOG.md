@@ -6,6 +6,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Help** button (question mark, below Setup) opens the manual (README) on GitHub. The **Setup page** shows the
+  device's version and author, with **Help and updates...** (the same page; new versions are under Releases).
 - **Write to USER** (Library page): stores the JV's current patch (USER 1–128) or performance (USER 1–32) in a USER
   slot, after a confirmation. The Restore confirmation button is now called **Confirm**. (#39, #10)
 - **Library page** (button **Library** above Setup): back up the JV's whole user memory (patches, performances,
@@ -23,7 +25,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 - **Part page** (Perform mode): the part buttons below the program block (1–16) open a part's settings: output
   (MIX / EFX / DIR1 / DIR2 / PATCH, EFX A/B/C), mix/EFX, chorus and reverb send, coarse and fine tune, and whether it
-  receives program change, volume and hold. The **Part** button switches between it and the Parts page. (#10)
+  receives program change, volume and hold. The **Part** button switches between it and the Parts page. On its left
+  the part's Parts page controls (on/off, channel, voices, bank, patch, name, level, pan) again, bigger. (#10)
 
 - **Keys page** (Perform mode): the 16 parts' key ranges as bars over the keyboard, with draggable ends, and the
   performance's key range switch. **Voice reserve** per part on the Parts page, under the pan knob, kept to 64 in all,

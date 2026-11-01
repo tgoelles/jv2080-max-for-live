@@ -4,10 +4,10 @@ let now = 0, timers = [];
 function Task(fn) { this.schedule = ms => { this.cancel(); this.t = [now + ms, fn]; timers.push(this.t); };
 	this.cancel = () => { timers = timers.filter(x => x !== this.t); }; this.freepeer = () => {}; }
 const run = () => { while (timers.length) { timers.sort((a, b) => a[0] - b[0]); const [t, f] = timers.shift(); now = t; f(); } };
-const sent = {};
+const sent = {}, notes = {};
 let out = [];
 const ctx = { Task, outlet: (n, ...a) => out.push([n, ...a]), setinletassist() {}, setoutletassist() {},
-	patcher: { getnamed: v => ({ message: (sel, x) => { sent[v] = x; ctx.voice(+v.match(/\d+/)[0], x); } }) } };
+	patcher: { getnamed: v => ({ message: (sel, x) => { if (sel === 'annotation') { notes[v] = x; return; } sent[v] = x; ctx.voice(+v.match(/\d+/)[0], x); } }) } };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../device/jvvoices.js'), 'utf8'), ctx);
 const rest = () => out.filter(o => o[0] === 0).pop()[2];
@@ -24,4 +24,8 @@ assert.strictEqual(rest(), 8);
 ctx.voice(12, 20); run();
 assert.deepStrictEqual(sent, { P12Voices: 8 });
 assert.strictEqual(rest(), 0);
+// the rest is in every voice control's Info View text
+assert.ok(/0 not reserved now/.test(notes.P5Voices));
+ctx.voice(1, 0); run();
+assert.ok(/8 not reserved now/.test(notes.P16Voices));
 console.log('jvvoices: all tests passed');

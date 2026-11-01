@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Generate device/JV_PARTEDIT.maxpat: the Part page abstraction (one instance per part: output, sends, tuning, receive switches).
+"""Generate device/JV_PARTEDIT.maxpat: the Part page abstraction (one instance per part: the part's strip controls bigger,
+output, sends, tuning, receive switches).
 
 The page is generated: change this script, not the patch, then run
 
@@ -21,7 +22,13 @@ PANEL = [0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0]
 ORANGE = [1.0, 0.709803921568627, 0.196078431372549, 1.0]
 MID = [0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0]
 JS = {"filename": "jvparam.js", "parameter_enable": 0}
-WIDTH = 520.0
+# left to right: Part (copies of the Parts page strip, jvpartview.js), Level and tuning, Output and sends, Receive
+PART_X, PART_W = 0.0, 160.0
+TUNE_X = PART_X + PART_W + 3.0
+OUT_X = TUNE_X + 223.0
+RX_X = OUT_X + 263.0
+WIDTH = RX_X + 134.0
+LIGHT = [0.85, 0.85, 0.85, 1.0]
 
 # ---------------------------------------------------------------- the abstraction
 DST = ROOT / "device" / "JV_PARTEDIT.maxpat"
@@ -62,9 +69,11 @@ def valueof(long, short, ptype, **kw):
     return {"valueof": v}
 
 
-def comment(text, rect, color=GREY, just=0):
+def comment(text, rect, color=GREY, just=0, var=None):
     add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0 + rect[0], 300.0 + rect[1], 80.0, 18.0],
          "presentation": 1, "presentation_rect": rect, "text": text, "textcolor": color, "textjustification": just}, ui=True)
+    if var:
+        front[-1]["box"]["varname"] = var
 
 
 def panel(x, w):
@@ -128,7 +137,8 @@ def toggle(var, long, short, rect, init):
     return i
 
 
-# output and sends (offsets 0x0A-0x0D, 0x19)
+# output and sends (offsets 0x0A-0x0D, 0x19); laid out from 0, moved to OUT_X below
+mark = (len(front), len(boxes))
 panel(0.0, 260.0)
 comment("Output and sends", [0.0, 0.0, 260.0, 18.0], DIM, 1)
 comment("output", [4.0, 20.0, 50.0, 18.0])
@@ -140,20 +150,85 @@ for k, (var, long, short, off, init) in enumerate([("MixSend", "Mix/EFX Send", "
                                                     ("ReverbSend", "Reverb Send", "reverb", 13, 0)]):
     sender(dial(var, long, short, [12.0 + 82.0 * k, 50.0, 41.0, 48.0], 0, 127, init), off)
 comment("output PATCH: the patch's own routing", [4.0, 140.0, 252.0, 18.0], DIM)
-# tuning (0x08, 0x09)
-panel(263.0, 120.0)
-comment("Tuning", [263.0, 0.0, 120.0, 18.0], DIM, 1)
-sender(dial("CoarseTune", "Coarse Tune", "coarse", [272.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
-sender(dial("FineTune", "Fine Tune", "fine", [328.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
+for b in front[mark[0]:] + boxes[mark[1]:]:
+    if b["box"].get("presentation_rect"):
+        b["box"]["presentation_rect"][0] += OUT_X
+# level and pan (the strip's copies, added below) and tuning (0x08, 0x09)
+panel(TUNE_X, 220.0)
+comment("Level and tuning", [TUNE_X, 0.0, 220.0, 18.0], DIM, 1)
+sender(dial("CoarseTune", "Coarse Tune", "coarse", [TUNE_X + 110.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
+sender(dial("FineTune", "Fine Tune", "fine", [TUNE_X + 164.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
 # receive switches (0x0E-0x10)
-panel(386.0, 134.0)
-comment("Receive", [386.0, 0.0, 134.0, 18.0], DIM, 1)
+panel(RX_X, 134.0)
+comment("Receive", [RX_X, 0.0, 134.0, 18.0], DIM, 1)
 for k, (var, long, short, off) in enumerate([("RxProgram", "Rx Program Change", "rx pgm", 14),
                                               ("RxVolume", "Rx Volume", "rx vol", 15),
                                               ("RxHold", "Rx Hold-1", "rx hold", 16)]):
     y = 24.0 + 22.0 * k
-    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [392.0, y - 2.0, 100.0, 18.0])
-    sender(toggle(var, long, short, [496.0, y, 15.0, 15.0], 1), off)
+    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [RX_X + 6.0, y - 2.0, 100.0, 18.0])
+    sender(toggle(var, long, short, [RX_X + 110.0, y, 15.0, 15.0], 1), off)
+
+# the part's strip controls, bigger: copies (Hidden parameters) that jvparts.js on the Parts page keeps in step; an
+# edit here moves the strip's control (jvpartview.js). Added after the sections above so their box ids (and the
+# per-instance parameter names in the main device) stay put.
+view = obj("js jvpartview.js", 20.0, 860.0, 2, 1, {"filename": "jvpartview.js", "parameter_enable": 0})
+line(addr, view, 0, 1)
+rmirror = obj("r ---partmirror", 20.0, 820.0, 0, 1)
+line(rmirror, view)
+sedit = obj("s ---partedit", 20.0, 900.0, 1, 0)
+line(view, sedit)
+px[0] = 20.0
+
+
+def copy(i, var):
+    e = obj("prepend edit %s" % var, px[0], 780.0)
+    px[0] += 150.0
+    line(i, e)
+    line(e, view)
+
+
+def hidden(var, short, rect, ptype, maxclass, attrs, **kw):
+    box = {"maxclass": maxclass, "numinlets": 1, "numoutlets": 2, "outlettype": ["", "float"], "parameter_enable": 1,
+           "patching_rect": [px[0], 740.0, 50.0, 18.0], "presentation": 1, "presentation_rect": rect, "varname": "View" + var,
+           "saved_attribute_attributes": valueof(LONG % ("View " + var), short, ptype, parameter_invisible=2, **kw)}
+    box.update(attrs)
+    i = add(box, ui=True)
+    params[i] = [LONG % ("View " + var), short, 0]
+    copy(i, var)
+    return i
+
+
+panel(PART_X, PART_W)
+comment("Part", [PART_X, 0.0, PART_W, 18.0], DIM, 1, var="PartTitle")   # "Part <n>" (jvpartview.js)
+hidden("On", "on", [PART_X + 8.0, 24.0, 34.0, 18.0], 2, "live.text",
+       {"numoutlets": 2, "outlettype": ["", ""], "text": "off", "texton": "on", "textcolor": GREY,
+        "activetextoncolor": [0.0, 0.0, 0.0, 1.0], "bgcolor": [0.0, 0.0, 0.0, 0.0], "activebgcolor": [0.0, 0.0, 0.0, 0.0],
+        "bgoncolor": ORANGE, "activebgoncolor": ORANGE, "bordercolor": GREY, "fontsize": 11.0, "hint": "Part on/off (Receive Switch)"},
+       parameter_enum=["off", "on"], parameter_mmax=1)
+hidden("Channel", "ch", [PART_X + 48.0, 24.0, 44.0, 18.0], 1, "live.numbox",
+       {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "MIDI channel"},
+       parameter_mmin=1.0, parameter_mmax=16.0, parameter_unitstyle=9, parameter_units="ch %d")
+hidden("Voices", "voices", [PART_X + 98.0, 24.0, 44.0, 18.0], 1, "live.numbox",
+       {"appearance": 4, "fontsize": 11.0, "textjustification": 1,
+        "hint": "Voice reserve: voices kept free for this part (all parts together at most 64)"},
+       parameter_mmin=0.0, parameter_mmax=64.0, parameter_unitstyle=9, parameter_units="%d vc")
+hidden("BankView", "bank", [PART_X + 8.0, 48.0, 84.0, 18.0], 2, "live.menu",
+       {"appearance": 1, "numoutlets": 3, "outlettype": ["", "", "float"], "fontsize": 11.0, "hint": "Patch bank"},
+       parameter_enum=["USER"], parameter_mmax=0)
+hidden("Patch", "patch", [PART_X + 98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
+       {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "Patch number (1-128; expansion boards up to 255)"},
+       parameter_mmin=1.0, parameter_mmax=255.0, parameter_unitstyle=0)
+add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 260.0, 190.0, 24.0],
+     "presentation": 1, "presentation_rect": [PART_X + 4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
+     "fontsize": 16.0, "textjustification": 0, "varname": "ViewName"}, ui=True)
+TX = TUNE_X
+hidden("Level", "level", [TX + 12.0, 20.0, 30.0, 140.0], 1, "live.slider",
+       {"modulationcolor": ORANGE, "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE, "hint": "Part level"},
+       parameter_mmin=0.0, parameter_mmax=127.0, parameter_unitstyle=0)
+hidden("Pan", "pan", [TX + 54.0, 30.0, 41.0, 48.0], 1, "live.dial",
+       {"activedialcolor": ORANGE, "activefgdialcolor": MID, "activeneedlecolor": MID, "textcolor": GREY, "tricolor": MID,
+        "hint": "Part pan"},
+       parameter_mmin=-64.0, parameter_mmax=63.0, parameter_unitstyle=0)
 
 pat["boxes"] = front + boxes   # controls first: drawn on top of the panels
 pat["lines"] = lines
