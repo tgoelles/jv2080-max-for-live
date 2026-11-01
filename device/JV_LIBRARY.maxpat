@@ -39,6 +39,103 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1830.0, 540.0, 390.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 466.0, 45.0, 388.0, 18.0 ],
+					"text" : "JV: UTILITY > Protect > System Exclusive Message OFF",
+					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
+					"textjustification" : 0,
+					"id" : "obj-55"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1830.0, 324.0, 236.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 320.0, 24.0, 200.0, 18.0 ],
+					"text" : "Write to USER",
+					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
+					"textjustification" : 0,
+					"id" : "obj-42",
+					"varname" : "WriteLabel"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"appearance" : 4,
+					"maxclass" : "live.numbox",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "float" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 1830.0, 500.0, 64.0, 17.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 320.0, 46.0, 64.0, 17.0 ],
+					"textjustification" : 0,
+					"varname" : "WriteSlot",
+					"hint" : "USER slot to write to: 1-128 patches (Patch mode), 1-32 performances (Perform mode)",
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_initial" : [ 1 ],
+							"parameter_initial_enable" : 1,
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Library Write Slot",
+							"parameter_mmax" : 128.0,
+							"parameter_mmin" : 1.0,
+							"parameter_shortname" : "slot",
+							"parameter_type" : 1,
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "USER %d"
+						}
+
+					}
+,
+					"id" : "obj-44"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "live.text",
+					"mode" : 0,
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 1900.0, 500.0, 70.0, 17.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 390.0, 46.0, 70.0, 17.0 ],
+					"text" : "Write...",
+					"texton" : "Write...",
+					"varname" : "WriteButton",
+					"hint" : "Write the JV's current patch (Patch mode) or performance (Perform mode) to this USER slot; asks first The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF.",
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_enum" : [ "val1", "val2" ],
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Library Write",
+							"parameter_mmax" : 1,
+							"parameter_modmode" : 0,
+							"parameter_shortname" : "Write...",
+							"parameter_type" : 2
+						}
+
+					}
+,
+					"id" : "obj-45"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "MIDI bytes from midiin",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -143,26 +240,11 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1206.0, 324.0, 300.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 24.0, 300.0, 18.0 ],
+					"presentation_rect" : [ 6.0, 24.0, 200.0, 18.0 ],
 					"text" : "JV user memory",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
 					"id" : "obj-8"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 340.0, 320.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 40.0, 320.0, 18.0 ],
-					"text" : "128 patches, 32 performances, 2 rhythm sets, system",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-9"
 				}
 
 			}
@@ -176,7 +258,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1206.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 6.0, 46.0, 90.0, 17.0 ],
 					"text" : "Backup...",
 					"texton" : "Backup...",
 					"varname" : "BackupButton",
@@ -193,7 +275,8 @@
 
 					}
 ,
-					"id" : "obj-10"
+					"id" : "obj-10",
+					"hint" : "Read the JV's whole user memory (128 patches, 32 performances, 2 rhythm sets, system) into a .syx file, about 1 min"
 				}
 
 			}
@@ -207,7 +290,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1302.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 102.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 102.0, 46.0, 90.0, 17.0 ],
 					"text" : "Restore...",
 					"texton" : "Restore...",
 					"varname" : "RestoreButton",
@@ -224,7 +307,8 @@
 
 					}
 ,
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF."
 				}
 
 			}
@@ -238,7 +322,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1398.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 198.0, 64.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 198.0, 46.0, 90.0, 17.0 ],
 					"text" : "Record dump",
 					"texton" : "Record dump",
 					"varname" : "RecordButton",
@@ -255,52 +339,8 @@
 
 					}
 ,
-					"id" : "obj-12"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 388.0, 330.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 88.0, 330.0, 18.0 ],
-					"text" : "Backup reads everything into a .syx file (about 1 min).",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-13"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 404.0, 330.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 104.0, 330.0, 18.0 ],
-					"text" : "Restore writes a .syx back; a backup is saved first.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-14"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1206.0, 420.0, 380.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 120.0, 380.0, 18.0 ],
-					"text" : "Record dump: then start Utility > Data Transfer > Bulk Dump on the JV.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-15"
+					"id" : "obj-12",
+					"hint" : "Record a bulk dump: switch on, start Utility > Data Transfer > Bulk Dump on the JV, switch off and save"
 				}
 
 			}
@@ -314,9 +354,9 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1600.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 64.0, 90.0, 17.0 ],
-					"text" : "Restore now",
-					"texton" : "Restore now",
+					"presentation_rect" : [ 6.0, 96.0, 90.0, 17.0 ],
+					"text" : "Confirm",
+					"texton" : "Confirm",
 					"varname" : "RestoreNow",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -331,7 +371,8 @@
 
 					}
 ,
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"hint" : "Confirm the restore or the write (the status line says which)"
 				}
 
 			}
@@ -345,7 +386,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1696.0, 500.0, 60.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 496.0, 64.0, 60.0, 17.0 ],
+					"presentation_rect" : [ 102.0, 96.0, 60.0, 17.0 ],
 					"text" : "Cancel",
 					"texton" : "Cancel",
 					"varname" : "CancelButton",
@@ -373,42 +414,12 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1600.0, 386.0, 450.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 86.0, 450.0, 18.0 ],
+					"presentation_rect" : [ 6.0, 70.0, 848.0, 18.0 ],
 					"text" : "",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
 					"varname" : "LibraryStatus",
 					"id" : "obj-18"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1600.0, 416.0, 456.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 116.0, 456.0, 18.0 ],
-					"text" : "Favorites: Get a patch, then Live's Save Preset (title bar). Every patch parameter",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-19"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"maxclass" : "live.comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1600.0, 432.0, 456.0, 18.0 ],
-					"presentation" : 1,
-					"presentation_rect" : [ 400.0, 132.0, 456.0, 18.0 ],
-					"text" : "is saved; tag, search and collect them in Live's browser.",
-					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
-					"textjustification" : 0,
-					"id" : "obj-20"
 				}
 
 			}
@@ -596,10 +607,10 @@
 				"box" : 				{
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "" ],
+					"numoutlets" : 6,
+					"outlettype" : [ "", "", "", "", "", "" ],
 					"patching_rect" : [ 20.0, 840.0, 212.0, 22.0 ],
-					"text" : "route confirm savedialog",
+					"text" : "route confirm savedialog slotmax script slot",
 					"id" : "obj-36"
 				}
 
@@ -661,6 +672,115 @@
 					"patching_rect" : [ 400.0, 790.0, 84.0, 22.0 ],
 					"text" : "active 0",
 					"id" : "obj-41"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 520.0, 560.0, 104.0, 22.0 ],
+					"text" : "route bang",
+					"id" : "obj-46"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 600.0, 590.0, 64.0, 22.0 ],
+					"text" : "sel 1",
+					"id" : "obj-47"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 650.0, 32.0, 22.0 ],
+					"text" : "i",
+					"id" : "obj-48"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 690.0, 160.0, 22.0 ],
+					"text" : "prepend writeuser",
+					"id" : "obj-49"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 760.0, 96.0, 22.0 ],
+					"text" : "r ---mode",
+					"id" : "obj-50"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 790.0, 144.0, 22.0 ],
+					"text" : "prepend devmode",
+					"id" : "obj-51"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 300.0, 870.0, 190.0, 22.0 ],
+					"text" : "prepend _parameter_range 1",
+					"id" : "obj-52"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 870.0, 110.0, 22.0 ],
+					"text" : "prepend script",
+					"id" : "obj-53"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 520.0, 900.0, 90.0, 22.0 ],
+					"text" : "thispatcher",
+					"id" : "obj-54",
+					"save" : [ "#N", "thispatcher", ";", "#Q", "end", ";" ]
 				}
 
 			}
@@ -924,6 +1044,104 @@
 				}
 
 			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-46", 0 ],
+					"source" : [ "obj-45", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 0 ],
+					"source" : [ "obj-46", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-47", 0 ],
+					"source" : [ "obj-46", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 0 ],
+					"source" : [ "obj-47", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 1 ],
+					"source" : [ "obj-44", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-49", 0 ],
+					"source" : [ "obj-48", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-49", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-51", 0 ],
+					"source" : [ "obj-50", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-51", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-52", 0 ],
+					"source" : [ "obj-36", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"source" : [ "obj-52", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-53", 0 ],
+					"source" : [ "obj-36", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-54", 0 ],
+					"source" : [ "obj-53", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"source" : [ "obj-36", 4 ]
+				}
+
+			}
  ],
 		"parameters" : 		{
 			"obj-10" : [ "Library Backup", "Backup...", 0 ],
@@ -934,7 +1152,9 @@
 			"parameterbanks" : 			{
 
 			}
-
+,
+			"obj-44" : [ "Library Write Slot", "slot", 0 ],
+			"obj-45" : [ "Library Write", "Write...", 0 ]
 		}
 ,
 		"dependency_cache" : [  ],
