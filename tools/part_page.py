@@ -22,8 +22,8 @@ PANEL = [0.156862745098039, 0.156862745098039, 0.156862745098039, 1.0]
 ORANGE = [1.0, 0.709803921568627, 0.196078431372549, 1.0]
 MID = [0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0]
 JS = {"filename": "jvparam.js", "parameter_enable": 0}
-PART_W = 200.0   # the left panel: copies of the Parts page strip (jvpartview.js)
-WIDTH = PART_W + 3.0 + 520.0
+PART_W = 160.0   # the left panel: copies of the Parts page strip (jvpartview.js)
+WIDTH = PART_W + 3.0 + 620.0
 LIGHT = [0.85, 0.85, 0.85, 1.0]
 
 # ---------------------------------------------------------------- the abstraction
@@ -145,20 +145,21 @@ for k, (var, long, short, off, init) in enumerate([("MixSend", "Mix/EFX Send", "
                                                     ("ReverbSend", "Reverb Send", "reverb", 13, 0)]):
     sender(dial(var, long, short, [12.0 + 82.0 * k, 50.0, 41.0, 48.0], 0, 127, init), off)
 comment("output PATCH: the patch's own routing", [4.0, 140.0, 252.0, 18.0], DIM)
-# tuning (0x08, 0x09)
-panel(263.0, 120.0)
-comment("Tuning", [263.0, 0.0, 120.0, 18.0], DIM, 1)
-sender(dial("CoarseTune", "Coarse Tune", "coarse", [272.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
-sender(dial("FineTune", "Fine Tune", "fine", [328.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
+# level and pan (the strip's copies, added below) and tuning (0x08, 0x09)
+TUNE_X = 263.0
+panel(TUNE_X, 220.0)
+comment("Level and tuning", [TUNE_X, 0.0, 220.0, 18.0], DIM, 1)
+sender(dial("CoarseTune", "Coarse Tune", "coarse", [TUNE_X + 110.0, 30.0, 41.0, 48.0], -48, 48, 0), 8, plus=48)
+sender(dial("FineTune", "Fine Tune", "fine", [TUNE_X + 164.0, 30.0, 41.0, 48.0], -50, 50, 0), 9, plus=50)
 # receive switches (0x0E-0x10)
-panel(386.0, 134.0)
-comment("Receive", [386.0, 0.0, 134.0, 18.0], DIM, 1)
+panel(486.0, 134.0)
+comment("Receive", [486.0, 0.0, 134.0, 18.0], DIM, 1)
 for k, (var, long, short, off) in enumerate([("RxProgram", "Rx Program Change", "rx pgm", 14),
                                               ("RxVolume", "Rx Volume", "rx vol", 15),
                                               ("RxHold", "Rx Hold-1", "rx hold", 16)]):
     y = 24.0 + 22.0 * k
-    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [392.0, y - 2.0, 100.0, 18.0])
-    sender(toggle(var, long, short, [496.0, y, 15.0, 15.0], 1), off)
+    comment(["program change", "volume (CC 7)", "hold-1 (CC 64)"][k], [492.0, y - 2.0, 100.0, 18.0])
+    sender(toggle(var, long, short, [596.0, y, 15.0, 15.0], 1), off)
 
 # the part's strip controls, bigger, on the left: copies (Hidden parameters) that jvparts.js on the Parts page keeps
 # in step; an edit here moves the strip's control (jvpartview.js). Added after the sections above so their box ids
@@ -215,12 +216,13 @@ hidden("Patch", "patch", [98.0, 48.0, 44.0, 18.0], 1, "live.numbox",
        {"appearance": 4, "fontsize": 11.0, "textjustification": 0, "hint": "Patch number (1-128; expansion boards up to 255)"},
        parameter_mmin=1.0, parameter_mmax=255.0, parameter_unitstyle=0)
 add({"maxclass": "live.comment", "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 260.0, 190.0, 24.0],
-     "presentation": 1, "presentation_rect": [4.0, 70.0, 148.0, 24.0], "text": "", "textcolor": LIGHT,
+     "presentation": 1, "presentation_rect": [4.0, 70.0, PART_W - 8.0, 24.0], "text": "", "textcolor": LIGHT,
      "fontsize": 16.0, "textjustification": 0, "varname": "ViewName"}, ui=True)
-hidden("Level", "level", [160.0, 20.0, 30.0, 140.0], 1, "live.slider",   # full height, on the right
+TX = PART_W + 3.0 + TUNE_X   # the Level and tuning panel, moved right with the other sections
+hidden("Level", "level", [TX + 12.0, 20.0, 30.0, 140.0], 1, "live.slider",
        {"modulationcolor": ORANGE, "slidercolor": GREY, "textcolor": GREY, "trioncolor": ORANGE, "hint": "Part level"},
        parameter_mmin=0.0, parameter_mmax=127.0, parameter_unitstyle=0)
-hidden("Pan", "pan", [20.0, 100.0, 41.0, 48.0], 1, "live.dial",
+hidden("Pan", "pan", [TX + 54.0, 30.0, 41.0, 48.0], 1, "live.dial",
        {"activedialcolor": ORANGE, "activefgdialcolor": MID, "activeneedlecolor": MID, "textcolor": GREY, "tricolor": MID,
         "hint": "Part pan"},
        parameter_mmin=-64.0, parameter_mmax=63.0, parameter_unitstyle=0)
