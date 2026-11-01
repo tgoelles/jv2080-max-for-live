@@ -42,6 +42,21 @@
 					"maxclass" : "live.comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
+					"patching_rect" : [ 1830.0, 540.0, 390.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 466.0, 45.0, 388.0, 18.0 ],
+					"text" : "JV: UTILITY > Protect > System Exclusive Message OFF",
+					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
+					"textjustification" : 0,
+					"id" : "obj-55"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
 					"patching_rect" : [ 1830.0, 324.0, 236.0, 18.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 320.0, 24.0, 200.0, 18.0 ],
@@ -101,7 +116,7 @@
 					"text" : "Write...",
 					"texton" : "Write...",
 					"varname" : "WriteButton",
-					"hint" : "Write the JV's current patch (Patch mode) or performance (Perform mode) to this USER slot; asks first",
+					"hint" : "Write the JV's current patch (Patch mode) or performance (Perform mode) to this USER slot; asks first The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF.",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_enum" : [ "val1", "val2" ],
@@ -293,7 +308,7 @@
 					}
 ,
 					"id" : "obj-11",
-					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file"
+					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF."
 				}
 
 			}
