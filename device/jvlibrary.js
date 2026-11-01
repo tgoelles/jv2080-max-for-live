@@ -9,6 +9,11 @@
 // Restore sends a .syx file back to the JV, but only messages for those areas (other models' or devices' data is
 // skipped). Before it overwrites anything it saves an automatic backup of the current memory next to the file.
 //
+// Write stores what the JV plays now (its temporary patch or performance, by the device's Patch / Perform switch) in
+// a USER slot, like the JV's own WRITE: it reads the temporary blocks with RQ1 and, once all have come in, sends them
+// to the slot's address (patch common + 4 tones to 11 nn, performance common + 16 parts to 10 nn). Nothing is written
+// if a block doesn't come back.
+//
 // inlet 0: MIDI bytes from midiin (replies, bulk dumps); messages:
 //          askbackup            ask where to save a backup (savedialog), then back up
 //          saved <path>         the file chosen in the savedialog (backup or recorded dump)
@@ -16,6 +21,8 @@
 //          restore <path>       check <path> and ask for confirmation (from opendialog)
 //          confirm / cancel     go ahead with the restore / stop whatever runs
 //          record 0/1           record a bulk dump started on the JV's panel; 0 stops and asks where to save it
+//          writeuser <n>        ask for confirmation, then write the current patch / performance to USER:n
+//          devmode 0/1          the device's Patch / Perform switch (r ---mode): what Write writes
 //          model 0/1/2          JV-2080 / JV-1080 / XP: the patch common size differs (#9)
 // outlet 0: SysEx bytes (RQ1 requests, DT1 for restore) for jv_sysex_queue.js
 // outlet 1: "set <text>" status line
@@ -25,7 +32,7 @@
 autowatch = 1;
 inlets = 1;
 outlets = 4;
-setinletassist(0, "MIDI bytes; backup, restore, confirm, cancel, record, savedump, model");
+setinletassist(0, "MIDI bytes; backup, restore, writeuser, confirm, cancel, record, savedump, model, devmode");
 setoutletassist(0, "SysEx bytes to the queue");
 setoutletassist(1, "status text");
 setoutletassist(2, "busy 1/0");
@@ -36,8 +43,9 @@ var patchCommon = COMMON_SIZE[0];
 var GAP_MS = 20;          // after a reply, before the next request
 var TIMEOUT_MS = 600;     // no reply: try once more, then skip the block
 var SEND_GAP_MS = 60;     // between DT1 messages of a restore
+var WRITE_TIMEOUT_MS = 2000;   // Write: the JV answers late right after loading a performance (~0.8 s, measured)
 
-var mode = null;          // "backup", "restore", "record" or null
+var mode = null;          // "backup", "restore", "record", "write" (reading) / "send" (writing) or null
 var plan = [];            // backup: [address, size] still to request
 var done = 0, total = 0, missed = 0, retried = false;
 var waiting = null;       // the address (4 bytes) we're waiting for
@@ -47,6 +55,10 @@ var outbox = [];          // restore: DT1 messages still to send
 var pendingRestore = null; // restore: { path, messages } until confirmed
 var buf = null;           // incoming SysEx bytes
 var pendingSave = null;   // what the savedialog's path is for: "backup" or "dump"
+var devMode = 0;          // the device's Patch (0) / Perform (1) switch
+var pendingWrite = null;  // write: { slot 1-128, perform } until confirmed
+var writing = null;       // write: { slot, perform } while it runs
+var sentText = "";        // the status line once everything is sent
 var stepTask = new Task(step, this);
 var timeoutTask = new Task(timedOut, this);
 var sendTask = new Task(sendNext, this);
@@ -99,16 +111,40 @@ function memoryPlan(commonSize) {
 	return p;
 }
 
-// is this DT1 for the user memory (system, user performances/rhythm sets, user patches) of a JV (model 6A)?
-function isMemory(m) {
+// the temporary patch (Patch mode) or performance (Perform mode): [address bytes, size]
+function tempPlan(perform, commonSize) {
+	var p = [];
+	if (perform) {
+		p.push([[0x01, 0, 0, 0], 0x44]);
+		for (var part = 0; part < 16; part++) {
+			p.push([[0x01, 0, 0x10 + part, 0], 0x1A]);
+		}
+	} else {
+		p.push([[0x03, 0, 0, 0], commonSize]);
+		for (var t = 0; t < 4; t++) {
+			p.push([[0x03, 0, 0x10 + 2 * t, 0], 0x81]);
+		}
+	}
+	return p;
+}
+
+// a JV (model 6A) DT1 with a valid checksum?
+function isDT1(m) {
 	if (m.length < 12 || m[0] !== 0xF0 || m[1] !== 0x41 || m[3] !== 0x6A || m[4] !== 0x12 || m[m.length - 1] !== 0xF7) {
 		return false;
 	}
-	var body = m.slice(5, m.length - 2);
-	if (checksum(body) !== m[m.length - 2]) {
-		return false;
-	}
-	return (m[5] === 0x00 && m[6] === 0x00) || m[5] === 0x10 || m[5] === 0x11;
+	return checksum(m.slice(5, m.length - 2)) === m[m.length - 2];
+}
+
+// is this DT1 for the user memory (system, user performances/rhythm sets, user patches) of a JV (model 6A)?
+function isMemory(m) {
+	return isDT1(m) && ((m[5] === 0x00 && m[6] === 0x00) || m[5] === 0x10 || m[5] === 0x11);
+}
+
+// a temporary block's DT1 moved to USER:slot (performance 10 nn, patch 11 nn), same offsets and data
+function toUser(m, perform, slot) {
+	var body = [perform ? 0x10 : 0x11, slot - 1].concat(m.slice(7, m.length - 2));
+	return [0xF0, 0x41, 0x10, 0x6A, 0x12].concat(body, [checksum(body), 0xF7]);
 }
 
 // split raw bytes (a file) into SysEx messages
@@ -139,6 +175,10 @@ function busy(on) {
 
 function model(m) {
 	patchCommon = COMMON_SIZE[m] || COMMON_SIZE[0];
+}
+
+function devmode(m) {
+	devMode = m ? 1 : 0;
 }
 
 // --- backup
@@ -189,7 +229,11 @@ function startBackup(path, then) {
 
 function request() {
 	if (!plan.length) {
-		finishBackup();
+		if (mode === "write") {
+			finishWrite();
+		} else {
+			finishBackup();
+		}
 		return;
 	}
 	var r = rq1(plan[0][0], plan[0][1]);
@@ -197,11 +241,11 @@ function request() {
 	for (var i = 0; i < r.length; i++) {
 		outlet(0, r[i]);
 	}
-	timeoutTask.schedule(TIMEOUT_MS);
+	timeoutTask.schedule(mode === "write" ? WRITE_TIMEOUT_MS : TIMEOUT_MS);
 }
 
 function timedOut() {
-	if (mode !== "backup") {
+	if (mode !== "backup" && mode !== "write") {
 		return;
 	}
 	if (!retried) {
@@ -210,6 +254,14 @@ function timedOut() {
 		return;
 	}
 	retried = false;
+	if (mode === "write") {   // never write half a patch / performance
+		mode = null;
+		waiting = null;
+		writing = null;
+		busy(false);
+		status("No reply from the JV: nothing written");
+		return;
+	}
 	missed++;
 	plan.shift();
 	done++;
@@ -258,12 +310,20 @@ function restore(path) {
 		status("No JV user memory data in " + path.slice(path.lastIndexOf("/") + 1));
 		return;
 	}
+	pendingWrite = null;
 	pendingRestore = { path: path, messages: mine };
 	status("Restore " + path.slice(path.lastIndexOf("/") + 1) + " (" + mine.length + " blocks)? It overwrites the JV's user memory; a backup is saved first.");
 	outlet(3, "confirm", 1);
 }
 
 function confirm() {
+	if (pendingWrite && !mode) {
+		var w = pendingWrite;
+		pendingWrite = null;
+		outlet(3, "confirm", 0);
+		startWrite(w);
+		return;
+	}
 	if (!pendingRestore || mode) {
 		return;
 	}
@@ -277,22 +337,29 @@ function confirm() {
 }
 
 function startRestore(list) {
-	mode = "restore";
+	pendingWrite = null;
+	startSend(list, "restore", "Restored " + list.length + " blocks to the JV");
+}
+
+function startSend(list, kind, text) {
+	mode = kind;
 	outbox = list.slice();
 	total = outbox.length;
 	done = 0;
+	sentText = text;
 	busy(true);
 	sendNext();
 }
 
 function sendNext() {
-	if (mode !== "restore") {
+	if (mode !== "restore" && mode !== "send") {
 		return;
 	}
 	if (!outbox.length) {
 		mode = null;
+		writing = null;
 		busy(false);
-		status("Restored " + total + " blocks to the JV");
+		status(sentText);
 		return;
 	}
 	var m = outbox.shift();
@@ -300,10 +367,53 @@ function sendNext() {
 		outlet(0, m[i]);
 	}
 	done++;
-	if (done % 25 === 0) {
+	if (mode === "restore" && done % 25 === 0) {
 		status("Restoring " + done + " / " + total);
 	}
 	sendTask.schedule(SEND_GAP_MS);
+}
+
+// --- write the current patch / performance to a USER slot
+
+function writeuser(n) {
+	if (mode) {
+		status("Busy: cancel first");
+		return;
+	}
+	var perform = devMode === 1, max = perform ? 32 : 128, slot = Math.round(n);
+	if (!(slot >= 1 && slot <= max)) {
+		status("USER slots are 1-" + max);
+		return;
+	}
+	pendingRestore = null;
+	pendingWrite = { slot: slot, perform: perform };
+	status("Write the JV's current " + (perform ? "performance" : "patch") + " to USER " + slot + "? It replaces what's stored there.");
+	outlet(3, "confirm", 1);
+}
+
+function startWrite(w) {
+	mode = "write";
+	writing = w;
+	plan = tempPlan(w.perform, patchCommon);
+	total = plan.length;
+	done = 0;
+	missed = 0;
+	retried = false;
+	data = [];
+	busy(true);
+	status("Reading the current " + (w.perform ? "performance" : "patch"));
+	request();
+}
+
+// every temporary block came in: send it to the slot
+function finishWrite() {
+	waiting = null;
+	var list = [];
+	for (var i = 0; i < data.length; i++) {
+		list.push(toUser(data[i], writing.perform, writing.slot));
+	}
+	data = [];
+	startSend(list, "send", "Wrote the " + (writing.perform ? "performance" : "patch") + " to USER " + writing.slot);
 }
 
 // --- recording a bulk dump started on the JV
@@ -348,13 +458,15 @@ function cancel() {
 	var was = mode;
 	mode = null;
 	waiting = null;
+	writing = null;
 	afterBackup = null;
-	if (pendingRestore) {
+	if (pendingRestore || pendingWrite) {
 		pendingRestore = null;
+		pendingWrite = null;
 		outlet(3, "confirm", 0);
 	}
 	busy(false);
-	status(was ? "Cancelled" + (was === "restore" ? ": the JV's memory is partly restored" : "") : "");
+	status(was ? "Cancelled" + (was === "restore" ? ": the JV's memory is partly restored" : was === "send" ? ": the USER slot is partly written" : "") : "");
 }
 
 // --- incoming MIDI
@@ -380,6 +492,15 @@ function list() {
 }
 
 function received(m) {
+	if (mode === "write" && isDT1(m) && waiting && m[5] === waiting[0] && m[6] === waiting[1] && m[7] === waiting[2] && m[8] === waiting[3]) {
+		timeoutTask.cancel();
+		retried = false;
+		data.push(m);
+		plan.shift();
+		waiting = null;
+		stepTask.schedule(GAP_MS);
+		return;
+	}
 	if (!isMemory(m)) {
 		return;
 	}

@@ -230,11 +230,15 @@ user performances, the 2 user rhythm sets and the system settings.
 
 - **Backup...**: choose a file name, then the device reads everything from the JV into one `.syx` file (about a
   minute). The file has the same format as the JV's own bulk dump, so other librarians and the JV itself can read it.
-- **Restore...**: choose a `.syx` file, check the summary, then click **Restore now**. Before anything is
+- **Restore...**: choose a `.syx` file, check the summary, then click **Confirm**. Before anything is
   overwritten, the device saves an automatic backup of the JV's current memory next to the file
   (`JV-2080_auto_backup_<date>.syx`). Only the JV's user memory in the file is used; anything else is skipped.
 - **Record dump**: switch it on, start *Utility → Data Transfer → Bulk Dump* on the JV, then switch it off and choose
   where to save what arrived.
+- **Write to USER**: pick a slot and click **Write...**, then **Confirm**. The JV's current patch (Patch mode, USER
+  1–128) or performance (Perform mode, USER 1–32) is stored there, like the JV's own WRITE; what was in the slot is
+  replaced. The device reads the patch or performance from the JV first and writes nothing if the JV doesn't answer.
+  To store the device's settings, make sure the JV has them (they're sent as you edit, and with **Send**).
 - **Cancel** stops a running transfer. While the Library talks to the JV, Get and Send wait.
 
 **Favorites** don't need the Library page: click **Get** on a patch, then Live's **Save Preset** (device title bar).

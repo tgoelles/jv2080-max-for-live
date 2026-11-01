@@ -98,4 +98,41 @@ ctx.record(0);
 assert.strictEqual(dialogs.pop()[0], 'savedialog');
 ctx.saved('lib/dump.syx');
 assert.strictEqual(ctx.messages(files['lib/dump.syx']).length, 2);
+
+// write: the temporary patch (Patch mode) is read and, once complete, written to USER:n
+const fill = (a, size, v) => { for (let i = 0; i < size; i++) memory[num(a) + i] = v; };
+fill([0x03, 0, 0, 0], 0x4A, 0x51);              // temporary patch common
+fill([0x03, 0, 0x16, 0], 0x81, 0x52);           // temporary tone 4
+wire.length = 0; ctx.writeuser(129);
+assert.ok(/USER slots are 1-128/.test(status.pop()));
+ctx.writeuser(7);
+assert.ok(/current patch to USER 7\?/.test(status.pop()));
+assert.deepStrictEqual(dialogs.pop(), ['confirm', 1]);
+assert.strictEqual(wire.length, 0, 'nothing sent before confirming');
+ctx.confirm(); run();
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 5, 'common + 4 tones read');
+assert.strictEqual(memory[num([0x11, 6, 0, 0])], 0x51, 'USER:007 common');
+assert.strictEqual(memory[num([0x11, 6, 0, 0x49])], 0x51, 'the whole common');
+assert.strictEqual(memory[num([0x11, 6, 0x16, 0x80])], 0x52, 'USER:007 tone 4');
+assert.ok(/Wrote the patch to USER 7/.test(status.pop()));
+// Perform mode: the temporary performance (common + 16 parts) to 10 nn; USER 1-32 only
+ctx.devmode(1);
+fill([0x01, 0, 0, 0], 0x44, 0x61);
+fill([0x01, 0, 0x1F, 0], 0x1A, 0x62);
+ctx.writeuser(33);
+assert.ok(/USER slots are 1-32/.test(status.pop()));
+wire.length = 0; ctx.writeuser(32); ctx.confirm(); run();
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 17);
+assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 17);
+assert.strictEqual(memory[num([0x10, 31, 0, 0x43])], 0x61, 'USER 32 common');
+assert.strictEqual(memory[num([0x10, 31, 0x1F, 0x19])], 0x62, 'USER 32 part 16');
+// a block that doesn't come back: nothing is written
+silent = new Set([num([0x01, 0, 0x15, 0])]);
+wire.length = 0; ctx.writeuser(3); ctx.confirm(); run();
+assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 0, 'nothing written');
+assert.ok(/No reply from the JV: nothing written/.test(status.pop()));
+silent = new Set();
+// a restore asked after Write was asked replaces it
+ctx.writeuser(4); ctx.restore('lib/mine.syx'); wire.length = 0; ctx.confirm(); run();
+assert.strictEqual(wire.filter(m => m[4] === 0x12 && m[5] === 0x10).length, 0, 'the write was dropped');
 console.log('jvlibrary: all tests passed');

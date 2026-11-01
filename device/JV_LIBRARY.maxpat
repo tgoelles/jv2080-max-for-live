@@ -39,6 +39,102 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1830.0, 324.0, 236.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 620.0, 24.0, 236.0, 18.0 ],
+					"text" : "Write to USER",
+					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
+					"textjustification" : 0,
+					"id" : "obj-42"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1830.0, 340.0, 236.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 620.0, 40.0, 236.0, 18.0 ],
+					"text" : "what the JV plays now, like its WRITE",
+					"textcolor" : [ 0.68, 0.68, 0.68, 1.0 ],
+					"textjustification" : 0,
+					"id" : "obj-43"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"appearance" : 4,
+					"maxclass" : "live.numbox",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "float" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 1830.0, 500.0, 64.0, 17.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 620.0, 64.0, 64.0, 17.0 ],
+					"textjustification" : 0,
+					"varname" : "WriteSlot",
+					"hint" : "USER slot to write to: 1-128 patches (Patch mode), 1-32 performances (Perform mode)",
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_initial" : [ 1 ],
+							"parameter_initial_enable" : 1,
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Library Write Slot",
+							"parameter_mmax" : 128.0,
+							"parameter_mmin" : 1.0,
+							"parameter_shortname" : "slot",
+							"parameter_type" : 1,
+							"parameter_unitstyle" : 9,
+							"parameter_units" : "USER %d"
+						}
+
+					}
+,
+					"id" : "obj-44"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "live.text",
+					"mode" : 0,
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 1900.0, 500.0, 70.0, 17.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 690.0, 64.0, 70.0, 17.0 ],
+					"text" : "Write...",
+					"texton" : "Write...",
+					"varname" : "WriteButton",
+					"hint" : "Write the JV's current patch (Patch mode) or performance (Perform mode) to this USER slot; asks first",
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_enum" : [ "val1", "val2" ],
+							"parameter_invisible" : 2,
+							"parameter_longname" : "Library Write",
+							"parameter_mmax" : 1,
+							"parameter_modmode" : 0,
+							"parameter_shortname" : "Write...",
+							"parameter_type" : 2
+						}
+
+					}
+,
+					"id" : "obj-45"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "MIDI bytes from midiin",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -315,8 +411,8 @@
 					"patching_rect" : [ 1600.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 400.0, 64.0, 90.0, 17.0 ],
-					"text" : "Restore now",
-					"texton" : "Restore now",
+					"text" : "Confirm",
+					"texton" : "Confirm",
 					"varname" : "RestoreNow",
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -331,7 +427,8 @@
 
 					}
 ,
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"hint" : "Confirm the restore or the write (the status line says which)"
 				}
 
 			}
@@ -664,6 +761,78 @@
 				}
 
 			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 520.0, 560.0, 104.0, 22.0 ],
+					"text" : "route bang",
+					"id" : "obj-46"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 600.0, 590.0, 64.0, 22.0 ],
+					"text" : "sel 1",
+					"id" : "obj-47"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 650.0, 32.0, 22.0 ],
+					"text" : "i",
+					"id" : "obj-48"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 690.0, 160.0, 22.0 ],
+					"text" : "prepend writeuser",
+					"id" : "obj-49"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 760.0, 96.0, 22.0 ],
+					"text" : "r ---mode",
+					"id" : "obj-50"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 790.0, 144.0, 22.0 ],
+					"text" : "prepend devmode",
+					"id" : "obj-51"
+				}
+
+			}
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
@@ -924,6 +1093,69 @@
 				}
 
 			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-46", 0 ],
+					"source" : [ "obj-45", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 0 ],
+					"source" : [ "obj-46", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-47", 0 ],
+					"source" : [ "obj-46", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 0 ],
+					"source" : [ "obj-47", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-48", 1 ],
+					"source" : [ "obj-44", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-49", 0 ],
+					"source" : [ "obj-48", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-49", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-51", 0 ],
+					"source" : [ "obj-50", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-51", 0 ]
+				}
+
+			}
  ],
 		"parameters" : 		{
 			"obj-10" : [ "Library Backup", "Backup...", 0 ],
@@ -934,7 +1166,9 @@
 			"parameterbanks" : 			{
 
 			}
-
+,
+			"obj-44" : [ "Library Write Slot", "slot", 0 ],
+			"obj-45" : [ "Library Write", "Write...", 0 ]
 		}
 ,
 		"dependency_cache" : [  ],
