@@ -48,7 +48,8 @@
 					"text" : "Write to USER",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
-					"id" : "obj-42"
+					"id" : "obj-42",
+					"varname" : "WriteLabel"
 				}
 
 			}
@@ -338,7 +339,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1600.0, 500.0, 90.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 6.0, 90.0, 90.0, 17.0 ],
+					"presentation_rect" : [ 6.0, 96.0, 90.0, 17.0 ],
 					"text" : "Confirm",
 					"texton" : "Confirm",
 					"varname" : "RestoreNow",
@@ -370,7 +371,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 1696.0, 500.0, 60.0, 17.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 102.0, 90.0, 60.0, 17.0 ],
+					"presentation_rect" : [ 102.0, 96.0, 60.0, 17.0 ],
 					"text" : "Cancel",
 					"texton" : "Cancel",
 					"varname" : "CancelButton",
@@ -398,7 +399,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 1600.0, 386.0, 450.0, 18.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 170.0, 89.0, 684.0, 18.0 ],
+					"presentation_rect" : [ 6.0, 70.0, 848.0, 18.0 ],
 					"text" : "",
 					"textcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 					"textjustification" : 0,
@@ -591,10 +592,10 @@
 				"box" : 				{
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 4,
-					"outlettype" : [ "", "", "", "" ],
+					"numoutlets" : 5,
+					"outlettype" : [ "", "", "", "", "" ],
 					"patching_rect" : [ 20.0, 840.0, 212.0, 22.0 ],
-					"text" : "route confirm savedialog slotmax",
+					"text" : "route confirm savedialog slotmax script",
 					"id" : "obj-36"
 				}
 
@@ -740,6 +741,31 @@
 					"patching_rect" : [ 300.0, 870.0, 190.0, 22.0 ],
 					"text" : "prepend _parameter_range 1",
 					"id" : "obj-52"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 520.0, 870.0, 110.0, 22.0 ],
+					"text" : "prepend script",
+					"id" : "obj-53"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 520.0, 900.0, 90.0, 22.0 ],
+					"text" : "thispatcher",
+					"id" : "obj-54",
+					"save" : [ "#N", "thispatcher", ";", "#Q", "end", ";" ]
 				}
 
 			}
@@ -1077,6 +1103,20 @@
 				"patchline" : 				{
 					"destination" : [ "obj-44", 0 ],
 					"source" : [ "obj-52", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-53", 0 ],
+					"source" : [ "obj-36", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-54", 0 ],
+					"source" : [ "obj-53", 0 ]
 				}
 
 			}

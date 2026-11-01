@@ -28,7 +28,8 @@
 // outlet 1: "set <text>" status line
 // outlet 2: "busy 1/0" (Get and Send wait while the library talks to the JV)
 // outlet 3: "confirm 1/0" shows/hides the confirmation buttons; "savedialog <name>" asks for a file name;
-//           "slotmax 32/128" limits the Write slot box to the mode's USER slots
+//           "slotmax 32/128" limits the Write slot box to the mode's USER slots; "script ..." for thispatcher
+//           (Confirm / Cancel shown only when needed, the Write label names patch or performance)
 
 autowatch = 1;
 inlets = 1;
@@ -39,6 +40,7 @@ setoutletassist(1, "status text");
 setoutletassist(2, "busy 1/0");
 setoutletassist(3, "confirm 1/0, savedialog name");
 
+var jsthis = this;
 var COMMON_SIZE = [0x4A, 0x48, 0x49];   // patch common per model: JV-2080, JV-1080, XP-50/80
 var patchCommon = COMMON_SIZE[0];
 var GAP_MS = 20;          // after a reply, before the next request
@@ -172,6 +174,43 @@ function status(text) {
 
 function busy(on) {
 	outlet(2, "busy", on ? 1 : 0);
+	buttons();
+}
+
+// Confirm only while something waits for it; Cancel also while a transfer runs
+function confirmShown(on) {
+	outlet(3, "confirm", on ? 1 : 0);
+	buttons();
+}
+
+var shown = {};
+function buttons() {
+	var asking = !!(pendingRestore || pendingWrite);
+	show("RestoreNow", asking);
+	show("CancelButton", asking || !!mode);
+}
+
+function show(name, on) {
+	if (shown[name] !== on) {
+		shown[name] = on;
+		outlet(3, "script", on ? "show" : "hide", name);
+	}
+}
+
+// the device's Patch / Perform switch, read directly: its value at load can come before this page listens
+var modeTask = new Task(readMode, this);
+function loadbang() {
+	buttons();
+	modeTask.schedule(1500);
+}
+
+function readMode() {
+	var top = jsthis.patcher ? jsthis.patcher.parentpatcher : null;
+	var sw = top ? top.getnamed("ModeSwitch") : null;
+	if (sw) {
+		var v = sw.getvalueof();
+		devmode(v instanceof Array ? v[0] : v);
+	}
 }
 
 function model(m) {
@@ -181,6 +220,7 @@ function model(m) {
 function devmode(m) {
 	devMode = m ? 1 : 0;
 	outlet(3, "slotmax", devMode ? 32 : 128);   // the slot box: USER 1-32 performances, 1-128 patches
+	outlet(3, "script", "sendbox", "WriteLabel", "set", devMode ? "Write performance to USER" : "Write patch to USER");
 }
 
 // --- backup
@@ -315,14 +355,14 @@ function restore(path) {
 	pendingWrite = null;
 	pendingRestore = { path: path, messages: mine };
 	status("Restore " + path.slice(path.lastIndexOf("/") + 1) + " (" + mine.length + " blocks)? It overwrites the JV's user memory; a backup is saved first.");
-	outlet(3, "confirm", 1);
+	confirmShown(1);
 }
 
 function confirm() {
 	if (pendingWrite && !mode) {
 		var w = pendingWrite;
 		pendingWrite = null;
-		outlet(3, "confirm", 0);
+		confirmShown(0);
 		startWrite(w);
 		return;
 	}
@@ -331,7 +371,7 @@ function confirm() {
 	}
 	var r = pendingRestore;
 	pendingRestore = null;
-	outlet(3, "confirm", 0);
+	confirmShown(0);
 	var folder = r.path.slice(0, r.path.lastIndexOf("/") + 1);
 	startBackup(folder + "JV-2080_auto_backup_" + stamp() + ".syx", function () {
 		startRestore(r.messages);
@@ -382,6 +422,7 @@ function writeuser(n) {
 		status("Busy: cancel first");
 		return;
 	}
+	readMode();   // the switch as it is now
 	var perform = devMode === 1, max = perform ? 32 : 128, slot = Math.round(n);
 	if (!(slot >= 1 && slot <= max)) {
 		status("USER slots are 1-" + max);
@@ -390,7 +431,7 @@ function writeuser(n) {
 	pendingRestore = null;
 	pendingWrite = { slot: slot, perform: perform };
 	status("Write the JV's current " + (perform ? "performance" : "patch") + " to USER " + slot + "? It replaces what's stored there.");
-	outlet(3, "confirm", 1);
+	confirmShown(1);
 }
 
 function startWrite(w) {
@@ -465,7 +506,7 @@ function cancel() {
 	if (pendingRestore || pendingWrite) {
 		pendingRestore = null;
 		pendingWrite = null;
-		outlet(3, "confirm", 0);
+		confirmShown(0);
 	}
 	busy(false);
 	status(was ? "Cancelled" + (was === "restore" ? ": the JV's memory is partly restored" : was === "send" ? ": the USER slot is partly written" : "") : "");
@@ -569,6 +610,7 @@ function read(path) {
 }
 
 function notifydeleted() {
+	modeTask.freepeer();
 	stepTask.freepeer();
 	timeoutTask.freepeer();
 	sendTask.freepeer();

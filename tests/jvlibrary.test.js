@@ -20,12 +20,12 @@ function File(p, mode) {
 	this.close = () => {};
 }
 
-const status = [], wire = [], dialogs = [];
+const status = [], wire = [], dialogs = [], scripts = [];
 let cur = [];
 const ctx = { Task, File, Date, outlet: (n, ...a) => {
 	if (n === 0) { cur.push(a[0]); if (a[0] === 0xF7) { wire.push(cur); jv(cur); cur = []; } }
 	if (n === 1) status.push(a.slice(1).join(' '));
-	if (n === 3) dialogs.push(a);
+	if (n === 3) (a[0] === 'script' ? scripts : dialogs).push(a);
 }, setinletassist() {}, setoutletassist() {}, arrayfromargs: a => Array.from(a) };
 vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../device/jvlibrary.js'), 'utf8'), ctx);
@@ -117,6 +117,7 @@ assert.strictEqual(memory[num([0x11, 6, 0x16, 0x80])], 0x52, 'USER:007 tone 4');
 assert.ok(/Wrote the patch to USER 7/.test(status.pop()));
 // Perform mode: the temporary performance (common + 16 parts) to 10 nn; USER 1-32 only
 ctx.devmode(1);
+assert.deepStrictEqual(Array.from(scripts.pop()), ['script', 'sendbox', 'WriteLabel', 'set', 'Write performance to USER']);
 assert.deepStrictEqual(dialogs.pop(), ['slotmax', 32], 'the slot box: USER 1-32 in Perform mode');
 fill([0x01, 0, 0, 0], 0x44, 0x61);
 fill([0x01, 0, 0x1F, 0], 0x1A, 0x62);
@@ -136,4 +137,14 @@ silent = new Set();
 // a restore asked after Write was asked replaces it
 ctx.writeuser(4); ctx.restore('lib/mine.syx'); wire.length = 0; ctx.confirm(); run();
 assert.strictEqual(wire.filter(m => m[4] === 0x12 && m[5] === 0x10).length, 0, 'the write was dropped');
+// Confirm only while asking, Cancel also while a transfer runs
+const shownNow = () => { const st = {}; scripts.filter(d => d[1] !== 'sendbox').forEach(d => { st[d[2]] = d[1]; }); return st; };
+ctx.cancel(); run();
+assert.deepStrictEqual(shownNow(), { RestoreNow: 'hide', CancelButton: 'hide' });
+ctx.writeuser(2);
+assert.deepStrictEqual(shownNow(), { RestoreNow: 'show', CancelButton: 'show' });
+ctx.confirm();
+assert.deepStrictEqual(shownNow(), { RestoreNow: 'hide', CancelButton: 'show' });
+run();
+assert.deepStrictEqual(shownNow(), { RestoreNow: 'hide', CancelButton: 'hide' });
 console.log('jvlibrary: all tests passed');
