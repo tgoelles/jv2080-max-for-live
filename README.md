@@ -214,7 +214,7 @@ performance's key range switch: off, every part plays the whole keyboard. Parts 
 
 **Voice reserve** (Parts page, under each pan knob, "n vc"): voices kept free for that part, so busy parts can't steal
 them. All parts together can reserve at most 64: the device keeps to that (a change that would go over is lowered
-to what's left), and **rest n** in the page column shows how many are still free, like the JV's display.
+to what's left). How many are still free (the JV's "rest") is in each voice box's hint and in Live's Info View.
 
 ### Part page (Perform mode)
 

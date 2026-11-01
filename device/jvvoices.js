@@ -4,7 +4,9 @@
 // the check waits until a burst is over: a read never leaves more than 64, and isn't changed.
 //
 // inlet 0: "voice <part> <0-64>" from each part's voice reserve control
-// outlet 0: "rest <n>": voices not reserved (s ---voicesrest -> the indicator in the page column)
+// The voices left ("rest", like the JV's display) are shown in the hint and Info View text of every voice reserve
+// control: P<n>Voices here and the Part pages' copies (PartEdit_<n> ViewVoices).
+// outlet 0: "rest <n>": voices not reserved (s ---voicesrest; nothing listens at the moment)
 
 autowatch = 1;
 inlets = 1;
@@ -51,6 +53,29 @@ function check() {
 		t = total();
 	}
 	outlet(0, "rest", MAX - t);
+	describe(MAX - t);
+}
+
+var described = -1;
+function describe(rest) {
+	if (rest === described) {
+		return;
+	}
+	described = rest;
+	var text = "Voice reserve: voices kept free for this part. All 16 parts together at most " + MAX + "; " +
+		rest + " not reserved now.";
+	var top = jsthis.patcher.parentpatcher;
+	for (var p = 1; p <= 16; p++) {
+		var page = top ? top.getnamed("PartEdit_" + p) : null;
+		var sub = page && page.subpatcher ? page.subpatcher() : null;
+		var list = [jsthis.patcher.getnamed("P" + p + "Voices"), sub ? sub.getnamed("ViewVoices") : null];
+		for (var k = 0; k < list.length; k++) {
+			if (list[k]) {
+				list[k].hint = text;
+				list[k].message("annotation", text);   // Live's Info View
+			}
+		}
+	}
 }
 
 function notifydeleted() {

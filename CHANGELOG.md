@@ -6,6 +6,7 @@ and versions follow [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Setup page**: the device's version and author, and **Updates on GitHub...**, which opens the Releases page.
 - **Write to USER** (Library page): stores the JV's current patch (USER 1–128) or performance (USER 1–32) in a USER
   slot, after a confirmation. The Restore confirmation button is now called **Confirm**. (#39, #10)
 - **Library page** (button **Library** above Setup): back up the JV's whole user memory (patches, performances,
