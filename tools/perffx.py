@@ -17,6 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from maxjson import load, dump
+from infoview import annotate
 
 ROOT = Path(__file__).resolve().parent.parent
 DST = ROOT / "device" / "JV_PERFFX.maxpat"
@@ -138,6 +139,7 @@ def build():
                                  "maxclass": "panel", "mode": 0, "numinlets": 1, "numoutlets": 0, "patching_rect": [1200.0, 1300.0, 430.0, 163.0],
                                  "presentation": 1, "presentation_rect": [0.0, 0.0, 430.0, 163.0], "proportion": 0.5}})
     pat["parameters"] = dict(params, parameterbanks={})
+    annotate(pat, "JV_PERFFX")   # Live's Info View texts
     return d
 
 

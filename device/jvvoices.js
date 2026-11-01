@@ -63,7 +63,7 @@ function describe(rest) {
 	}
 	described = rest;
 	var text = "Voice reserve: voices kept free for this part. All 16 parts together at most " + MAX + "; " +
-		rest + " not reserved now.";
+		rest + " not reserved now. (JV-2080 manual p.67)";
 	var top = jsthis.patcher.parentpatcher;
 	for (var p = 1; p <= 16; p++) {
 		var page = top ? top.getnamed("PartEdit_" + p) : null;

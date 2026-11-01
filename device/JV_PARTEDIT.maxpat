@@ -92,7 +92,8 @@
 
 					}
 ,
-					"id" : "obj-8"
+					"id" : "obj-8",
+					"annotation" : "Where the part goes: MIX, EFX (through EFX A, B or C), DIR1 / DIR2 (the DIRECT outputs), or PATCH: the patch's own routing. (JV-2080 manual p.28)"
 				}
 
 			}
@@ -136,7 +137,8 @@
 
 					}
 ,
-					"id" : "obj-11"
+					"id" : "obj-11",
+					"annotation" : "Which EFX the part goes through when its output is EFX: A, B or C. (JV-2080 manual p.28)"
 				}
 
 			}
@@ -170,7 +172,8 @@
 
 					}
 ,
-					"id" : "obj-13"
+					"id" : "obj-13",
+					"annotation" : "Level to the MIX outputs, or into the EFX when the output is EFX. (JV-2080 manual p.28)"
 				}
 
 			}
@@ -204,7 +207,8 @@
 
 					}
 ,
-					"id" : "obj-15"
+					"id" : "obj-15",
+					"annotation" : "How much of the part goes to the chorus. (JV-2080 manual p.28)"
 				}
 
 			}
@@ -238,7 +242,8 @@
 
 					}
 ,
-					"id" : "obj-17"
+					"id" : "obj-17",
+					"annotation" : "How much of the part goes to the reverb. (JV-2080 manual p.28)"
 				}
 
 			}
@@ -302,7 +307,8 @@
 
 					}
 ,
-					"id" : "obj-22"
+					"id" : "obj-22",
+					"annotation" : "The part's pitch in semitones (+/-4 octaves), on top of the patch's tuning. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -336,7 +342,8 @@
 
 					}
 ,
-					"id" : "obj-25"
+					"id" : "obj-25",
+					"annotation" : "The part's pitch in cents, up to half a semitone up or down. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -395,7 +402,8 @@
 
 					}
 ,
-					"id" : "obj-31"
+					"id" : "obj-31",
+					"annotation" : "Whether the part follows program changes on its channel. (JV-2080 manual p.68)"
 				}
 
 			}
@@ -439,7 +447,8 @@
 
 					}
 ,
-					"id" : "obj-34"
+					"id" : "obj-34",
+					"annotation" : "Whether the part follows volume (CC 7) on its channel. (JV-2080 manual p.68)"
 				}
 
 			}
@@ -483,7 +492,8 @@
 
 					}
 ,
-					"id" : "obj-37"
+					"id" : "obj-37",
+					"annotation" : "Whether the part follows hold-1 / sustain (CC 64) on its channel. (JV-2080 manual p.68)"
 				}
 
 			}
@@ -537,7 +547,8 @@
 					"bordercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"fontsize" : 11.0,
 					"hint" : "Part on/off (Receive Switch)",
-					"id" : "obj-44"
+					"id" : "obj-44",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -570,7 +581,8 @@
 					"fontsize" : 11.0,
 					"textjustification" : 0,
 					"hint" : "MIDI channel",
-					"id" : "obj-46"
+					"id" : "obj-46",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -603,7 +615,8 @@
 					"fontsize" : 11.0,
 					"textjustification" : 1,
 					"hint" : "Voice reserve: voices kept free for this part (all parts together at most 64)",
-					"id" : "obj-48"
+					"id" : "obj-48",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -633,7 +646,8 @@
 					"appearance" : 1,
 					"fontsize" : 11.0,
 					"hint" : "Patch bank",
-					"id" : "obj-50"
+					"id" : "obj-50",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -665,7 +679,8 @@
 					"fontsize" : 11.0,
 					"textjustification" : 0,
 					"hint" : "Patch number (1-128; expansion boards up to 255)",
-					"id" : "obj-52"
+					"id" : "obj-52",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -715,7 +730,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
 					"hint" : "Part level",
-					"id" : "obj-55"
+					"id" : "obj-55",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -749,7 +765,8 @@
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
 					"hint" : "Part pan",
-					"id" : "obj-57"
+					"id" : "obj-57",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}

@@ -78,7 +78,8 @@
 
 					}
 ,
-					"id" : "obj-5"
+					"id" : "obj-5",
+					"annotation" : "Whether the parts' key ranges are used. Off: every part plays the whole keyboard. (JV-2080 manual p.66)"
 				}
 
 			}

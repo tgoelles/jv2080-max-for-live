@@ -5,6 +5,10 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Info View texts**: hover any control with Live's Info View open (`?`, bottom left) to see what the JV parameter
+  does, with the page in the JV-2080 owner's manual.
+
 ## [0.8.0] - 2026-11-01
 
 ### Added

@@ -98,7 +98,8 @@
 
 					}
 ,
-					"id" : "obj-44"
+					"id" : "obj-44",
+					"annotation" : "USER slot to write to: 1-128 patches (Patch mode), 1-32 performances (Perform mode)"
 				}
 
 			}
@@ -130,7 +131,8 @@
 
 					}
 ,
-					"id" : "obj-45"
+					"id" : "obj-45",
+					"annotation" : "Write the JV's current patch (Patch mode) or performance (Perform mode) to this USER slot; asks first The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF."
 				}
 
 			}
@@ -276,7 +278,8 @@
 					}
 ,
 					"id" : "obj-10",
-					"hint" : "Read the JV's whole user memory (128 patches, 32 performances, 2 rhythm sets, system) into a .syx file, about 1 min"
+					"hint" : "Read the JV's whole user memory (128 patches, 32 performances, 2 rhythm sets, system) into a .syx file, about 1 min",
+					"annotation" : "Read the JV's whole user memory (128 patches, 32 performances, 2 rhythm sets, system) into a .syx file, about 1 min"
 				}
 
 			}
@@ -308,7 +311,8 @@
 					}
 ,
 					"id" : "obj-11",
-					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF."
+					"hint" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF.",
+					"annotation" : "Write a .syx file back to the JV; asks first, and saves a backup of the current memory next to the file The JV accepts it only with UTILITY > Protect > System Exclusive Message OFF."
 				}
 
 			}
@@ -340,7 +344,8 @@
 					}
 ,
 					"id" : "obj-12",
-					"hint" : "Record a bulk dump: switch on, start Utility > Data Transfer > Bulk Dump on the JV, switch off and save"
+					"hint" : "Record a bulk dump: switch on, start Utility > Data Transfer > Bulk Dump on the JV, switch off and save",
+					"annotation" : "Record a bulk dump: switch on, start Utility > Data Transfer > Bulk Dump on the JV, switch off and save"
 				}
 
 			}
@@ -372,7 +377,8 @@
 					}
 ,
 					"id" : "obj-16",
-					"hint" : "Confirm the restore or the write (the status line says which)"
+					"hint" : "Confirm the restore or the write (the status line says which)",
+					"annotation" : "Confirm the restore or the write (the status line says which)"
 				}
 
 			}
@@ -403,7 +409,8 @@
 
 					}
 ,
-					"id" : "obj-17"
+					"id" : "obj-17",
+					"annotation" : "Stops a running backup, restore or write, or drops one waiting for Confirm."
 				}
 
 			}

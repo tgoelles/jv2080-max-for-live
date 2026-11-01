@@ -71,7 +71,8 @@
 
 					}
 ,
-					"id" : "obj-16"
+					"id" : "obj-16",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -104,7 +105,8 @@
 
 					}
 ,
-					"id" : "obj-19"
+					"id" : "obj-19",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -133,7 +135,8 @@
 
 					}
 ,
-					"id" : "obj-22"
+					"id" : "obj-22",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -165,7 +168,8 @@
 
 					}
 ,
-					"id" : "obj-31"
+					"id" : "obj-31",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -199,7 +203,8 @@
 
 					}
 ,
-					"id" : "obj-35"
+					"id" : "obj-35",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -234,7 +239,8 @@
 
 					}
 ,
-					"id" : "obj-37"
+					"id" : "obj-37",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -267,7 +273,8 @@
 
 					}
 ,
-					"id" : "obj-41"
+					"id" : "obj-41",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -305,7 +312,8 @@
 
 					}
 ,
-					"id" : "obj-44"
+					"id" : "obj-44",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -338,7 +346,8 @@
 
 					}
 ,
-					"id" : "obj-47"
+					"id" : "obj-47",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -367,7 +376,8 @@
 
 					}
 ,
-					"id" : "obj-50"
+					"id" : "obj-50",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -399,7 +409,8 @@
 
 					}
 ,
-					"id" : "obj-59"
+					"id" : "obj-59",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -433,7 +444,8 @@
 
 					}
 ,
-					"id" : "obj-63"
+					"id" : "obj-63",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -468,7 +480,8 @@
 
 					}
 ,
-					"id" : "obj-65"
+					"id" : "obj-65",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -501,7 +514,8 @@
 
 					}
 ,
-					"id" : "obj-69"
+					"id" : "obj-69",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -539,7 +553,8 @@
 
 					}
 ,
-					"id" : "obj-72"
+					"id" : "obj-72",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -572,7 +587,8 @@
 
 					}
 ,
-					"id" : "obj-75"
+					"id" : "obj-75",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -601,7 +617,8 @@
 
 					}
 ,
-					"id" : "obj-78"
+					"id" : "obj-78",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -633,7 +650,8 @@
 
 					}
 ,
-					"id" : "obj-87"
+					"id" : "obj-87",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -667,7 +685,8 @@
 
 					}
 ,
-					"id" : "obj-91"
+					"id" : "obj-91",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -702,7 +721,8 @@
 
 					}
 ,
-					"id" : "obj-93"
+					"id" : "obj-93",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -735,7 +755,8 @@
 
 					}
 ,
-					"id" : "obj-97"
+					"id" : "obj-97",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -773,7 +794,8 @@
 
 					}
 ,
-					"id" : "obj-100"
+					"id" : "obj-100",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -806,7 +828,8 @@
 
 					}
 ,
-					"id" : "obj-103"
+					"id" : "obj-103",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -835,7 +858,8 @@
 
 					}
 ,
-					"id" : "obj-106"
+					"id" : "obj-106",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -867,7 +891,8 @@
 
 					}
 ,
-					"id" : "obj-115"
+					"id" : "obj-115",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -901,7 +926,8 @@
 
 					}
 ,
-					"id" : "obj-119"
+					"id" : "obj-119",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -936,7 +962,8 @@
 
 					}
 ,
-					"id" : "obj-121"
+					"id" : "obj-121",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -969,7 +996,8 @@
 
 					}
 ,
-					"id" : "obj-125"
+					"id" : "obj-125",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1007,7 +1035,8 @@
 
 					}
 ,
-					"id" : "obj-128"
+					"id" : "obj-128",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -1040,7 +1069,8 @@
 
 					}
 ,
-					"id" : "obj-131"
+					"id" : "obj-131",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1069,7 +1099,8 @@
 
 					}
 ,
-					"id" : "obj-134"
+					"id" : "obj-134",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -1101,7 +1132,8 @@
 
 					}
 ,
-					"id" : "obj-143"
+					"id" : "obj-143",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1135,7 +1167,8 @@
 
 					}
 ,
-					"id" : "obj-147"
+					"id" : "obj-147",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1170,7 +1203,8 @@
 
 					}
 ,
-					"id" : "obj-149"
+					"id" : "obj-149",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1203,7 +1237,8 @@
 
 					}
 ,
-					"id" : "obj-153"
+					"id" : "obj-153",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1241,7 +1276,8 @@
 
 					}
 ,
-					"id" : "obj-156"
+					"id" : "obj-156",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -1274,7 +1310,8 @@
 
 					}
 ,
-					"id" : "obj-159"
+					"id" : "obj-159",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1303,7 +1340,8 @@
 
 					}
 ,
-					"id" : "obj-162"
+					"id" : "obj-162",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -1335,7 +1373,8 @@
 
 					}
 ,
-					"id" : "obj-171"
+					"id" : "obj-171",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1369,7 +1408,8 @@
 
 					}
 ,
-					"id" : "obj-175"
+					"id" : "obj-175",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1404,7 +1444,8 @@
 
 					}
 ,
-					"id" : "obj-177"
+					"id" : "obj-177",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1437,7 +1478,8 @@
 
 					}
 ,
-					"id" : "obj-181"
+					"id" : "obj-181",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1475,7 +1517,8 @@
 
 					}
 ,
-					"id" : "obj-184"
+					"id" : "obj-184",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -1508,7 +1551,8 @@
 
 					}
 ,
-					"id" : "obj-187"
+					"id" : "obj-187",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1537,7 +1581,8 @@
 
 					}
 ,
-					"id" : "obj-190"
+					"id" : "obj-190",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -1569,7 +1614,8 @@
 
 					}
 ,
-					"id" : "obj-199"
+					"id" : "obj-199",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1603,7 +1649,8 @@
 
 					}
 ,
-					"id" : "obj-203"
+					"id" : "obj-203",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1638,7 +1685,8 @@
 
 					}
 ,
-					"id" : "obj-205"
+					"id" : "obj-205",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1671,7 +1719,8 @@
 
 					}
 ,
-					"id" : "obj-209"
+					"id" : "obj-209",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1709,7 +1758,8 @@
 
 					}
 ,
-					"id" : "obj-212"
+					"id" : "obj-212",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -1742,7 +1792,8 @@
 
 					}
 ,
-					"id" : "obj-215"
+					"id" : "obj-215",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1771,7 +1822,8 @@
 
 					}
 ,
-					"id" : "obj-218"
+					"id" : "obj-218",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -1803,7 +1855,8 @@
 
 					}
 ,
-					"id" : "obj-227"
+					"id" : "obj-227",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1837,7 +1890,8 @@
 
 					}
 ,
-					"id" : "obj-231"
+					"id" : "obj-231",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1872,7 +1926,8 @@
 
 					}
 ,
-					"id" : "obj-233"
+					"id" : "obj-233",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1905,7 +1960,8 @@
 
 					}
 ,
-					"id" : "obj-237"
+					"id" : "obj-237",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -1943,7 +1999,8 @@
 
 					}
 ,
-					"id" : "obj-240"
+					"id" : "obj-240",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -1976,7 +2033,8 @@
 
 					}
 ,
-					"id" : "obj-243"
+					"id" : "obj-243",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2005,7 +2063,8 @@
 
 					}
 ,
-					"id" : "obj-246"
+					"id" : "obj-246",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -2037,7 +2096,8 @@
 
 					}
 ,
-					"id" : "obj-255"
+					"id" : "obj-255",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2071,7 +2131,8 @@
 
 					}
 ,
-					"id" : "obj-259"
+					"id" : "obj-259",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2106,7 +2167,8 @@
 
 					}
 ,
-					"id" : "obj-261"
+					"id" : "obj-261",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2139,7 +2201,8 @@
 
 					}
 ,
-					"id" : "obj-265"
+					"id" : "obj-265",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2177,7 +2240,8 @@
 
 					}
 ,
-					"id" : "obj-268"
+					"id" : "obj-268",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -2210,7 +2274,8 @@
 
 					}
 ,
-					"id" : "obj-271"
+					"id" : "obj-271",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2239,7 +2304,8 @@
 
 					}
 ,
-					"id" : "obj-274"
+					"id" : "obj-274",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -2271,7 +2337,8 @@
 
 					}
 ,
-					"id" : "obj-283"
+					"id" : "obj-283",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2305,7 +2372,8 @@
 
 					}
 ,
-					"id" : "obj-287"
+					"id" : "obj-287",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2340,7 +2408,8 @@
 
 					}
 ,
-					"id" : "obj-289"
+					"id" : "obj-289",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2373,7 +2442,8 @@
 
 					}
 ,
-					"id" : "obj-293"
+					"id" : "obj-293",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2411,7 +2481,8 @@
 
 					}
 ,
-					"id" : "obj-296"
+					"id" : "obj-296",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -2444,7 +2515,8 @@
 
 					}
 ,
-					"id" : "obj-299"
+					"id" : "obj-299",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2473,7 +2545,8 @@
 
 					}
 ,
-					"id" : "obj-302"
+					"id" : "obj-302",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -2505,7 +2578,8 @@
 
 					}
 ,
-					"id" : "obj-311"
+					"id" : "obj-311",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2539,7 +2613,8 @@
 
 					}
 ,
-					"id" : "obj-315"
+					"id" : "obj-315",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2574,7 +2649,8 @@
 
 					}
 ,
-					"id" : "obj-317"
+					"id" : "obj-317",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2607,7 +2683,8 @@
 
 					}
 ,
-					"id" : "obj-321"
+					"id" : "obj-321",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2645,7 +2722,8 @@
 
 					}
 ,
-					"id" : "obj-324"
+					"id" : "obj-324",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -2678,7 +2756,8 @@
 
 					}
 ,
-					"id" : "obj-327"
+					"id" : "obj-327",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2707,7 +2786,8 @@
 
 					}
 ,
-					"id" : "obj-330"
+					"id" : "obj-330",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -2739,7 +2819,8 @@
 
 					}
 ,
-					"id" : "obj-339"
+					"id" : "obj-339",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2773,7 +2854,8 @@
 
 					}
 ,
-					"id" : "obj-343"
+					"id" : "obj-343",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2808,7 +2890,8 @@
 
 					}
 ,
-					"id" : "obj-345"
+					"id" : "obj-345",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2841,7 +2924,8 @@
 
 					}
 ,
-					"id" : "obj-349"
+					"id" : "obj-349",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2879,7 +2963,8 @@
 
 					}
 ,
-					"id" : "obj-352"
+					"id" : "obj-352",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -2912,7 +2997,8 @@
 
 					}
 ,
-					"id" : "obj-355"
+					"id" : "obj-355",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -2941,7 +3027,8 @@
 
 					}
 ,
-					"id" : "obj-358"
+					"id" : "obj-358",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -2973,7 +3060,8 @@
 
 					}
 ,
-					"id" : "obj-367"
+					"id" : "obj-367",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3007,7 +3095,8 @@
 
 					}
 ,
-					"id" : "obj-371"
+					"id" : "obj-371",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3042,7 +3131,8 @@
 
 					}
 ,
-					"id" : "obj-373"
+					"id" : "obj-373",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3075,7 +3165,8 @@
 
 					}
 ,
-					"id" : "obj-377"
+					"id" : "obj-377",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3113,7 +3204,8 @@
 
 					}
 ,
-					"id" : "obj-380"
+					"id" : "obj-380",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -3146,7 +3238,8 @@
 
 					}
 ,
-					"id" : "obj-383"
+					"id" : "obj-383",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3175,7 +3268,8 @@
 
 					}
 ,
-					"id" : "obj-386"
+					"id" : "obj-386",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -3207,7 +3301,8 @@
 
 					}
 ,
-					"id" : "obj-395"
+					"id" : "obj-395",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3241,7 +3336,8 @@
 
 					}
 ,
-					"id" : "obj-399"
+					"id" : "obj-399",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3276,7 +3372,8 @@
 
 					}
 ,
-					"id" : "obj-401"
+					"id" : "obj-401",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3309,7 +3406,8 @@
 
 					}
 ,
-					"id" : "obj-405"
+					"id" : "obj-405",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3347,7 +3445,8 @@
 
 					}
 ,
-					"id" : "obj-408"
+					"id" : "obj-408",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -3380,7 +3479,8 @@
 
 					}
 ,
-					"id" : "obj-411"
+					"id" : "obj-411",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3409,7 +3509,8 @@
 
 					}
 ,
-					"id" : "obj-414"
+					"id" : "obj-414",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -3441,7 +3542,8 @@
 
 					}
 ,
-					"id" : "obj-423"
+					"id" : "obj-423",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3475,7 +3577,8 @@
 
 					}
 ,
-					"id" : "obj-427"
+					"id" : "obj-427",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3510,7 +3613,8 @@
 
 					}
 ,
-					"id" : "obj-429"
+					"id" : "obj-429",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3543,7 +3647,8 @@
 
 					}
 ,
-					"id" : "obj-433"
+					"id" : "obj-433",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3581,7 +3686,8 @@
 
 					}
 ,
-					"id" : "obj-436"
+					"id" : "obj-436",
+					"annotation" : "Part on or off: whether the part receives MIDI and plays. (JV-2080 manual p.64, 67)"
 				}
 
 			}
@@ -3614,7 +3720,8 @@
 
 					}
 ,
-					"id" : "obj-439"
+					"id" : "obj-439",
+					"annotation" : "The MIDI channel the part listens to. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3643,7 +3750,8 @@
 
 					}
 ,
-					"id" : "obj-442"
+					"id" : "obj-442",
+					"annotation" : "The bank of the part's patch (part 10: rhythm set). (JV-2080 manual p.66)"
 				}
 
 			}
@@ -3675,7 +3783,8 @@
 
 					}
 ,
-					"id" : "obj-451"
+					"id" : "obj-451",
+					"annotation" : "The part's patch (part 10: rhythm set). (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3709,7 +3818,8 @@
 
 					}
 ,
-					"id" : "obj-455"
+					"id" : "obj-455",
+					"annotation" : "The part's volume, to balance the parts. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3744,7 +3854,8 @@
 
 					}
 ,
-					"id" : "obj-457"
+					"id" : "obj-457",
+					"annotation" : "The part's pan, L64 ... 63R, relative to the patch's own pan. (JV-2080 manual p.67)"
 				}
 
 			}
@@ -3777,7 +3888,8 @@
 
 					}
 ,
-					"id" : "obj-461"
+					"id" : "obj-461",
+					"annotation" : "Voice reserve: voices kept free for this part, so other parts can't take them. All parts together at most 64. (JV-2080 manual p.67)"
 				}
 
 			}

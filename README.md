@@ -27,6 +27,9 @@ made on the JV's own panel live.
   [key ranges](#keys-page-perform-mode) and **FX** the [performance's effects](#performance-fx-perform-mode). See also
   [MIDI setup for several channels](#perform-mode-and-several-midi-channels).
 
+Hover any control with Live's **Info View** open (`?`, bottom left) to see what it does on the JV, with the page in
+the JV-2080 owner's manual.
+
 Download it from [maxforlive.com](https://maxforlive.com/library/device/7406/jv-2080-control) or from this repo's Releases page.
 
 ## Requirements

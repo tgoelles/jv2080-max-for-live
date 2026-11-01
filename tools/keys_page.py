@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 from maxjson import load, dump
+from infoview import annotate
 
 GREY = [0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0]
 DIM = [0.352941176470588, 0.352941176470588, 0.352941176470588, 1.0]
@@ -112,6 +113,7 @@ add({"angle": 270.0, "background": 1, "bgcolor": PANEL, "ignoreclick": 0, "maxcl
 pat["boxes"] = front + boxes
 pat["lines"] = lines
 pat["parameters"] = dict(params, parameterbanks={})
+annotate(pat, "JV_KEYS")   # Live's Info View texts
 dump(d, DST)
 if CHECK:
     if DST.read_bytes() != REAL.read_bytes():

@@ -451,7 +451,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[4]"
+					"varname" : "live.numbox[4]",
+					"annotation" : "Random pitch deviation for each note, in cents. 0 = none. (JV-2080 manual p.82)"
 				}
 
 			}
@@ -543,7 +544,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.549019607843137, 0.549019607843137, 0.549019607843137, 1.0 ],
-					"varname" : "live.dial"
+					"varname" : "live.dial",
+					"annotation" : "The tone's pitch in semitones, up to 4 octaves up or down. (JV-2080 manual p.82)"
 				}
 
 			}
@@ -589,7 +591,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[3]"
+					"varname" : "live.numbox[3]",
+					"annotation" : "Pitch envelope level 4, relative to the tone's pitch. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -618,7 +621,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[2]"
+					"varname" : "live.numbox[2]",
+					"annotation" : "Pitch envelope level 3, relative to the tone's pitch. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -647,7 +651,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[1]"
+					"varname" : "live.numbox[1]",
+					"annotation" : "Pitch envelope level 2, relative to the tone's pitch. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -678,7 +683,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[9]"
+					"varname" : "live.numbox[9]",
+					"annotation" : "Velocity and Time 1 of the pitch envelope: positive makes the attack faster for hard notes, negative slower. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -826,7 +832,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[11]"
+					"varname" : "live.numbox[11]",
+					"annotation" : "Time keyfollow of the pitch envelope: positive makes times 2-4 shorter above C4 and longer below. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -857,7 +864,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[10]"
+					"varname" : "live.numbox[10]",
+					"annotation" : "Note-off velocity and Time 4 of the pitch envelope: positive makes the release faster for quickly released keys. Needs a keyboard that sends note-off velocity. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -920,7 +928,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[8]"
+					"varname" : "live.numbox[8]",
+					"annotation" : "Pitch envelope depth: how far the envelope moves the pitch. Negative inverts it. (JV-2080 manual p.83)"
 				}
 
 			}
@@ -967,7 +976,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[7]"
+					"varname" : "live.numbox[7]",
+					"annotation" : "Velocity sensitivity of the pitch envelope: positive gives hard notes more envelope, negative less. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1014,7 +1024,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox[5]"
+					"varname" : "live.numbox[5]",
+					"annotation" : "How much the pitch changes per octave on the keyboard. +100 = normal, 0 = the same pitch on every key, negative = falls as you play higher. (JV-2080 manual p.82)"
 				}
 
 			}
@@ -1043,7 +1054,8 @@
 					}
 ,
 					"textjustification" : 0,
-					"varname" : "live.numbox"
+					"varname" : "live.numbox",
+					"annotation" : "Pitch envelope level 1, relative to the tone's pitch. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1072,7 +1084,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[3]"
+					"varname" : "live.slider[3]",
+					"annotation" : "Pitch envelope time 4: how long it takes to reach level 4 (time 4: after key up). (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1101,7 +1114,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[2]"
+					"varname" : "live.slider[2]",
+					"annotation" : "Pitch envelope time 3: how long it takes to reach level 3. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1130,7 +1144,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider[1]"
+					"varname" : "live.slider[1]",
+					"annotation" : "Pitch envelope time 2: how long it takes to reach level 2. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1159,7 +1174,8 @@
 					"slidercolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"trioncolor" : [ 1.0, 0.709803921568627, 0.196078431372549, 1.0 ],
-					"varname" : "live.slider"
+					"varname" : "live.slider",
+					"annotation" : "Pitch envelope time 1: how long it takes to reach level 1. (JV-2080 manual p.82-83)"
 				}
 
 			}
@@ -1191,7 +1207,8 @@
 ,
 					"textcolor" : [ 0.647058823529412, 0.647058823529412, 0.647058823529412, 1.0 ],
 					"tricolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
-					"varname" : "live.dial[1]"
+					"varname" : "live.dial[1]",
+					"annotation" : "The tone's pitch in cents (1/100 semitone), up to half a semitone up or down. (JV-2080 manual p.82)"
 				}
 
 			}
