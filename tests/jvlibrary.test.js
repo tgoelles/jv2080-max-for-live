@@ -33,12 +33,14 @@ const run = () => { while (timers.length) { timers.sort((a, b) => a[0] - b[0]); 
 
 // the JV: remembers DT1 writes, answers RQ1 with a DT1 of the requested size (filled with its memory or 0x20)
 const memory = {};   // address number -> byte
-let silent = new Set();   // addresses it doesn't answer (to test timeouts)
+let silent = new Set();
+let protect = false;   // addresses it doesn't answer (to test timeouts)
 const sum = b => (128 - b.reduce((x, y) => x + y, 0) % 128) % 128;
 const num = a => (a[0] << 21) | (a[1] << 14) | (a[2] << 7) | a[3];
 const addr = n => [(n >> 21) & 0x7F, (n >> 14) & 0x7F, (n >> 7) & 0x7F, n & 0x7F];
 function jv(m) {
 	const body = m.slice(5, m.length - 2), a = num(body.slice(0, 4));
+	if (m[4] === 0x12 && protect && (body[0] === 0x10 || body[0] === 0x11)) return;   // UTILITY > Protect > System Exclusive Message
 	if (m[4] === 0x12) { body.slice(4).forEach((v, i) => { memory[a + i] = v; }); return; }
 	if (m[4] !== 0x11 || silent.has(a)) return;
 	const size = num(body.slice(4, 8)), data = [];
@@ -110,7 +112,7 @@ assert.ok(/current patch to USER 7\?/.test(status.pop()));
 assert.deepStrictEqual(dialogs.pop(), ['confirm', 1]);
 assert.strictEqual(wire.length, 0, 'nothing sent before confirming');
 ctx.confirm(); run();
-assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 5, 'common + 4 tones read');
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 6, 'common + 4 tones read, then USER 7 read back');
 assert.strictEqual(memory[num([0x11, 6, 0, 0])], 0x51, 'USER:007 common');
 assert.strictEqual(memory[num([0x11, 6, 0, 0x49])], 0x51, 'the whole common');
 assert.strictEqual(memory[num([0x11, 6, 0x16, 0x80])], 0x52, 'USER:007 tone 4');
@@ -124,7 +126,7 @@ fill([0x01, 0, 0x1F, 0], 0x1A, 0x62);
 ctx.writeuser(33);
 assert.ok(/USER slots are 1-32/.test(status.pop()));
 wire.length = 0; ctx.writeuser(32); ctx.confirm(); run();
-assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 17);
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 18, '17 read, 1 read back');
 assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 17);
 assert.strictEqual(memory[num([0x10, 31, 0, 0x43])], 0x61, 'USER 32 common');
 assert.strictEqual(memory[num([0x10, 31, 0x1F, 0x19])], 0x62, 'USER 32 part 16');
@@ -147,4 +149,24 @@ ctx.confirm();
 assert.deepStrictEqual(shownNow(), { RestoreNow: 'hide', CancelButton: 'show' });
 run();
 assert.deepStrictEqual(shownNow(), { RestoreNow: 'hide', CancelButton: 'hide' });
+// the JV's memory protect: the write is read back, and the status says what to switch off
+protect = true; ctx.devmode(0);
+ctx.writeuser(8); ctx.confirm(); run();
+assert.ok(/didn't store it: switch off UTILITY > Protect > System Exclusive Message/.test(status.pop()));
+protect = false;
+ctx.writeuser(8); ctx.confirm(); run();
+assert.ok(/Wrote the patch to USER 8$/.test(status.pop()));
+
+// the Write slot follows the program block when it selects a USER slot
+const block = { PerfBank: 0, PerfNumber: 5, StoredBank: 1, 'ProgramChange[1]': 9, ModeSwitch: 1 };
+const named = n => ({ getvalueof: () => block[n] });
+ctx.jsthis.patcher = { parentpatcher: { getnamed: n => n === 'ProgramBlock' ? { subpatcher: () => ({ getnamed: named }) } : named(n) } };
+dialogs.length = 0; ctx.readMode();
+assert.deepStrictEqual(dialogs.filter(d => d[0] === 'slot'), [['slot', 5]], 'USER performance 5');
+dialogs.length = 0; ctx.readMode();
+assert.deepStrictEqual(dialogs.filter(d => d[0] === 'slot'), [], 'only when the selection changes');
+block.ModeSwitch = 0; dialogs.length = 0; ctx.readMode();
+assert.deepStrictEqual(dialogs.filter(d => d[0] === 'slot'), [], 'patch PR-A: the slot stays');
+block.StoredBank = 0; dialogs.length = 0; ctx.readMode();
+assert.deepStrictEqual(dialogs.filter(d => d[0] === 'slot'), [['slot', 9]], 'USER patch 9');
 console.log('jvlibrary: all tests passed');

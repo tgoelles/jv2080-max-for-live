@@ -592,10 +592,10 @@
 				"box" : 				{
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 5,
-					"outlettype" : [ "", "", "", "", "" ],
+					"numoutlets" : 6,
+					"outlettype" : [ "", "", "", "", "", "" ],
 					"patching_rect" : [ 20.0, 840.0, 212.0, 22.0 ],
-					"text" : "route confirm savedialog slotmax script",
+					"text" : "route confirm savedialog slotmax script slot",
 					"id" : "obj-36"
 				}
 
@@ -1117,6 +1117,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-54", 0 ],
 					"source" : [ "obj-53", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"source" : [ "obj-36", 4 ]
 				}
 
 			}

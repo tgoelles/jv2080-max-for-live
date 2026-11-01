@@ -12,7 +12,9 @@
 // Write stores what the JV plays now (its temporary patch or performance, by the device's Patch / Perform switch) in
 // a USER slot, like the JV's own WRITE: it reads the temporary blocks with RQ1 and, once all have come in, sends them
 // to the slot's address (patch common + 4 tones to 11 nn, performance common + 16 parts to 10 nn). Nothing is written
-// if a block doesn't come back.
+// if a block doesn't come back. Afterwards (and after a restore) one written USER block is read back: the JV ignores
+// SysEx writes to its USER memory while UTILITY > Protect > System Exclusive Message is ON (manual p.61; not in the
+// address map, so only the JV's panel can switch it off), and the status says so.
 //
 // inlet 0: MIDI bytes from midiin (replies, bulk dumps); messages:
 //          askbackup            ask where to save a backup (savedialog), then back up
@@ -28,7 +30,8 @@
 // outlet 1: "set <text>" status line
 // outlet 2: "busy 1/0" (Get and Send wait while the library talks to the JV)
 // outlet 3: "confirm 1/0" shows/hides the confirmation buttons; "savedialog <name>" asks for a file name;
-//           "slotmax 32/128" limits the Write slot box to the mode's USER slots; "script ..." for thispatcher
+//           "slotmax 32/128" limits the Write slot box to the mode's USER slots; "slot n" moves it to the USER
+//           slot selected in the program block; "script ..." for thispatcher
 //           (Confirm / Cancel shown only when needed, the Write label names patch or performance)
 
 autowatch = 1;
@@ -62,6 +65,8 @@ var devMode = 0;          // the device's Patch (0) / Perform (1) switch
 var pendingWrite = null;  // write: { slot 1-128, perform } until confirmed
 var writing = null;       // write: { slot, perform } while it runs
 var sentText = "";        // the status line once everything is sent
+var check = null;         // a sent USER block, read back afterwards: the JV ignores it while protected
+var PROTECTED = "The JV didn't store it: switch off UTILITY > Protect > System Exclusive Message on the JV";
 var stepTask = new Task(step, this);
 var timeoutTask = new Task(timedOut, this);
 var sendTask = new Task(sendNext, this);
@@ -197,11 +202,44 @@ function show(name, on) {
 	}
 }
 
-// the device's Patch / Perform switch, read directly: its value at load can come before this page listens
+// the device's Patch / Perform switch, read directly: its value at load can come before this page listens; and
+// the program block's selection, read once a second: when it's a USER slot, the Write slot follows it
 var modeTask = new Task(readMode, this);
+modeTask.interval = 1000;
+var lastSelected = null;
 function loadbang() {
 	buttons();
-	modeTask.schedule(1500);
+	modeTask.repeat(-1, 1500);
+}
+
+// the USER slot the program block has selected (performance 1-32 / patch 1-128), or 0 for another bank
+function selectedSlot() {
+	var top = jsthis.patcher ? jsthis.patcher.parentpatcher : null;
+	var block = top ? top.getnamed("ProgramBlock") : null;
+	var inner = block ? block.subpatcher() : null;
+	if (!inner) {
+		return 0;
+	}
+	function value(name) {
+		var c = inner.getnamed(name);
+		var v = c ? c.getvalueof() : -1;
+		return Math.round(v instanceof Array ? v[0] : v);
+	}
+	if (devMode) {
+		return value("PerfBank") === 0 ? value("PerfNumber") : 0;   // USER is the first performance bank
+	}
+	return value("StoredBank") === 0 ? value("ProgramChange[1]") : 0;
+}
+
+function followSelection() {
+	var n = selectedSlot();
+	var key = devMode + ":" + n;
+	if (key !== lastSelected) {
+		lastSelected = key;
+		if (n >= 1 && n <= (devMode ? 32 : 128)) {
+			outlet(3, "slot", n);
+		}
+	}
 }
 
 function readMode() {
@@ -210,6 +248,9 @@ function readMode() {
 	if (sw) {
 		var v = sw.getvalueof();
 		devmode(v instanceof Array ? v[0] : v);
+	}
+	if (!mode && !pendingWrite) {
+		followSelection();
 	}
 }
 
@@ -287,6 +328,10 @@ function request() {
 }
 
 function timedOut() {
+	if (mode === "verify") {
+		verified(sentText + " (no reply to check it)");
+		return;
+	}
 	if (mode !== "backup" && mode !== "write") {
 		return;
 	}
@@ -389,6 +434,12 @@ function startSend(list, kind, text) {
 	total = outbox.length;
 	done = 0;
 	sentText = text;
+	check = null;
+	for (var i = 0; i < list.length && !check; i++) {
+		if (list[i][5] === 0x10 || list[i][5] === 0x11) {   // user performances / patches: what Protect guards
+			check = list[i];
+		}
+	}
 	busy(true);
 	sendNext();
 }
@@ -398,8 +449,18 @@ function sendNext() {
 		return;
 	}
 	if (!outbox.length) {
-		mode = null;
 		writing = null;
+		if (check) {
+			mode = "verify";
+			waiting = check.slice(5, 9);
+			var r = rq1(waiting, check.length - 11);
+			for (var k = 0; k < r.length; k++) {
+				outlet(0, r[k]);
+			}
+			timeoutTask.schedule(WRITE_TIMEOUT_MS);
+			return;
+		}
+		mode = null;
 		busy(false);
 		status(sentText);
 		return;
@@ -501,6 +562,7 @@ function cancel() {
 	var was = mode;
 	mode = null;
 	waiting = null;
+	check = null;
 	writing = null;
 	afterBackup = null;
 	if (pendingRestore || pendingWrite) {
@@ -534,7 +596,20 @@ function list() {
 	}
 }
 
+function verified(text) {
+	timeoutTask.cancel();
+	mode = null;
+	waiting = null;
+	check = null;
+	busy(false);
+	status(text);
+}
+
 function received(m) {
+	if (mode === "verify" && isDT1(m) && waiting && m[5] === waiting[0] && m[6] === waiting[1] && m[7] === waiting[2] && m[8] === waiting[3]) {
+		verified(m.join(",") === check.slice(0, 2).concat(m.slice(2, 5), check.slice(5)).join(",") ? sentText : PROTECTED);
+		return;
+	}
 	if (mode === "write" && isDT1(m) && waiting && m[5] === waiting[0] && m[6] === waiting[1] && m[7] === waiting[2] && m[8] === waiting[3]) {
 		timeoutTask.cancel();
 		retried = false;

@@ -239,6 +239,9 @@ user performances, the 2 user rhythm sets and the system settings.
   1–128) or performance (Perform mode, USER 1–32) is stored there, like the JV's own WRITE; what was in the slot is
   replaced. The device reads the patch or performance from the JV first and writes nothing if the JV doesn't answer.
   To store the device's settings, make sure the JV has them (they're sent as you edit, and with **Send**).
+  When the program block has a USER patch or performance selected, the slot follows it. The JV only accepts the
+  write (and a restore) with **UTILITY → Protect → System Exclusive Message** set to OFF on its panel; the device reads
+  the slot back and says so if the JV ignored it.
 - **Cancel** stops a running transfer. While the Library talks to the JV, Get and Send wait.
 
 **Favorites** don't need the Library page: click **Get** on a patch, then Live's **Save Preset** (device title bar).
