@@ -9,17 +9,24 @@
 // from Roland's documents; may be empty), USER patches from the JV itself ("askname n" -> jvreceive.js reads the
 // 12-character name of USER:n and answers "username n <name>").
 //
+// The Part page (JV_PARTEDIT, one per part) shows the same controls, bigger: its copies (Hidden parameters) follow
+// the strip ("part <n> <Var> set <v>", "... _parameter_range ...", outlet 1 -> s ---partmirror), and an edit there
+// ("edit <n> <Var> <v>", r ---partedit) moves the strip's control, which sends it to the JV and stores it.
+//
 // inlet 0: "bank <part> <0-25>" (stored menu), "patch <part> <1-255>", "pick <part> <index>" (visible menu),
-//          "boards a b c d e f g h", "model 0/1/2", "username <n> <name>"
+//          "boards a b c d e f g h", "model 0/1/2", "username <n> <name>",
+//          "show <part> <Var> <v>" (a strip control's output), "edit <part> <Var> <v>", "refresh <part>" (Part page)
 // outlet 0: "askname <n>" (s ---askname)
+// outlet 1: "part <n> <Var> <message...>" for the Part page's copies (s ---partmirror)
 
 include("jv2080_patchnames.js");
 
 autowatch = 1;
 inlets = 1;
-outlets = 1;
-setinletassist(0, "bank / patch / pick <part> <v>, boards, model, username");
+outlets = 2;
+setinletassist(0, "bank / patch / pick / show / edit <part> ..., refresh, boards, model, username");
 setoutletassist(0, "askname n");
+setoutletassist(1, "part n Var message for the Part page");
 
 var jsthis = this;
 var SLOTS = "ABCDEFGH";
@@ -32,6 +39,8 @@ var MODELS = [
 	{ fixed: [0, 1, 2, 3, 4], gm: "PR-D", slots: 4 }
 ];
 var LABELS = ["USER", "PR-A", "PR-B", "PR-C", null, "PR-E", "CARD"];
+// the strip controls the Part page copies (P<n><Var>); the bank menu and the name are handled on their own
+var MIRRORED = ["On", "Channel", "Patch", "Level", "Pan", "Voices"];
 
 var model = 0;
 var slots = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -80,6 +89,25 @@ function anything() {
 	if (part < 1 || part > 16) {
 		return;
 	}
+	if (messagename === "refresh") {
+		refresh(part);
+		return;
+	}
+	if (messagename === "show") {
+		mirror(part, a[1], "set", a[2]);
+		return;
+	}
+	if (messagename === "edit") {
+		if (a[1] === "BankView") {
+			pick(part, Math.round(a[2]));
+		} else if (MIRRORED.indexOf(a[1]) >= 0) {
+			var ctl = jsthis.patcher.getnamed("P" + part + a[1]);
+			if (ctl) {
+				ctl.message("float", +a[2]);   // the strip's control sends it and reports back with "show"
+			}
+		}
+		return;
+	}
 	var v = Math.round(a[1]);
 	if (messagename === "bank") {
 		bank[part - 1] = v;
@@ -93,12 +121,33 @@ function anything() {
 		number[part - 1] = v;
 		nameFor(part);
 	} else if (messagename === "pick") {
-		var value = items[part - 1][v];
-		var menu = jsthis.patcher.getnamed("P" + part + "Bank");
-		if (value !== undefined && menu) {
-			menu.message("int", value);   // the stored menu sends it and reports back with "bank"
+		pick(part, v);
+	}
+}
+
+function pick(part, index) {
+	var value = items[part - 1][index];
+	var menu = jsthis.patcher.getnamed("P" + part + "Bank");
+	if (value !== undefined && menu) {
+		menu.message("int", value);   // the stored menu sends it and reports back with "bank"
+	}
+}
+
+function mirror(part, name) {
+	outlet(1, ["part", part, name].concat(Array.prototype.slice.call(arguments, 2)));
+}
+
+// everything the Part page shows for one part (when it gets its part number)
+function refresh(part) {
+	for (var i = 0; i < MIRRORED.length; i++) {
+		var ctl = jsthis.patcher.getnamed("P" + part + MIRRORED[i]);
+		if (ctl) {
+			var v = ctl.getvalueof();
+			mirror(part, MIRRORED[i], "set", v instanceof Array ? v[0] : v);
 		}
 	}
+	rebuild(part);
+	showName(part);
 }
 
 // the visible menu's entries for one part
@@ -130,6 +179,7 @@ function rebuild(part) {
 	if (menu) {
 		menu.message(["_parameter_range"].concat(e.labels));
 	}
+	outlet(1, ["part", part, "BankView", "_parameter_range"].concat(e.labels));
 	showMenu(part);
 }
 
@@ -138,6 +188,9 @@ function showMenu(part) {
 	var menu = jsthis.patcher.getnamed("P" + part + "BankView");
 	if (i >= 0 && menu) {
 		menu.message("set", i);
+	}
+	if (i >= 0) {
+		mirror(part, "BankView", "set", i);
 	}
 }
 
@@ -163,9 +216,11 @@ function name(b, n) {
 
 function showName(part) {
 	var label = jsthis.patcher.getnamed("P" + part + "Name");
+	var text = name(bank[part - 1], number[part - 1]);
 	if (label) {
-		label.message("set", name(bank[part - 1], number[part - 1]));
+		label.message("set", text);
 	}
+	mirror(part, "Name", "set", text);
 }
 
 function pad2(n) {

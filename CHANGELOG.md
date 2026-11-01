@@ -21,7 +21,8 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 - **Part page** (Perform mode): the part buttons below the program block (1–16) open a part's settings: output
   (MIX / EFX / DIR1 / DIR2 / PATCH, EFX A/B/C), mix/EFX, chorus and reverb send, coarse and fine tune, and whether it
-  receives program change, volume and hold. The **Part** button switches between it and the Parts page. (#10)
+  receives program change, volume and hold. The **Part** button switches between it and the Parts page. On its left
+  the part's Parts page controls (on/off, channel, voices, bank, patch, name, level, pan) again, bigger. (#10)
 
 - **Keys page** (Perform mode): the 16 parts' key ranges as bars over the keyboard, with draggable ends, and the
   performance's key range switch. **Voice reserve** per part on the Parts page, under the pan knob, kept to 64 in all,

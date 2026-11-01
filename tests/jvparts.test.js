@@ -6,9 +6,10 @@ const patcher = { getnamed: v => ({ message: (...a) => {
 	const m = Array.isArray(a[0]) ? a[0] : a;
 	(ui[v] = ui[v] || []).push(m);
 	if (/^P\d+Bank$/.test(v) && m[0] === 'int') { stored[v] = m[1]; }
-} }) };
+	if (m[0] === 'float') { stored[v] = m[1]; }
+}, getvalueof: () => stored[v] !== undefined ? stored[v] : 0 }) };
 let out = [];
-const ctx = { messagename: '', outlet: (n, ...a) => out.push([n, ...a]), setinletassist() {}, setoutletassist() {},
+const ctx = { messagename: '', outlet: (n, ...a) => out.push([n].concat(Array.isArray(a[0]) ? Array.from(a[0]) : a)), setinletassist() {}, setoutletassist() {},
 	arrayfromargs: a => Array.from(a), patcher,
 	// a names table as the importer would write it (placeholder names, not Roland's)
 	include: () => vm.runInContext('var JV2080_PATCH_NAMES = { "PR-A": ["Name A1", "Name A2"], "SR-11": ["Board 11 First"] };', ctx) };
@@ -39,7 +40,7 @@ send('patch', 4, 200);
 assert.strictEqual(label(4), '', 'no name known: empty');
 // USER patches: asked from the JV, shown when the answer comes
 send('bank', 5, 0); send('patch', 5, 12);
-assert.deepStrictEqual(JSON.parse(JSON.stringify(out)), [[0, 'askname', 12]]);
+assert.deepStrictEqual(JSON.parse(JSON.stringify(out.filter(o => o[0] === 0))), [[0, 'askname', 12]]);
 send('username', 12, 'My', 'Pad');
 assert.strictEqual(label(5), 'My Pad');
 // a board that isn't set up stays selectable, marked
@@ -48,4 +49,27 @@ assert.deepStrictEqual(range(4), ['USER', 'PR-A', 'PR-B', 'PR-C', 'PR-GM', 'PR-E
 // JV-1080: no PR-E, GM bank is PR-D, slots A-D only
 send('model', 1);
 assert.deepStrictEqual(range(1), ['USER', 'PR-A', 'PR-B', 'PR-C', 'PR-D', 'CARD']);
+
+// the Part page's copies: a strip control's output is passed on, bank list, bank and name too
+const mirrored = p => out.filter(o => o[0] === 1 && o[2] === p).map(o => Array.from(o.slice(3)));
+send('show', 6, 'Level', 90);
+assert.deepStrictEqual(mirrored(6), [['Level', 'set', 90]]);
+send('model', 0);
+send('bank', 2, 1); send('patch', 2, 1);
+assert.deepStrictEqual(mirrored(2).pop(), ['Name', 'set', 'Name A1']);
+// an edit on the Part page moves the strip's control (which sends it and reports back with "show")
+send('edit', 6, 'Pan', -10);
+assert.strictEqual(stored.P6Pan, -10);
+send('edit', 6, 'BankView', 1);
+assert.strictEqual(stored.P6Bank, 1, 'picking on the Part page stores the full-list value');
+send('edit', 6, 'Name', 'x');
+assert.strictEqual(stored.P6Name, undefined, 'only the copied controls');
+// the Part page asks for everything once it knows its part
+stored.P7Channel = 3;
+send('refresh', 7);
+const r = mirrored(7);
+assert.deepStrictEqual(r.find(m => m[0] === 'Channel'), ['Channel', 'set', 3]);
+assert.strictEqual(r.find(m => m[0] === 'BankView' && m[1] === '_parameter_range')[2], 'USER');
+assert.ok(r.find(m => m[0] === 'BankView' && m[1] === 'set'));
+assert.ok(r.find(m => m[0] === 'Name'));
 console.log('jvparts: all tests passed');

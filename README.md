@@ -218,7 +218,9 @@ to what's left), and **rest n** in the page column shows how many are still free
 
 ### Part page (Perform mode)
 
-The part buttons **1–16** (below the program block, in Perform mode) open one part's settings: **output** (MIX, EFX,
+The part buttons **1–16** (below the program block, in Perform mode) open one part's settings. On the left, the part's
+controls from the Parts page, bigger: on/off, MIDI channel, voice reserve, bank, patch number, the patch's name, level
+and pan (they're the same settings: a change on either page shows on the other). Then **output** (MIX, EFX,
 DIR1, DIR2 or PATCH = the patch's own routing; with EFX, which of the JV-2080's three EFX: A, B or C), the **mix/EFX,
 chorus and reverb send**, **coarse** and **fine tune**, and whether the part **receives** program changes, volume
 (CC 7) and hold (CC 64). The **Part** button in the page column switches back to the Parts page.

@@ -95,12 +95,13 @@ line(tmsg, tjs)
 vrest = obj("s ---voicesrest", 300.0, 940.0, 1, 0)
 line(vjs, vrest)
 # bank menus and patch names: one jvparts.js (board setup from the Setup page, USER names from the JV)
-parts = obj("js jvparts.js", 20.0, 900.0, 1, 1, {"filename": "jvparts.js", "parameter_enable": 0})
+parts = obj("js jvparts.js", 20.0, 900.0, 1, 2, {"filename": "jvparts.js", "parameter_enable": 0})
 for r in ("r ---boards", "r ---model", "r ---usernames"):
     rr = obj(r, 20.0 + 150.0 * ["r ---boards", "r ---model", "r ---usernames"].index(r), 860.0, 0, 1)
     line(rr, parts)
 ask = obj("s ---askname", 20.0, 940.0, 1, 0)
 line(parts, ask)
+strip = {}   # part -> {Var: box id}: what the Part page copies
 for p in range(1, 17):
     a3 = 0x0F + p
     x0 = 2.0 + 61.0 * (p - 1)
@@ -211,6 +212,19 @@ for p in range(1, 17):
     pv = obj("prepend voice %d" % p, px + 160.0, 280.0)
     line(vr, pv)
     line(pv, vjs)
+    strip[p] = {"On": on, "Channel": ch, "Patch": num, "Level": lev, "Pan": pan, "Voices": vr}
+
+# the Part page (JV_PARTEDIT) shows each part's strip controls again, bigger: jvparts.js keeps its copies in step
+# (s ---partmirror) and applies their edits (r ---partedit). Added after the strips so the strips' box ids stay put.
+mirror = obj("s ---partmirror", 20.0, 980.0, 1, 0)
+line(parts, mirror, 1)
+redit = obj("r ---partedit", 470.0, 860.0, 0, 1)
+line(redit, parts)
+for p in range(1, 17):
+    for k, (var, i) in enumerate(strip[p].items()):
+        sh = obj("prepend show %d %s" % (p, var), 20.0 + 260.0 * (p - 1), 680.0 + 30.0 * k)
+        line(i, sh)
+        line(sh, parts)
 
 for c in controls:
     add(c)
