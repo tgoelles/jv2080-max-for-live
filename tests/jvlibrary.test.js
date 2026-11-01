@@ -112,7 +112,8 @@ assert.ok(/current patch to USER 7\?/.test(status.pop()));
 assert.deepStrictEqual(dialogs.pop(), ['confirm', 1]);
 assert.strictEqual(wire.length, 0, 'nothing sent before confirming');
 ctx.confirm(); run();
-assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 6, 'common + 4 tones read, then USER 7 read back');
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 11, 'common + 4 tones, USER 7 as it was, then one block read back');
+assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 2, 'only the blocks that differ: common, tone 4');
 assert.strictEqual(memory[num([0x11, 6, 0, 0])], 0x51, 'USER:007 common');
 assert.strictEqual(memory[num([0x11, 6, 0, 0x49])], 0x51, 'the whole common');
 assert.strictEqual(memory[num([0x11, 6, 0x16, 0x80])], 0x52, 'USER:007 tone 4');
@@ -126,8 +127,8 @@ fill([0x01, 0, 0x1F, 0], 0x1A, 0x62);
 ctx.writeuser(33);
 assert.ok(/USER slots are 1-32/.test(status.pop()));
 wire.length = 0; ctx.writeuser(32); ctx.confirm(); run();
-assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 18, '17 read, 1 read back');
-assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 17);
+assert.strictEqual(wire.filter(m => m[4] === 0x11).length, 35, '17 + 17 read, 1 read back');
+assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 2, 'common and part 16 differ');
 assert.strictEqual(memory[num([0x10, 31, 0, 0x43])], 0x61, 'USER 32 common');
 assert.strictEqual(memory[num([0x10, 31, 0x1F, 0x19])], 0x62, 'USER 32 part 16');
 // a block that doesn't come back: nothing is written
@@ -156,6 +157,12 @@ assert.ok(/didn't store it: switch off UTILITY > Protect > System Exclusive Mess
 protect = false;
 ctx.writeuser(8); ctx.confirm(); run();
 assert.ok(/Wrote the patch to USER 8$/.test(status.pop()));
+// the same again: the slot already holds it, nothing is sent (and protect can't be mistaken for success)
+protect = true; wire.length = 0;
+ctx.writeuser(8); ctx.confirm(); run();
+assert.ok(/USER 8 already holds this patch: nothing to write/.test(status.pop()));
+assert.strictEqual(wire.filter(m => m[4] === 0x12).length, 0);
+protect = false;
 
 // the Write slot follows the program block when it selects a USER slot
 const block = { PerfBank: 0, PerfNumber: 5, StoredBank: 1, 'ProgramChange[1]': 9, ModeSwitch: 1 };

@@ -11,8 +11,8 @@
 //
 // Write stores what the JV plays now (its temporary patch or performance, by the device's Patch / Perform switch) in
 // a USER slot, like the JV's own WRITE: it reads the temporary blocks with RQ1 and, once all have come in, sends them
-// to the slot's address (patch common + 4 tones to 11 nn, performance common + 16 parts to 10 nn). Nothing is written
-// if a block doesn't come back. Afterwards (and after a restore) one written USER block is read back: the JV ignores
+// to the slot's address (patch common + 4 tones to 11 nn, performance common + 16 parts to 10 nn). It reads the slot
+// too and writes only the blocks that differ (nothing if none does). Nothing is written if a block doesn't come back. Afterwards (and after a restore) one written USER block is read back: the JV ignores
 // SysEx writes to its USER memory while UTILITY > Protect > System Exclusive Message is ON (manual p.61; not in the
 // address map, so only the JV's panel can switch it off), and the status says so.
 //
@@ -499,6 +499,10 @@ function startWrite(w) {
 	mode = "write";
 	writing = w;
 	plan = tempPlan(w.perform, patchCommon);
+	var n = plan.length;
+	for (var i = 0; i < n; i++) {   // then the slot as it is: only blocks that differ are written
+		plan.push([[w.perform ? 0x10 : 0x11, w.slot - 1].concat(plan[i][0].slice(2)), plan[i][1]]);
+	}
 	total = plan.length;
 	done = 0;
 	missed = 0;
@@ -512,12 +516,24 @@ function startWrite(w) {
 // every temporary block came in: send it to the slot
 function finishWrite() {
 	waiting = null;
-	var list = [];
-	for (var i = 0; i < data.length; i++) {
-		list.push(toUser(data[i], writing.perform, writing.slot));
+	var half = data.length / 2, list = [];
+	for (var i = 0; i < half; i++) {
+		var m = toUser(data[i], writing.perform, writing.slot), old = data[half + i];
+		if (m.slice(3).join(",") !== old.slice(3).join(",")) {   // the device ID byte aside
+			list.push(m);
+		}
 	}
 	data = [];
-	startSend(list, "send", "Wrote the " + (writing.perform ? "performance" : "patch") + " to USER " + writing.slot);
+	var what = writing.perform ? "performance" : "patch";
+	if (!list.length) {
+		mode = null;
+		status("USER " + writing.slot + " already holds this " + what + ": nothing to write");
+		writing = null;
+		busy(false);
+		return;
+	}
+	// the read-back (sendNext) checks a block that changed, so it shows whether the JV stored it
+	startSend(list, "send", "Wrote the " + what + " to USER " + writing.slot);
 }
 
 // --- recording a bulk dump started on the JV
